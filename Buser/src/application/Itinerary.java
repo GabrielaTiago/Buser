@@ -1,6 +1,9 @@
 package application;
 
 public class Itinerary {
+	private static int nextId = 1;
+	
+	private int id;
 	private String origin;
 	private String destination;
 	private String day;
@@ -8,6 +11,7 @@ public class Itinerary {
 	private String arrivalDate;
 	
 	public Itinerary(String origin, String destination, String day, String departureDate, String arrivalDate) {
+		this.setId();
 		this.setOrigin(origin);
 		this.setDestination(destination);
 		this.setDay(day);
@@ -15,6 +19,14 @@ public class Itinerary {
 		this.setArrivalDate(arrivalDate);
 	}
 	
+	public void setId() {
+		this.id = nextId;
+		nextId++;
+	} 
+	
+	public int getId() {
+		return id;
+	}
 	
 	public void setOrigin(String origin) {
 		this.origin = origin;

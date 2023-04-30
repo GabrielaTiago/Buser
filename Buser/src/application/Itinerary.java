@@ -1,21 +1,20 @@
 package application;
 
-import java.util.*;
-
 public class Itinerary {
 	private String origin;
 	private String destination;
-	private Date day;
+	private String day;
 	private String departureDate;
 	private String arrivalDate;
 	
-	Itinerary(String origin, String destination, Date day, String departureDate, String arrivalDate) {
+	public Itinerary(String origin, String destination, String day, String departureDate, String arrivalDate) {
 		this.setOrigin(origin);
 		this.setDestination(destination);
 		this.setDay(day);
 		this.setDepartureDate(departureDate);
 		this.setArrivalDate(arrivalDate);
 	}
+	
 	
 	public void setOrigin(String origin) {
 		this.origin = origin;
@@ -33,11 +32,11 @@ public class Itinerary {
 		return destination;
 	}
 	
-	public void setDay(Date day) {
+	public void setDay(String day) {
 		this.day = day;
 	} 
 	
-	public Date getDay() {
+	public String getDay() {
 		return day;
 	}	
 	

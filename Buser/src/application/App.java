@@ -17,6 +17,7 @@ public class App {
 		
 		getAllItinerarys(itinerarys);
 		updateItinerary(2, itinerarys, "Anápolis", "Goianápolis", "02/05/2023", "06:00", "06:40");
+		deleteItinerary(1, itinerarys);
 	}
 	
 	public static Itinerary createItinerary(String origin, String destination, String day, String departureDate, String arrivalDate) {	
@@ -66,6 +67,19 @@ public class App {
 		System.out.println("-----------------------------------\n");
 		displayItineraryData(itinerary);
 		System.out.println("***\n");
+	}
+	
+	public static void deleteItinerary(int id, ArrayList<Itinerary> itinerarys) {
+		System.out.println("------------------------------");
+		System.out.println("Itinerário que será deletado:");
+		System.out.println("------------------------------\n");
+		getItineraryById(id, itinerarys);
+		
+		itinerarys.remove(id-1);
+		System.out.println("---------------------------------");
+		System.out.println("Itinerário deletado com sucesso!");
+		System.out.println("---------------------------------\n");
+		System.out.println("****\n");
 	}
 	
 	public static void displayItineraryData(Itinerary itinerary) {

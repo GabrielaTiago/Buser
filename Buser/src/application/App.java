@@ -14,6 +14,8 @@ public class App {
 		itinerarys.add(i1);
 		itinerarys.add(i2);
 		itinerarys.add(i3);
+		
+		getAllItinerarys(itinerarys);
 	}
 	
 	public static Itinerary createItinerary(String origin, String destination, String day, String departureDate, String arrivalDate) {	
@@ -23,6 +25,17 @@ public class App {
 		displayItineraryData(itinerary);
 		
 		return itinerary;
+	}
+	
+	public static void getAllItinerarys(ArrayList<Itinerary> itinerarys) {
+		System.out.println("------------------------------------------");
+		System.out.println("Lista de todos os itinerários disponíveis");
+		System.out.println("------------------------------------------\n");
+		
+		for(int i = 0; i < itinerarys.size(); i++) {
+			displayItineraryData(itinerarys.get(i));
+			System.out.println("*\n");
+		}
 	}
 	
 	public static void displayItineraryData(Itinerary itinerary) {

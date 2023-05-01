@@ -16,6 +16,7 @@ public class App {
 		itinerarys.add(i3);
 		
 		getAllItinerarys(itinerarys);
+		updateItinerary(2, itinerarys, "Anápolis", "Goianápolis", "02/05/2023", "06:00", "06:40");
 	}
 	
 	public static Itinerary createItinerary(String origin, String destination, String day, String departureDate, String arrivalDate) {	
@@ -23,6 +24,7 @@ public class App {
 		
 		System.out.println("Itinerário criado com sucesso!\n");	
 		displayItineraryData(itinerary);
+		System.out.println("**\n");
 		
 		return itinerary;
 	}
@@ -36,6 +38,34 @@ public class App {
 			displayItineraryData(itinerarys.get(i));
 			System.out.println("*\n");
 		}
+	}
+	
+	public static Itinerary getItineraryById(int id, ArrayList<Itinerary> itinerarys) {
+		int i = id - 1;
+		Itinerary itinerary = itinerarys.get(i);
+		
+		displayItineraryData(itinerary);
+		
+		return itinerary;
+	}
+	
+	public static void updateItinerary(int id, ArrayList<Itinerary> itinerarys, String origin, String destination, String day, String departureDate, String arrivalDate) {
+		System.out.println("--------------------------------");
+		System.out.println("Itinerário que será atualizado:");
+		System.out.println("--------------------------------\n");
+		Itinerary itinerary = getItineraryById(id, itinerarys);
+		
+		itinerary.setOrigin(origin);
+		itinerary.setDestination(destination);
+		itinerary.setDay(day);
+		itinerary.setDepartureDate(departureDate);
+		itinerary.setArrivalDate(arrivalDate);
+		
+		System.out.println("-----------------------------------");
+		System.out.println("Itinerário atualizado com sucesso!");
+		System.out.println("-----------------------------------\n");
+		displayItineraryData(itinerary);
+		System.out.println("***\n");
 	}
 	
 	public static void displayItineraryData(Itinerary itinerary) {

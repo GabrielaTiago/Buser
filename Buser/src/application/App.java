@@ -23,6 +23,7 @@ public class App {
 		
 		getItinerariesByDay("02/05/2023", itinerarys);
 		getItinerariesByOrigin("São Paulo", itinerarys);
+		getItinerariesByDestination("Corumbá", itinerarys);
 	}
 	
 	public static Itinerary createItinerary(String origin, String destination, String day, String departureDate, String arrivalDate) {	
@@ -107,6 +108,19 @@ public class App {
 		
 		for(int i = 0; i < itinerarys.size(); i++) {
 			if(itinerarys.get(i).getOrigin().equals(origin)) {
+				displayItineraryData(itinerarys.get(i));
+				System.out.println("*\n");
+			}
+		}
+	}
+	
+	public static void getItinerariesByDestination(String destination,  ArrayList<Itinerary> itinerarys) {
+		System.out.println("-----------------------------------------------------------------");
+		System.out.println("Lista de todos os itinerários disponíveis indo para "+ destination);
+		System.out.println("-----------------------------------------------------------------\n");
+		
+		for(int i = 0; i < itinerarys.size(); i++) {
+			if(itinerarys.get(i).getDestination().equals(destination)) {
 				displayItineraryData(itinerarys.get(i));
 				System.out.println("*\n");
 			}

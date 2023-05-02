@@ -17,11 +17,6 @@ public class User {
 		this.adress = e;
 	}
 	
-	public User() {
-		
-	}
-	//methods
-	
 	//getters and setters
 	public String getName() {
 		return name;

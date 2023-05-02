@@ -6,17 +6,12 @@ public class Ticket {
 		private String seatType;	
 		private String seatNum;		
 		public Itinerary itinerary;
-		private Client client;
 
 		//constructors
-		public Ticket(String tpPol, String numPol, Client c, Itinerary i) {
+		public Ticket(String tpPol, String numPol, Itinerary i) {
 			this.seatType = tpPol;
 			this.seatNum = numPol;
-			this.client = c;
 			this.itinerary = i;
-		}
-		public Ticket(){
-			//defaul constructor
 		}
 
 		//methods
@@ -53,11 +48,4 @@ public class Ticket {
 		public void setitinerary(Itinerary itinerary) {
 			this.itinerary = itinerary;
 		}
-		public Client getClient() {
-			return client;
-		}
-		public void setClient(Client client) {
-			this.client = client;
-		}
-
 }

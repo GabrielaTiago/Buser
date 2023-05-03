@@ -1,23 +1,18 @@
 package application;
 
 public class User {
-	//atributes
 	private String name;
-	private String document;
-	private String contactNumber;
+	private String phoneNumber;
 	private String email;
-	private String adress;
+	private String address;
 	
-	//constructors
-	public User(String n, String c, String tel, String email,String e) {
-		this.name = n;
-		this.document = c;
-		this.contactNumber = tel;
-		this.email = email;
-		this.adress = e;
+	public User(String name, String phone, String email, String address) {
+		this.setName(name);
+		this.setPhoneNumber(phone);
+		this.setEmail(email);
+		this.setAdress(address);
 	}
 	
-	//getters and setters
 	public String getName() {
 		return name;
 	}
@@ -26,20 +21,12 @@ public class User {
 		this.name = name;
 	}
 	
-	public String getDocument() {
-		return this.document;
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 	
-	public void setDocument(String c) {
-		this.document = c;
-	}
-	
-	public String getContactNumber() {
-		return contactNumber;
-	}
-	
-	public void setContactNumber(String contactNumber) {
-		this.contactNumber = contactNumber;
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 	
 	public String getEmail() {
@@ -51,10 +38,10 @@ public class User {
 	}
 	
 	public String getAdress() {
-		return adress;
+		return address;
 	}
 	
-	public void setAdress(String adress) {
-		this.adress = adress;
+	public void setAdress(String address) {
+		this.address = address;
 	}	
 }

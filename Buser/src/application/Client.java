@@ -3,15 +3,15 @@ package application;
 import java.util.ArrayList;
 
 public class Client extends User{
-	//atributes
+	private String cpf;
 	private ArrayList<Ticket> tickets;
-	//constructors
-	public Client(String n, String cpf, String tel, String email,String adress) {
-		super(n, cpf, tel, email, adress);
-		ArrayList<Ticket> tickets = new ArrayList<Ticket>(); 
-	}
 	
-	//methods
+	public Client(String name, String phone, String email, String address, String cpf, ArrayList<Ticket> tickets) {
+		super(name, phone, email, address);
+		this.setCPF(cpf);
+		this.tickets = tickets;
+	}
+
 	public void addTicket(Ticket p) {
 		tickets.add(p);
 		System.out.println("A passagem foi adicionada com sucesso!");
@@ -35,5 +35,12 @@ public class Client extends User{
 			System.out.println("------------------------------------");
 		}
 	}
-	//getters and setters
+	
+	public String getCPF() {
+		return cpf;
+	}
+	
+	public void setCPF(String cpf) {
+		this.cpf = cpf;
+	}
 }

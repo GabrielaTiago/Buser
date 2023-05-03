@@ -9,14 +9,16 @@ public class Itinerary {
 	private String day;
 	private String departureDate;
 	private String arrivalDate;
+	private Company company;
 	
-	public Itinerary(String origin, String destination, String day, String departureDate, String arrivalDate) {
+	public Itinerary(String origin, String destination, String day, String departureDate, String arrivalDate, Company company) {
 		this.setId();
 		this.setOrigin(origin);
 		this.setDestination(destination);
 		this.setDay(day);
 		this.setDepartureDate(departureDate);
 		this.setArrivalDate(arrivalDate);
+		this.setCompany(company);
 	}
 	
 	public void setId() {
@@ -66,5 +68,13 @@ public class Itinerary {
 	
 	public String getArrivalDate() {
 		return arrivalDate;
+	}
+	
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	
+	public Company getCompany() {
+		return company;
 	}
 }

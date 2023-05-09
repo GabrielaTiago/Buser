@@ -15,7 +15,7 @@ public class Ticket {
 
 	public String toString() {
 		String saida;
-		saida = "Preço: 		   	 " + this.getPrice();
+		saida = "Preço: 		   R$" + this.getPrice();
 		saida = "Tipo de poltrona: 	 " + saida + this.getSeatType();
 		saida = "Número da poltrona: " + saida + this.getSeatNumber();
 		saida = saida + this.getItinerary().toString();

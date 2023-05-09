@@ -13,6 +13,16 @@ public class User {
 		this.setAdress(address);
 	}
 	
+	public String toString() {
+		String saida;
+		saida = "Nome: 	   " + this.getName();
+		saida = "Telefone: " + saida + this.getPhoneNumber();
+		saida = "email:    " + saida + this.getEmail();
+		saida = "Endereço: " + saida + this.getAdress();
+		return saida;
+	}
+
+	
 	public String getName() {
 		return name;
 	}

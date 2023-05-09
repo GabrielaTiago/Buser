@@ -21,10 +21,12 @@ public class Company extends User{
 		this.cnpj = cnpj;
 	}
 	
-	public void infoAtributes() {
-		System.out.println("Empresa: " + this.getName());
-		System.out.println("CNPJ: " + this.getCNPJ());
-		System.out.println("Número de itinerários: " + this.itineraries.size());
+	public String toString() {
+		String saida = super.toString();
+		saida = saida + "\nDocumento (CNPJ): 	  " + this.getCNPJ();
+		saida = saida + "\nNúmero de itinerários: " + this.itineraries.size();
+		
+		return saida;
 	}
 
 }

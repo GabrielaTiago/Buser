@@ -31,7 +31,7 @@ public class Client extends User{
 		for (int i = 0; i < tickets.size(); i++) {
 			System.out.println("Listando passagens do cliente: " + this.getName() + "\n");
 			System.out.println("Passagem " + (i + 1) + "\n");
-			this.tickets.get(i).infoAtributos();;
+			this.tickets.get(i).toString();;
 			System.out.println("------------------------------------");
 		}
 	}

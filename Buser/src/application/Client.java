@@ -36,6 +36,14 @@ public class Client extends User{
 		}
 	}
 	
+	public String toString() {
+		String saida;
+		
+		saida = super.toString();
+		saida = saida + "\nNúmero de passagens" + this.getTickets().size();
+		return saida;
+	}
+	
 	public String getCPF() {
 		return cpf;
 	}
@@ -43,4 +51,13 @@ public class Client extends User{
 	public void setCPF(String cpf) {
 		this.cpf = cpf;
 	}
+
+	public ArrayList<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(ArrayList<Ticket> tickets) {
+		this.tickets = tickets;
+	}
+	
 }

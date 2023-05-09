@@ -40,7 +40,8 @@ public class Client extends User{
 		String saida;
 		
 		saida = super.toString();
-		saida = saida + "\nNúmero de passagens" + this.getTickets().size();
+		saida = saida + "\nDocumento (CPF): 	" + this.getCPF();
+		saida = saida + "\nNúmero de passagens: " + this.getTickets().size();
 		return saida;
 	}
 	

@@ -10,13 +10,16 @@ public class Ticket {
 		this.setPrice(price);
 		this.setSeatType(seatType);
 		this.setSeatNumber(seatNumber);
-		this.setitinerary(itinerary);
+		this.setItinerary(itinerary);
 	}
 
-	public void infoAtributos() {
-		System.out.println("valor: 		     R$ " + this.price);								
-		System.out.println("Tipo de Poltrona:    " + this.seatType);			
-		System.out.println("Numero da Poltrona:  " + this.seatNumber);										
+	public String toString() {
+		String saida;
+		saida = "Preço: " + this.getPrice();
+		saida = "Tipo de poltrona: " + saida + this.getSeatType();
+		saida = "Número da poltrona: " + saida + this.getSeatNumber();
+		saida = saida + this.getItinerary().toString();
+		return saida;
 	}
 	
 	public float getPrice() {
@@ -43,11 +46,11 @@ public class Ticket {
 		this.seatNumber = seatNumber;
 	}
 	
-	public Itinerary getitinerary() {
+	public Itinerary getItinerary() {
 		return itinerary;
 	}
 	
-	public void setitinerary(Itinerary itinerary) {
+	public void setItinerary(Itinerary itinerary) {
 		this.itinerary = itinerary;
 	}
 }

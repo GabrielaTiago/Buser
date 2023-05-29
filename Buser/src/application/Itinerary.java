@@ -77,4 +77,14 @@ public class Itinerary {
 	public Company getCompany() {
 		return company;
 	}
+	public String toString() {
+		String saida;
+		saida = "Empresa: 		" + this.getCompany().getName() 				+ "\n";
+		saida = "Data de chegada:  	" + this.getArrivalDate() 	+ "\n" + saida;
+		saida = "Data de embarque: 	" + this.getDepartureDate() + "\n" + saida;
+		saida = "Destino:    	   	" + this.getDestination() 		 	+ "\n" + saida;
+		saida = "Origem:    	   	" + this.getOrigin() 		 		+ "\n" + saida;
+
+		return saida;
+	}
 }

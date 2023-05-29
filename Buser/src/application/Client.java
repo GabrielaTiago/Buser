@@ -47,13 +47,13 @@ public class Client extends User{
 	}
 	
 	public String toString() {
-		String saida;
-		
-		saida = super.toString();
-		saida = saida + "\nDocumento (CPF): 	" + this.getCPF();
-		saida = saida + "\nNúmero de passagens: " + this.getTickets().size();
-		return saida;
-	}
+			String saida;
+			
+			saida = super.toString();
+			saida = saida + "Documento (CPF): 	" + this.getCPF();
+			saida = saida + "\nNúmero de passagens: 	" + this.getTickets().size();
+			return saida;
+		}
 	
 	public String getCPF() {
 		return cpf;

@@ -15,10 +15,12 @@ public class User {
 	
 	public String toString() {
 		String saida;
-		saida = "Nome: 	   " + this.getName();
-		saida = "Telefone: " + saida + this.getPhoneNumber();
-		saida = "email:    " + saida + this.getEmail();
-		saida = "Endereço: " + saida + this.getAdress();
+		
+		saida = "Endereço: " + this.getAdress() 	 + "\n";
+		saida = "email:    " + this.getEmail() 		 + "\n" + saida;
+		saida = "Telefone: " + this.getPhoneNumber() + "\n" + saida;
+		saida = "Nome: 	   " + this.getName() 		 + "\n" + saida;
+
 		return saida;
 	}
 

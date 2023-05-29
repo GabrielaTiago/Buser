@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Client extends User{
 	private String cpf;
+	private boolean gratuityRight;
+	private String gratuityProof;
 	private ArrayList<Ticket> tickets;
 	
 	public Client(String name, String phone, String email, String address, String cpf, ArrayList<Ticket> tickets) {
@@ -25,6 +27,14 @@ public class Client extends User{
 	public void updateTicket(Ticket p, int i) {
 		tickets.set(i, p);
 		System.out.println("A passagem" + (i + 1) + "foi atualizada! com sucesso");
+	}
+	
+	public void applyGratuity () {
+		if (this.gratuityRight) {
+			for (int i = 0; i < this.getTickets().size(); i++) {
+				this.getTickets().get(i).setPrice(0f);
+			}
+		}
 	}
 	
 	public void listTickets() {
@@ -59,6 +69,22 @@ public class Client extends User{
 
 	public void setTickets(ArrayList<Ticket> tickets) {
 		this.tickets = tickets;
+	}
+
+	public boolean getGratuityRight() {
+		return gratuityRight;
+	}
+
+	public void setGratuityRight(boolean gratuityRight) {
+		this.gratuityRight = gratuityRight;
+	}
+
+	public String getGratuityProof() {
+		return gratuityProof;
+	}
+
+	public void setGratuityProof(String gratuityProof) {
+		this.gratuityProof = gratuityProof;
 	}
 	
 }

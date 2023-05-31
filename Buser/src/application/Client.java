@@ -5,16 +5,26 @@ import java.util.ArrayList;
 public class Client extends User{
 	private String cpf;
 	private boolean gratuityRight;
-	private String gratuityProof;
 	private ArrayList<Ticket> tickets;
 	
-	public Client(String name, String phone, String email, String address, String cpf, ArrayList<Ticket> tickets) {
+	public Client(String name, String phone, String email, String address, String cpf,
+			ArrayList<Ticket> tickets, boolean gratuityRight) {
+		
 		super(name, phone, email, address);
 		this.setCPF(cpf);
 		this.tickets = tickets;
+		
+		if (gratuityRight) {
+			this.applyGratuity();
+		}
 	}
 
 	public void addTicket(Ticket p) {
+		
+		if (gratuityRight) {
+			p.setPrice(0f);
+		}
+		
 		tickets.add(p);
 		System.out.println("A passagem foi adicionada com sucesso!");
 	}	 
@@ -29,7 +39,9 @@ public class Client extends User{
 		System.out.println("A passagem" + (i + 1) + "foi atualizada! com sucesso");
 	}
 	
-	public void applyGratuity () {
+	private void applyGratuity () {
+		//is called only inside the constructor if the client
+		//has the gratuity right
 		if (this.gratuityRight) {
 			for (int i = 0; i < this.getTickets().size(); i++) {
 				this.getTickets().get(i).setPrice(0f);
@@ -45,15 +57,6 @@ public class Client extends User{
 			System.out.println("------------------------------------");
 		}
 	}
-	
-	public String toString() {
-			String saida;
-			
-			saida = super.toString();
-			saida = saida + "Documento (CPF): 	" + this.getCPF();
-			saida = saida + "\nNúmero de passagens: 	" + this.getTickets().size();
-			return saida;
-		}
 	
 	public String getCPF() {
 		return cpf;
@@ -79,12 +82,21 @@ public class Client extends User{
 		this.gratuityRight = gratuityRight;
 	}
 
-	public String getGratuityProof() {
-		return gratuityProof;
+	public String getCpf() {
+		return cpf;
 	}
 
-	public void setGratuityProof(String gratuityProof) {
-		this.gratuityProof = gratuityProof;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
-	
+
+	public String toString() {
+		String saida;
+		
+		saida = super.toString();
+		saida = saida + "Documento (CPF): 	" + this.getCPF();
+		saida = saida + "\nNúmero de passagens: 	" + this.getTickets().size();
+		return saida;
+	}
+
 }

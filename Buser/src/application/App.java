@@ -2,48 +2,81 @@ package application;
 
 import java.util.*;
 
+import application.Client.gratuity;
+import application.Ticket.SeatType;
+
 public class App {
 
 	public static void main(String[] args) {
 		ArrayList<Itinerary> itineraries = new ArrayList<>();
 		ArrayList<Ticket> tickets = new ArrayList<>();
+
+		Client client = new Client("Joaquim", "(62) 98877-6655", "joaquim@hotmail.com",
+								   "Avenida Brasil, 1257, Anápolis - GO", "060.103.940-82",
+								   tickets, gratuity.elderly);
 		
-		Client client = new Client("Joaquim", "(62) 98877-6655", "joaquim@hotmail.com", "Avenida Brasil, 1257, Anápolis - GO", "060.103.940-82", tickets);
-		Company company = new Company("XYZ", "(62) 92233-4455", "company@xyz.com", "Avenida Universitária, 3080, Anápolis - GO", "50.140.496/0001-77", itineraries);
+		Company company = new Company("XYZ", "(62) 92233-4455", "company@xyz.com",
+									  "Avenida Universitária, 3080, Anápolis - GO", "50.140.496/0001-77",
+									  itineraries);
 		
-		Itinerary i1 = createItinerary("Anápolis", "Brasília", "01/05/2023", "10:00", "14:00", company);
-		Itinerary i2 = createItinerary("Anápolis", "Goiânia", "01/05/2023", "08:00", "09:00", company);
-		Itinerary i3 = createItinerary("Anápolis", "Corumbá", "01/05/2023", "09:00", "10:10", company);
-		Itinerary i4 = createItinerary("São Paulo", "Rio de Janeiro", "02/05/2023", "04:00", "08:50", company);
+		Itinerary i1 = new Itinerary("Anápolis", "Brasília", "01/05/2023",
+									 "10:00", "14:00", company);
 		
-		itineraries.add(i1);
-		itineraries.add(i2);
-		itineraries.add(i3);
-		itineraries.add(i4);
+		Itinerary i2 = new Itinerary("Anápolis", "Goiânia", "01/05/2023",
+									 "08:00", "09:00", company);
 		
-		getAllItinerarys(itineraries);
-		updateItinerary(2, itineraries, "Anápolis", "Goianápolis", "02/05/2023", "06:00", "06:40");
-		deleteItinerary(1, itineraries);
+		Itinerary i3 = new Itinerary("Anápolis", "Corumbá", "01/05/2023",
+									 "09:00", "10:10", company);
 		
-		getItinerariesByDay("02/05/2023", itineraries);
-		getItinerariesByOrigin("São Paulo", itineraries);
-		getItinerariesByDestination("Corumbá", itineraries);
+		Itinerary i4 = new Itinerary("São Paulo", "Rio de Janeiro", "02/05/2023",
+									 "04:00", "08:50", company);
 		
-		Ticket t1 = new Ticket(50, "convencional", "6J",i1);
-		Ticket t2 = new Ticket(225, "leito", "10C", i4);
+		//itineraries.add(i1);
+		//itineraries.add(i2);
+		//itineraries.add(i3);
+		//itineraries.add(i4);
 		
-		client.addTicket(t1);
-		client.addTicket(t2);
+		//getAllItinerarys(itineraries);
+		//updateItinerary(2, itineraries, "Anápolis", "Goianápolis", "02/05/2023", "06:00", "06:40");
+		//deleteItinerary(1, itineraries);
 		
-		client.listTickets();
+		//getItinerariesByDay("02/05/2023", itineraries);
+		//getItinerariesByOrigin("São Paulo", itineraries);
+		//getItinerariesByDestination("Corumbá", itineraries);
 		
-		client.updateTicket(t2, 0);
+		Ticket t1 = new Ticket(50, SeatType.executivo, "6J",i1);
+		Ticket t2 = new Ticket(225, SeatType.semiLeito, "10C", i4);
+		Ticket t3 = new Ticket(225, SeatType.leito, "10C", i4);
 		
-		client.removeTicket(0);
+		//checking prices
+		//System.out.println(t1.getPrice());
+		//System.out.println(t2.getPrice());
+		//System.out.println(t3.getPrice());
+		
+		//checking seat types
+		//System.out.println(t1.getSeatType());
+		//System.out.println(t2.getSeatType());
+		//System.out.println(t3.getSeatType());
+		
+		//checking gratuity concept
+		//System.out.println(client.getGratuityType());
+		//System.out.println(client.getGratuityDocument());
+		
+		//client.addTicket(t1);
+		//client.addTicket(t2);
+		
+		//client.listTickets();
+		
+		//client.updateTicket(t2, 0);
+		
+		//client.removeTicket(0);
 	}
 	
-	public static Itinerary createItinerary(String origin, String destination, String day, String departureDate, String arrivalDate, Company company) {	
-		Itinerary itinerary = new Itinerary(origin, destination, day, departureDate, arrivalDate, company);
+	public static Itinerary createItinerary(String origin, String destination, String day,
+											String departureDate, String arrivalDate, Company company) {	
+		
+		Itinerary itinerary = new Itinerary(origin, destination, day,
+											departureDate, arrivalDate, company);
 		
 		System.out.println("Itinerário criado com sucesso!\n");	
 		displayItineraryData(itinerary);

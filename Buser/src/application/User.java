@@ -1,6 +1,6 @@
 package application;
 
-public class User {
+public abstract class User {
 	private String name;
 	private String phoneNumber;
 	private String email;
@@ -12,18 +12,6 @@ public class User {
 		this.setEmail(email);
 		this.setAdress(address);
 	}
-	
-	public String toString() {
-		String saida;
-		
-		saida = "Endereço: " + this.getAdress() 	 + "\n";
-		saida = "email:    " + this.getEmail() 		 + "\n" + saida;
-		saida = "Telefone: " + this.getPhoneNumber() + "\n" + saida;
-		saida = "Nome: 	   " + this.getName() 		 + "\n" + saida;
-
-		return saida;
-	}
-
 	
 	public String getName() {
 		return name;
@@ -55,5 +43,16 @@ public class User {
 	
 	public void setAdress(String address) {
 		this.address = address;
-	}	
+	}
+	
+	public String toString() {
+		String saida;
+		
+		saida = "Endereço: " + this.getAdress() 	 + "\n";
+		saida = "email:    " + this.getEmail() 		 + "\n" + saida;
+		saida = "Telefone: " + this.getPhoneNumber() + "\n" + saida;
+		saida = "Nome: 	   " + this.getName() 		 + "\n" + saida;
+
+		return saida;
+	}
 }

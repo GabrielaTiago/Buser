@@ -1,4 +1,4 @@
-package application;
+package models;
 
 public class Ticket {
 	private float price;		
@@ -6,7 +6,7 @@ public class Ticket {
 	private String seatNumber;
 	public Itinerary itinerary;
 	
-	enum SeatType {
+	public enum SeatType {
 		executivo, semiLeito, leito
 	}
 
@@ -59,14 +59,5 @@ public class Ticket {
 	
 	public void setItinerary(Itinerary itinerary) {
 		this.itinerary = itinerary;
-	}
-	
-	public String toString() {
-		String saida;
-		saida = "Preço: 		   R$" + this.getPrice();
-		saida = "Tipo de poltrona: 	 " + saida + this.getSeatType();
-		saida = "Número da poltrona: " + saida + this.getSeatNumber();
-		saida = saida + this.getItinerary().toString();
-		return saida;
 	}
 }

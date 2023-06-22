@@ -17,12 +17,12 @@ public class Client extends User {
 		birthDate, freePass
 	}
 
-	public Client(String name, String phone, String email, String address, String cpf, GratuityType gratuityType,
-			ArrayList<Ticket> tickets) {
+	public Client(String name, String phone, String email, String address, String cpf, GratuityType gratuityType) {
 		super(name, phone, email, address);
 
 		this.setCpf(cpf);
 		this.setTickets(tickets);
+		this.tickets = new ArrayList<Ticket>();
 
 		// checking gratuity category the client applies to
 		// and applying it to all existing tickets if so

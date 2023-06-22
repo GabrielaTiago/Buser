@@ -7,15 +7,14 @@ public class Company extends User {
 	private String corporateName;
 	private ArrayList<Itinerary> itineraries;
 
-	public Company(String name, String phone, String email, String address, String cnpj, String corporateName,
-			ArrayList<Itinerary> itineraries) {
+	public Company(String name, String phone, String email, String address, String cnpj, String corporateName) {
 		super(name, phone, email, address);
 		this.setCNPJ(cnpj);
 		this.setCorporateName(corporateName);
-		this.itineraries = itineraries;
+		this.itineraries = new ArrayList<Itinerary>();
 	}
 
-	public Company(String name, String phone, String email, String address, String cnpj, String corporateName) {
+	public Company(String name, String phone, String email, String address, String cnpj) {
 		super(name, phone, email, address);
 		this.setCNPJ(cnpj);
 		this.setCorporateName(corporateName);

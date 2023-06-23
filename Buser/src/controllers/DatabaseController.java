@@ -4,11 +4,16 @@ import java.util.ArrayList;
 
 import database.Database;
 import models.Itinerary;
+import models.Ticket;
 
 public class DatabaseController {
-	private Database data = new Database();
-	private TicketController ticketController = new TicketController(this);
+	private Database data;
+	private TicketController ticketController;
 	
+	public DatabaseController() {
+		data = new Database();
+		ticketController = new TicketController(this);
+	}
 	//mover para itinerary controller
 	//begin
 	public String[] itineraryListToString() {
@@ -28,7 +33,23 @@ public class DatabaseController {
 		
 		return itinerariesStrings;
 	}
+	public void createTicket(Float p, String st, String stN, int itineraryId) {
+		Ticket t = new Ticket(p, ticketController.getSeatType(st), st,
+				getData().getItineraries().get(itineraryId));
+		getData().addTicket(t);
+	}
 
+	public void updateTicket(Float p, String st, String stN, int itineraryId) {
+		Ticket t = new Ticket(p, ticketController.getSeatType(st), st, 
+				getData().getItineraries().get(itineraryId));
+		
+		this.getData().updateTicket(t, itineraryId);
+	}
+
+	public void deleteTicket(int i) {
+		this.getData().removeTicket(i);
+	}
+	
 	public ArrayList<Itinerary> getItineraries() {
 		return data.getItineraries();
 	}
@@ -43,7 +64,7 @@ public class DatabaseController {
 	}
 
 	public TicketController getTicketController() {
-		return ticketController;
+		return this.ticketController;
 	}
 
 	public void setTicketController(TicketController ticketController) {

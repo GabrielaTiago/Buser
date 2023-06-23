@@ -35,9 +35,9 @@ public class TicketWindow implements ActionListener{
 	JScrollPane tablePane;
 	
 	//variables who will store input from JComponents
-	int itinerary;
-	String seatType;
-	String price;
+	int itineraryValue;
+	String seatTypeValue;
+	Float price;
 	String seatNumber;
 	int id;
 	
@@ -50,7 +50,7 @@ public class TicketWindow implements ActionListener{
 		JFrame window = new JFrame("Passagens");
 		
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setSize(1200, 500);
+		window.setSize(1200, 420);
 		//jfrm.setLayout( new GridLayout(6,3));
 		window.setLayout(null);
 		
@@ -61,25 +61,25 @@ public class TicketWindow implements ActionListener{
 		//JComboBoxes
 		itineraryList = new JComboBox<String>(itinerariesStrings);
 		seatTypeList = new JComboBox<String>(seatTypes);
-		idList = new JComboBox<>(controller.getTicketController().getIDs());
+		idList = new JComboBox<String>(controller.getTicketController().getIDs());
 		
 		//JLabels
 		priceLabel = new JLabel("Preço: R$");
 		seatTypeLabel = new JLabel("Tipo de Poltrona:");
 		seatNumberLabel = new JLabel("Poltrona:");
 		itineraryLabel = new JLabel("Itinerário:");
-		idLabel = new JLabel("ID");
+		idLabel = new JLabel("ID:");
 		chosenBnLabel = new JLabel();
 		
 		//JButtons
-		createButton = new JButton("Add");
-		updateButton = new JButton("Update");
-		editButton = new JButton("Edit");
-		deleteButton = new JButton("Delete");
+		createButton = new JButton("Criar");
+		updateButton = new JButton("Atualizar");
+		editButton = new JButton("Editar");
+		deleteButton = new JButton("Deletar");
 		
 		//JTable
 		//ticketsTable = new JTable(tableData, tableColumns);
-		TicketsTable t = new TicketsTable(controller, itinerariesStrings);
+		TicketsTable t = new TicketsTable(controller);
 		ticketsTable = t.getTable();
 		tablePane = new JScrollPane(ticketsTable);
 		
@@ -91,37 +91,36 @@ public class TicketWindow implements ActionListener{
 		
 		//Setting components Bounds
 		int primeiraMargem = 15;
-		int segundaMargem = 130;
-		int terceiraMargem = primeiraMargem + segundaMargem + 170 + 50;
 		int margemBtn = 75; 
 		int height = 20;
 		int btnHeight1 = height + 230;
-		int btnHeight2 = btnHeight1 + 110;
-		int componentWidth = 200;
-
-		priceLabel.setBounds(primeiraMargem, height, 100, 30);
-		priceField.setBounds(segundaMargem, height, componentWidth, 30);
-		
-		itineraryLabel.setBounds(primeiraMargem, height + 60, 100, 30);
-		itineraryList.setBounds(segundaMargem,  height + 60, componentWidth, 30);
-		
-		seatTypeLabel.setBounds(primeiraMargem, height + 120, 100, 30);
-		seatTypeList.setBounds(segundaMargem,  height + 120, componentWidth, 30);
-		
-		seatNumberLabel.setBounds(primeiraMargem,   height + 180, 100, 30);
-		seatNumberField.setBounds(segundaMargem,   height + 180, componentWidth, 30);
-		
+		int componentWidth = 210;
+		int margens[] = {primeiraMargem,
+						 primeiraMargem + 115,//segunda margem
+						 primeiraMargem + (primeiraMargem + 115) + (170 + 50)};//terceira margem
+		//Bloco 1
+		priceLabel.setBounds(margens[0], height, 100, 30);
+		priceField.setBounds(margens[1], height, componentWidth, 30);
+		itineraryLabel.setBounds(margens[0], height + 60, 100, 30);
+		itineraryList.setBounds( margens[1], height + 60, componentWidth, 30);
+		seatTypeLabel.setBounds(margens[0],  height + 120, 100, 30);
+		seatTypeList.setBounds( margens[1],  height + 120, componentWidth, 30);
+		seatNumberLabel.setBounds(margens[0],   height + 180, 100, 30);
+		seatNumberField.setBounds(margens[1],   height + 180, componentWidth, 30);
 		createButton.setBounds(margemBtn, 		 btnHeight1, 	 100, 30);
 		updateButton.setBounds(margemBtn + 110,  btnHeight1, 	 100, 30);
-		editButton.setBounds(  margemBtn + 110,  btnHeight2 + 40, 100, 30);
-		deleteButton.setBounds(margemBtn,     	 btnHeight2 + 40, 100, 30);
+
+		//Bloco 2
+		tablePane.setBounds(margens[2], 30, 800, 330);
 		
-		tablePane.setBounds(terceiraMargem, 60, 800, 200);
-		
-		chosenBnLabel.setBounds(primeiraMargem + 140, btnHeight2 + 70, 100, 30);
-		
-		idLabel.setBounds(margemBtn + 40, btnHeight1 + 100, componentWidth, 30);
-		idList.setBounds(margemBtn + 70, btnHeight1 + 100, 80, 30);
+		//Bloco 3
+		int btnHeight2 = btnHeight1 + 20;
+		int width = 80;
+		idLabel.setBounds(		margens[0], 	  btnHeight2 + 40, componentWidth, 30);
+		idList.setBounds(		margens[0] + 25,  btnHeight2 + 40, 80, 30);
+		editButton.setBounds(   margens[0] + 33 + 5 + width,  btnHeight2 + 40, 100, 30);
+		deleteButton.setBounds( margens[0] + 40 + width + 110,     	  btnHeight2 + 40, 100, 30);		
+		chosenBnLabel.setBounds(margens[0] + 140, btnHeight2 + 70, 100, 30);
 		
 		//Adding components to the jframe
 		window.add(priceLabel);
@@ -148,41 +147,42 @@ public class TicketWindow implements ActionListener{
 		//listens to an event and then determines from which 
 		//JComponent it came from and what's it supposed to do
 		
-		//the try function runs a block of code and catches an excpetion
+		//the try will catche an eventual excpetion,
 		//in this case, the exception encountered was leaving the 
 		//price text field empty because it will lead to a NumberFormatException
 		//when trying to change into a float variable.
 		try {
 			//remember to create the thing for the id
-			itinerary = itineraryList.getSelectedIndex();
-			seatType = (String) seatTypeList.getSelectedItem();
-			price = priceField.getText();
+			id = idList.getSelectedIndex();
+			itineraryValue = itineraryList.getSelectedIndex();
+			seatTypeValue = (String) seatTypeList.getSelectedItem();
+			price = Float.parseFloat(priceField.getText());
 			seatNumber = seatNumberField.getText();
 			
-			if (ae.getActionCommand().equals("Add")) {
+			if (ae.getActionCommand().equals("Criar")) {
 				chosenBnLabel.setText("Criar");
-				String[] s = {null, price.toString(), seatType, seatNumber, 
-				(String) itineraryList.getSelectedItem()};
-				addToTable(s, 1, controller.getTicketController());
-				//controller.create(Float.parseFloat(priceField.getText()),
-				//				  seatType, seatNumber, itineraryList.getSelectedIndex());
+				int option = 1;
+				String[] values = {String.valueOf(controller.getTicketController().getTicketsQt() + 1)
+								   , price.toString(), seatTypeValue, seatNumber, 
+								   (String) itineraryList.getSelectedItem()};
+				addToTable(values, option, controller.getTicketController());
+				controller.createTicket(Float.parseFloat(priceField.getText()),
+								  seatTypeValue,seatNumber, itineraryList.getSelectedIndex());
 			}
-			if (ae.getActionCommand().equals("Update")) {
+			if (ae.getActionCommand().equals("Atualizar")) {
 				chosenBnLabel.setText("Atualizar");
 				//controller.CrudTicket_Controller.update();
-				//como saber qual passagem eu tenho que Atualizar?
-				//Must take an existing instance of a ticket and replace its 
+				//takes an existing instance of a ticket and replace its 
 				//atributes with the new ones from the jcomponents
 			}
-			if (ae.getActionCommand().equals("Edit")) {
+			if (ae.getActionCommand().equals("Editar")) {
 				chosenBnLabel.setText("Editar");
 				priceField.setText(Float.toString(0f));
 				//Ticket_Controller.edit(client, Float.parseFloat(jtfPrice.getText());
-				//como saber qual passagem eu tenho que editar?
 				//the edit method must return an instance of Ticket
 				
 			}
-			if (ae.getActionCommand().equals("Delete")) {
+			if (ae.getActionCommand().equals("Delet")) {
 				chosenBnLabel.setText("Deletar");
 				//controller.CrudTicket_Controller.delete(getValues());
 				//como saber qual passagem eu tenho que deletar?
@@ -193,20 +193,41 @@ public class TicketWindow implements ActionListener{
 	}	
 	
 	public static void main(String args[]) {
-		Database d = new Database();
+		
 		DatabaseController dc = new DatabaseController();
 		Itinerary i1 = new Itinerary("Anápolis", "Brasília", "01/05/2023",
 				 "10:00", "14:00", null);
+		Itinerary i2 = new Itinerary("Belo Horizonte", "Brasília", "01/05/2023",
+				 "10:00", "14:00", null);
+		Itinerary i3 = new Itinerary("Brasília", "Belo Horizonte", "01/05/2023",
+				 "10:00", "14:00", null);
+		Itinerary i4 = new Itinerary("Brasília", "Anápolis", "01/05/2023",
+				 "10:00", "14:00", null);
 		Ticket t1 = new Ticket(12f, SeatType.executivo, "", i1);
+		Ticket t2 = new Ticket(12f, SeatType.executivo, "", i2);
+		Ticket t3 = new Ticket(12f, SeatType.executivo, "", i3);
+		Ticket t4 = new Ticket(12f, SeatType.executivo, "", i4);
 		
 		ArrayList<Itinerary> i = new ArrayList<Itinerary>();
 		ArrayList<Ticket> t = new ArrayList<Ticket>();
+		
 		i.add(i1);
-		d.setItineraries(i); 
-		d.setTickets(t);
-		TicketController tcktC = new TicketController(dc);
+		i.add(i2);
+		i.add(i3);
+		i.add(i4);
+		t.add(t1);
+		t.add(t2);
+		t.add(t3);
+		t.add(t4);
+		
+		dc.getData().setItineraries(i); 
+		dc.getData().setTickets(t);
 		
 		TicketWindow a = new TicketWindow(dc);
+		//System.out.println("IDs: " + t1.getId() + t2.getId() + t3.getId() + t4.getId());
+//		System.out.println("testando id com o databaseController: " + dc.getData().getTickets().get(1).getId());;
+//		System.out.println("Há essa quantidade de passagens na base de dados: " +
+//							dc.getTicketController().getTicketsQt());
 	}
 	
 	public void mensagemErroCadastro() {
@@ -218,9 +239,9 @@ public class TicketWindow implements ActionListener{
 	}
 	public void addToTable(String[] s, int source, TicketController control) {
 		if (source == 1) {
-			//it is and addition to the table, so a new line must be used 
-			int line = control.getTicketsQt() + 1;
-			for(int i = 0; i < 4; i++) {
+			//it is an addition to the table, so a new line must be used 
+			int line = control.getTicketsQt();
+			for(int i = 0; i < 5; i++) {
 				this.ticketsTable.setValueAt(s[i], line, i);
 			}
 		}

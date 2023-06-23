@@ -13,25 +13,10 @@ public class TicketController {
 	
 	public TicketController(DatabaseController d) {
 		this.dataController = d;
-		ticketsQt = d.getData().getTickets().size();
+		setTicketsQt();
 	}
 	
-	public void create(Float p, String st, String stN, int itineraryId) {
-		Ticket t = new Ticket(p, getSeatType(st), st,
-				dataController.getData().getItineraries().get(itineraryId));
-		this.dataController.getData().addTicket(t);
-	}
 
-	public void update(Float p, String st, String stN, int itineraryId) {
-		Ticket t = new Ticket(p, getSeatType(st), st, 
-				dataController.getData().getItineraries().get(itineraryId));
-		
-		this.dataController.getData().updateTicket(t, itineraryId);
-	}
-
-	public void delete(int i) {
-		this.dataController.getData().removeTicket(i);
-	}
 	
 	public static SeatType getSeatType(String s) {
 		
@@ -50,15 +35,19 @@ public class TicketController {
 	}
 
 	public int getTicketsQt() {
+		setTicketsQt();
 		return this.ticketsQt;
+	}
+	public void setTicketsQt() {
+		ticketsQt = this.dataController.getData().getTickets().size();
 	}
 	
 	public String[] getIDs() {
-		String[] s = new String[getTicketsQt()];
-		for (int i = 0; i < getTicketsQt(); i++) {
-			s[i] =  String.valueOf(this.dataController.getData().getTickets().get(i).getId());
+		String[] v = new String[this.getTicketsQt()];
+		for (int i = 0; i < this.getTicketsQt(); i++) {
+			v[i] =  String.valueOf(this.dataController.getData().getTickets().get(i).getId());
 		}
-		return s;
+		return v;
 	}
 }
 

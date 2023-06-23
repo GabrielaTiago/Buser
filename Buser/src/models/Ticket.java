@@ -1,6 +1,8 @@
 package models;
 
 public class Ticket {
+	private static int nextId = 1;
+	private int id;
 	private float price;		
 	private SeatType seatType;
 	private String seatNumber;
@@ -11,6 +13,7 @@ public class Ticket {
 	}
 
 	public Ticket(float price, SeatType seatType, String seatNumber, Itinerary itinerary) {
+		this.setId();
 		this.set_Price(price, seatType);
 		this.setSeatType(seatType);
 		this.setSeatNumber(seatNumber);
@@ -59,5 +62,13 @@ public class Ticket {
 	
 	public void setItinerary(Itinerary itinerary) {
 		this.itinerary = itinerary;
+	}
+	public void setId() {
+		this.id = nextId;
+		nextId++;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

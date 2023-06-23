@@ -9,27 +9,28 @@ import models.*;
 public class TicketController {
 	
 	private DatabaseController dataController;
-	private ArrayList<Itinerary> itineraries;
 	private int ticketsQt;
 	
 	public TicketController(DatabaseController d) {
-		this.setDataController(d);
-		this.setItineraries(d.getItineraries());
+		this.dataController = d;
+		ticketsQt = d.getData().getTickets().size();
 	}
 	
 	public void create(Float p, String st, String stN, int itineraryId) {
-		Ticket t = new Ticket(p, getSeatType(st), st, itineraries.get(itineraryId));
-		this.getDataController().data.addTicket(t);
+		Ticket t = new Ticket(p, getSeatType(st), st,
+				dataController.getData().getItineraries().get(itineraryId));
+		this.dataController.getData().addTicket(t);
 	}
 
 	public void update(Float p, String st, String stN, int itineraryId) {
-		Ticket t = new Ticket(p, getSeatType(st), st, itineraries.get(itineraryId));
+		Ticket t = new Ticket(p, getSeatType(st), st, 
+				dataController.getData().getItineraries().get(itineraryId));
 		
-		this.getDataController().data.updateTicket(t, itineraryId);
+		this.dataController.getData().updateTicket(t, itineraryId);
 	}
 
 	public void delete(int i) {
-		this.getDataController().data.removeTicket(i);
+		this.dataController.getData().removeTicket(i);
 	}
 	
 	public static SeatType getSeatType(String s) {
@@ -47,28 +48,29 @@ public class TicketController {
 		}
 		return seatType;
 	}
-	
-	public ArrayList<Itinerary> getItineraries() {
-		return itineraries;
-	}
-
-	public void setItineraries(ArrayList<Itinerary> itineraries) {
-		this.itineraries = itineraries;
-	}
-
-	public static void getItinerary(String s) {
-		
-	}
-
-	public DatabaseController getDataController() {
-		return this.dataController;
-	}
-
-	public void setDataController(DatabaseController dc) {
-		this.dataController = dc;
-	}
 
 	public int getTicketsQt() {
-		return this.getDataController().getData().getTickets().size();
+		return this.ticketsQt;
+	}
+	
+	public String[] getIDs() {
+		String[] s = new String[getTicketsQt()];
+		for (int i = 0; i < getTicketsQt(); i++) {
+			s[i] =  String.valueOf(this.dataController.getData().getTickets().get(i).getId());
+		}
+		return s;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

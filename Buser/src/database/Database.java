@@ -6,17 +6,13 @@ import models.Client;
 import models.Company;
 import models.Itinerary;
 import models.Ticket;
+import models.Ticket.SeatType;
 
-public class Database {
+public abstract class Database {
 	private Client client;
 	private Company company;
-	private ArrayList<Itinerary> itineraries;
-	private static ArrayList<Ticket> tickets;
-
-	public Database() {
-		this.itineraries = new ArrayList<Itinerary>();
-		 this.tickets = new ArrayList<Ticket>();
-	}
+	private static final ArrayList<Itinerary> itineraries = new ArrayList<Itinerary>();
+	private static final ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 	
 	public void addTicket(Ticket t) {
 		Database.getTickets().add(t);
@@ -33,32 +29,16 @@ public class Database {
 	public Client getClient() {
 		return client;
 	}
-
-	public void setClient(Client client) {
-		this.client = client;
-	}
-
-	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company company) {
+	
+	public void getCompany(Company company) {
 		this.company = company;
 	}
 
-	public ArrayList<Itinerary> getItineraries() {
+	public static ArrayList<Itinerary> getItineraries() {
 		return itineraries;
 	}
 
 	public static ArrayList<Ticket> getTickets() {
 		return tickets;
 	}
-	public void setTickets(ArrayList<Ticket> t) {
-		this.tickets = t;
-	}
-
-	public void setItineraries(ArrayList<Itinerary> t) {
-		this.itineraries = t;
-	}
-	
 }

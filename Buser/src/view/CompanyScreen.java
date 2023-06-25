@@ -13,8 +13,10 @@ public class CompanyScreen implements ActionListener {
 	private static JButton homePageButton = new JButton();
 	private static JButton itinerariesButton = new JButton();
 	private static JButton createItineraryButton = new JButton();
+	private static Company company;
 
 	public CompanyScreen(Company company) {
+		CompanyScreen.company = company;
 		title.setFont(new Font("Serif", Font.BOLD, 36));
 		title.setText("Painel de controle " + company.getName());
 
@@ -45,7 +47,7 @@ public class CompanyScreen implements ActionListener {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
-
+		
 		homePageButton.addActionListener(this);
 		itinerariesButton.addActionListener(this);
 		createItineraryButton.addActionListener(this);
@@ -86,7 +88,8 @@ public class CompanyScreen implements ActionListener {
 		}
 
 		if (src == createItineraryButton) {
-			// TO DO -> go to create itinerary page;
+			new ItineraryScreen(company);
+			CompanyScreen.window.dispose();
 		}
 	}
 }

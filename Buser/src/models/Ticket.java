@@ -11,7 +11,8 @@ public class Ticket {
 	}
 
 	public Ticket(float price, SeatType seatType, String seatNumber, Itinerary itinerary) {
-		this.set_Price(price, seatType);
+		//this.set_Price(price, seatType);
+		this.setPrice(price);
 		this.setSeatType(seatType);
 		this.setSeatNumber(seatNumber);
 		this.setItinerary(itinerary);
@@ -33,7 +34,7 @@ public class Ticket {
 			this.price = value + 20;
 		}
 	}
-	
+
 	public void setPrice(float value) {
 		this.price = value;
 	}

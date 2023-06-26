@@ -19,7 +19,7 @@ public class ClientAuthScreen implements ActionListener {
 	private static JButton registerButton = new JButton();
 	private static JButton linkTo = new JButton();
 
-	public ClientAuthScreen(Boolean display) {
+	public ClientAuthScreen() {
 		title.setFont(new Font("Serif", Font.BOLD, 36));
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -77,10 +77,11 @@ public class ClientAuthScreen implements ActionListener {
 		window.getContentPane().setBackground(new Color(250, 250, 250));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLocationRelativeTo(null);
-		window.setVisible(display);
+		window.setVisible(true);
 		window.requestFocusInWindow();
 
 		registerButton.addActionListener(this);
+		linkTo.addActionListener(this);
 	}
 
 	private JTextField textField(JTextField textField, String placeholder) {
@@ -157,10 +158,6 @@ public class ClientAuthScreen implements ActionListener {
 		linkButton.setBorder(null);
 
 		linkButton.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				CompanyAuthScreen companyAuthScreen = new CompanyAuthScreen(true);
-			}
-
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				linkButton.setText("<html><u>" + text + "</u></html>");
@@ -194,6 +191,11 @@ public class ClientAuthScreen implements ActionListener {
 			} else {
 				JOptionPane.showMessageDialog(window, "Erro(s) de validação:\n\n" + errorMessage);
 			}
+		}
+
+		if (src == linkTo) {
+			new CompanyAuthScreen();
+			ClientAuthScreen.window.dispose();
 		}
 	}
 }

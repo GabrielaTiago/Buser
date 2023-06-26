@@ -20,7 +20,7 @@ public class CompanyAuthScreen implements ActionListener {
 	private static JButton registerButton = new JButton();
 	private static JButton linkTo = new JButton();
 
-	public CompanyAuthScreen(Boolean display) {
+	public CompanyAuthScreen() {
 		title.setFont(new Font("Serif", Font.BOLD, 36));
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -67,10 +67,10 @@ public class CompanyAuthScreen implements ActionListener {
 		contentPane.add(button(registerButton, "Cadastrar"), gbc);
 
 		gbc.gridy = 8;
-		gbc.gridwidth = 2;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.insets = new Insets(10, 10, 10, 10);
-		contentPane.add(linkButton(linkTo, "Cadastro de Cliente"), gbc);
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        contentPane.add(linkButton(linkTo, "Cadastro de Cliente"), gbc);
 
 		window.setContentPane(contentPane);
 
@@ -78,10 +78,11 @@ public class CompanyAuthScreen implements ActionListener {
 		window.getContentPane().setBackground(new Color(250, 250, 250));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLocationRelativeTo(null);
-		window.setVisible(display);
+		window.setVisible(true);
 		window.requestFocusInWindow();
 
 		registerButton.addActionListener(this);
+		linkTo.addActionListener(this);
 	}
 
 	private JTextField textField(JTextField textField, String placeholder) {
@@ -143,9 +144,6 @@ public class CompanyAuthScreen implements ActionListener {
 		linkButton.setBorder(null);
 
 		linkButton.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				ClientAuthScreen clientAuthScreen = new ClientAuthScreen(true);
-			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -162,7 +160,7 @@ public class CompanyAuthScreen implements ActionListener {
 	}
 
 	public static void main(String[] args) {
-		CompanyAuthScreen companyAuthScreen = new CompanyAuthScreen(true);
+		new CompanyAuthScreen();
 	}
 
 	public void actionPerformed(ActionEvent event) {
@@ -184,6 +182,11 @@ public class CompanyAuthScreen implements ActionListener {
 			} else {
 				JOptionPane.showMessageDialog(window, "Erro(s) de validação:\n\n" + errorMessage);
 			}
+		}
+		
+		if(src == linkTo) {
+			new ClientAuthScreen();
+			CompanyAuthScreen.window.dispose();
 		}
 	}
 

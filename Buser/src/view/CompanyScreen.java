@@ -84,7 +84,8 @@ public class CompanyScreen implements ActionListener {
 		}
 
 		if (src == itinerariesButton) {
-			// TO DO -> go to company itineraries list page;
+			new CompanyItinerariesScreen(company);
+			CompanyScreen.window.dispose();
 		}
 
 		if (src == createItineraryButton) {

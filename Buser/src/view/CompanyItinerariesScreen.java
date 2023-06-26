@@ -135,6 +135,13 @@ public class CompanyItinerariesScreen implements ActionListener {
 				button.setBackground(new Color(10, 71, 157));
 			}
 		});
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new EditItineraryScreen(company, id);
+				CompanyItinerariesScreen.window.dispose();
+			}
+		});
 
 		return button;
 	}

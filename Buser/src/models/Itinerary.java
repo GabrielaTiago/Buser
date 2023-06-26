@@ -1,22 +1,24 @@
 package models;
 
+import java.time.LocalDate;
+
 public class Itinerary {
 	private static int nextId = 1;
 
 	private int id;
 	private String origin;
 	private String destination;
-	private String day;
+	private LocalDate date;
 	private String departureDate;
 	private String arrivalDate;
 	private Company company;
 
-	public Itinerary(String origin, String destination, String day, String departureDate, String arrivalDate,
+	public Itinerary(String origin, String destination, LocalDate date, String departureDate, String arrivalDate,
 			Company company) {
 		this.setId();
 		this.setOrigin(origin);
 		this.setDestination(destination);
-		this.setDay(day);
+		this.setDate(date);
 		this.setDepartureDate(departureDate);
 		this.setArrivalDate(arrivalDate);
 		this.setCompany(company);
@@ -47,12 +49,12 @@ public class Itinerary {
 		return destination;
 	}
 
-	public void setDay(String day) {
-		this.day = day;
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
-	public String getDay() {
-		return day;
+	public LocalDate getDate() {
+		return date;
 	}
 
 	public void setDepartureDate(String departureDate) {

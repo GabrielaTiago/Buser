@@ -93,4 +93,15 @@ public class ItineraryController {
 
 		Database.getItinaraiesData().add(itinerary);
 	}
+
+	public static ArrayList<Itinerary> getCompanyItineraries(String companyName) {
+		ArrayList<Itinerary> companyItineraries = new ArrayList<>();
+
+		for (int i = 0; i < Database.getItinaraiesData().size(); i++) {
+			if (Database.getItinaraiesData().get(i).getCompany().getName().equals(companyName)) {
+				companyItineraries.add(Database.getItinaraiesData().get(i));
+			}
+		}
+		return companyItineraries;
+	}
 }

@@ -149,6 +149,9 @@ public class CompanyItinerariesScreen implements ActionListener {
 		button.setFont(button.getFont().deriveFont(12f));
 		button.setForeground(Color.WHITE);
 
+		JFrame frame = new JFrame("Confirm Delete Itinerary");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		button.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				button.setBackground(new Color(188, 75, 75));
@@ -157,6 +160,16 @@ public class CompanyItinerariesScreen implements ActionListener {
 
 			public void mouseExited(java.awt.event.MouseEvent evt) {
 				button.setBackground(new Color(239, 23, 23));
+			}
+		});
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int result = JOptionPane.showConfirmDialog(frame, "Tem certeza que quer excluir este itinerário?",
+						"Excluir itinerário", JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.YES_OPTION) {
+					ItineraryController.deleteItinerary(id);
+				}
 			}
 		});
 

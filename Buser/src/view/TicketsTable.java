@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -23,7 +24,7 @@ public class TicketsTable implements ActionListener{
 	private JScrollPane tablePane;
 	private JLabel indexLabel;
 	private JButton editButton, deleteButton, exitButton;
-	private JComboBox indexList;
+	private JComboBox ticketIndexList;
 	private String tableColumns[] = {"Index", "Preço","Tipo de Poltrona","Número Poltrona","Itinerário"};
 	private String tableData[][];
 	private String[] itineraries;
@@ -45,7 +46,7 @@ public class TicketsTable implements ActionListener{
 		ticketsTable.getColumnModel().getColumn(4).setWidth(400);
 		tablePane = new JScrollPane(ticketsTable);
 		
-		indexList = new JComboBox<String>(controller.getIndexes());
+		ticketIndexList = new JComboBox<String>(controller.getIndexes());
 		
 		indexLabel = new JLabel("Index:");
 		
@@ -60,12 +61,12 @@ public class TicketsTable implements ActionListener{
 		int margem = 190;
 		tablePane.setBounds(20, 30, 800, 330);
 		indexLabel.setBounds(  margem,   	          		 380, 210, 30);
-		indexList.setBounds(   margem + 45,         		 380, 80, 30);
+		ticketIndexList.setBounds(   margem + 45,         		 380, 80, 30);
 		editButton.setBounds(  margem + 45 + 90,    		 380, 100, 30);
 		deleteButton.setBounds(margem + 45 + 90 + 110, 		 380, 100, 30);
 		exitButton.setBounds(  margem + 45 + 90 + 110 + 110, 380, 100, 30);
 		
-		window.add(indexList);
+		window.add(ticketIndexList);
 		window.add(indexLabel);
 		window.add(deleteButton);
 		window.add(editButton);
@@ -77,18 +78,21 @@ public class TicketsTable implements ActionListener{
 	
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getActionCommand().equals("Editar")) {
-			int i = indexList.getSelectedIndex();
+			int i = ticketIndexList.getSelectedIndex();
 			controller.setToUpdateValues(i);
 			window.dispose();
 			TicketWindow a = new TicketWindow(controller, 1);
 		}
 		if (ae.getActionCommand().equals("Deletar")) {
-			int i = indexList.getSelectedIndex();
-			controller.deleteTicket(i);;
-			window.dispose();
+			int i = ticketIndexList.getSelectedIndex();
+			System.out.println("deleteTicket() view - Ticket a ser deletado: " + i);
+			controller.deleteTicket(i);
+			mensagemSucessoDeletar(i);
+			//window.dispose();
 		}
 		if (ae.getActionCommand().equals("Voltar")) {
 			window.dispose();
+			TicketWindow a = new TicketWindow(controller, 0);
 		}
 	}
 	
@@ -117,23 +121,24 @@ public class TicketsTable implements ActionListener{
 				
 					if (i < existingTickets) {
 						Ticket t = controller.getTickets().get(i);
+						int index = controller.getItineraryIndex(t.getItinerary());
 						//saves the ticket i, in database tickets,
 						//data in a string array to fill the cell at the table 
 						String[] values = {String.valueOf(i),
 										   String.valueOf(t.getPrice()),
 										   t.getSeatType().toString(),
 										   t.getSeatNumber(),
-										   itineraries[i]};
+										   itineraries[index]};
 						
 						for(int j = 0; j < 5; j++) {
 							tableData[i][j] = values[j];
 						}
 					}
-					else {
-						for(int j = 0; j < 5; j++) {
-							tableData[i][j] = "";
-						}
-					}
+//					else {
+//						for(int j = 0; j < 5; j++) {
+//							tableData[i][j] = "";
+//						}
+//					}
 					break;
 
 				case (2): {
@@ -145,7 +150,10 @@ public class TicketsTable implements ActionListener{
 		}
 		return tableData;
 	}
-
+	public void mensagemSucessoDeletar(int i) {
+		JOptionPane.showMessageDialog(null,"Passagem de index " + i + "deletada com sucesso!\n ",
+				null, JOptionPane.INFORMATION_MESSAGE);
+	}
 	public String[] getTableColumns() {
 		return tableColumns;
 	}

@@ -34,13 +34,14 @@ public class TicketWindow implements ActionListener{
 	
 	//variables who will store input from JComponents
 	int itineraryIndex;
-	String seatTypeValue;
+	int seatTypeIndex;
 	Float price;
 	String seatNumber;
 	int ticketIndex;
 	
 	TicketWindow(TicketController controller, int option) {
-		//table.gets
+		//the option parameter determines if it was the TableTickets class that called the TicketWindow, if so, 
+		//the edit button was used and the jcomponents must get the values of the informed ticket index
 		this.controller = controller;
 		itinerariesStrings = controller.itineraryListToString(1);
 		
@@ -48,7 +49,6 @@ public class TicketWindow implements ActionListener{
 		
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setSize(370, 390);
-		//jfrm.setLayout( new GridLayout(6,3));
 		window.setLayout(null);
 		
 		//JTextFields
@@ -79,12 +79,12 @@ public class TicketWindow implements ActionListener{
 		//Setting components Bounds
 		priceLabel.setBounds(15, 20, 100, 30);
 		priceField.setBounds(130, 20, 210, 30);
-		itineraryLabel.setBounds(15, 80, 100, 30);
-		itineraryList.setBounds(130, 80, 210, 30);
-		seatTypeLabel.setBounds(15, 140, 100, 30);
-		seatTypeList.setBounds(130, 140, 210, 30);
-		seatNumberLabel.setBounds(15, 200, 100, 30);
-		seatNumberField.setBounds(130, 200, 210, 30);
+		seatTypeLabel.setBounds(15, 80, 100, 30); 
+		seatTypeList.setBounds(130, 80, 210, 30); 
+		seatNumberLabel.setBounds(15, 140, 100, 30); 
+		seatNumberField.setBounds(130, 140, 210, 30);
+		itineraryLabel.setBounds(15, 200, 100, 30); 
+		itineraryList.setBounds(130, 200, 210, 30);
 		createButton.setBounds(75, 250, 100, 30);
 		updateButton.setBounds(185, 250, 100, 30);
 		ticketsButton.setBounds(100, 290, 160, 30);
@@ -114,7 +114,7 @@ public class TicketWindow implements ActionListener{
 		//listens to an event and then determines from which 
 		//JComponent it came from and what's it supposed to do
 		
-		//the try will catche an eventual excpetion,
+		//the try function will catch an eventual excpetion,
 		//in this case, the exception encountered was leaving the 
 		//price text field empty because it will lead to a NumberFormatException
 		//when trying to change into a float variable.
@@ -138,8 +138,9 @@ public class TicketWindow implements ActionListener{
 	}
 	
 	public void setWindowValues() {
-		//ainda preciso terminar
+		//sets the values for the JComponents 
 		String[] values = controller.getToUpdateValues();
+		
 		priceField.setText(values[0]);
 		seatTypeList.setSelectedIndex(Integer.parseInt(values[1]));
 		seatNumberField.setText(values[2]);	
@@ -149,23 +150,25 @@ public class TicketWindow implements ActionListener{
 	public void getWindowValues() {
 		//get the input values from jcomponents
 		price = Float.parseFloat(priceField.getText());
-		seatTypeValue = (String) seatTypeList.getSelectedItem();
+		seatTypeIndex = seatTypeList.getSelectedIndex();
 		seatNumber = seatNumberField.getText();
 		itineraryIndex = itineraryList.getSelectedIndex();
 	}
 	
 	public void createTicket() {
 		getWindowValues();
-		controller.createTicket(price, seatTypeValue, seatNumber, itineraryIndex);
+		controller.createTicket(price, seatTypeIndex, seatNumber, itineraryIndex);
 		mensagemSucessoCriar();
 	}
 	
 	public void updateTicket() {
 		//setWindowValues()
 		getWindowValues();
-		int ticketIndex = Integer.parseInt(controller.getToUpdateValues()[1]);
-		controller.updateTicket(price, seatTypeValue, seatNumber, itineraryIndex, ticketIndex);
-		mensagemSucessoAtualizar();
+		int ticketIndex = TicketController.getTicketIndex();
+		//isso aqui tá dando merda
+		System.out.println("updateTicket() view - Ticket a ser atualizado: " + ticketIndex);
+		controller.updateTicket(price, seatTypeIndex, seatNumber, itineraryIndex, ticketIndex);
+		mensagemSucessoAtualizar(ticketIndex);
 	}
 
 	public void mensagemErroCadastro() {
@@ -175,12 +178,12 @@ public class TicketWindow implements ActionListener{
 				+ "2. Preco nao contem apenas numeros", null, 
 				JOptionPane.ERROR_MESSAGE);
 	}
-	public void mensagemSucessoAtualizar() {
-		JOptionPane.showMessageDialog(null,"Passagem Atualizada Com Sucesso!\n ",
+	public void mensagemSucessoAtualizar(int i) {
+		JOptionPane.showMessageDialog(null,"Passagem de index " + i + "Atualizada Com Sucesso!\n ",
 				null, JOptionPane.INFORMATION_MESSAGE);
 	}
 	public void mensagemSucessoCriar() {
-		JOptionPane.showMessageDialog(null,"Passagem Criada Com Sucesso!\n ",
+		JOptionPane.showMessageDialog(null,"Passagem criada com sucesso!\n ",
 				null, JOptionPane.INFORMATION_MESSAGE);
 	}
 	

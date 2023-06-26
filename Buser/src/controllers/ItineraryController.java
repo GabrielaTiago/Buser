@@ -104,4 +104,8 @@ public class ItineraryController {
 		}
 		return companyItineraries;
 	}
+
+	public static void deleteItinerary(int id) {
+		Database.getItinaraiesData().remove(id - 1);
+	}
 }

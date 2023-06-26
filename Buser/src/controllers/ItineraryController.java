@@ -108,4 +108,16 @@ public class ItineraryController {
 	public static void deleteItinerary(int id) {
 		Database.getItinaraiesData().remove(id - 1);
 	}
+
+	public static void updateItinerary(int id, String origin, String destination, LocalDate date, String departureDate,
+			String arrivalDate) {
+		int i = id - 1;
+		Itinerary itinerary = Database.getItinaraiesData().get(i);
+
+		itinerary.setOrigin(origin);
+		itinerary.setDestination(destination);
+		itinerary.setDate(date);
+		itinerary.setDepartureDate(departureDate);
+		itinerary.setArrivalDate(arrivalDate);
+	}
 }

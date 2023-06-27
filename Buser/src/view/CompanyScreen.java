@@ -41,13 +41,13 @@ public class CompanyScreen implements ActionListener {
 
 		container.add(dashboardContainer, BorderLayout.CENTER);
 
-		window.add(container);
+		window.setContentPane(container);
 		window.setSize(800, 600);
 		window.getContentPane().setBackground(new Color(250, 250, 250));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
-		
+
 		homePageButton.addActionListener(this);
 		itinerariesButton.addActionListener(this);
 		createItineraryButton.addActionListener(this);

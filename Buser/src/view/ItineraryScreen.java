@@ -67,7 +67,7 @@ public class ItineraryScreen implements ActionListener {
 		JPanel dateContainer = new JPanel(new GridLayout(1, 2, 0, 0));
 		dateContainer.setPreferredSize(new Dimension(dateContainer.getPreferredSize().width, 180));
 		dateContainer.setBackground(null);
-		
+
 		JPanel calendarContainer = new JPanel();
 		calendarContainer.setLayout(new BorderLayout());
 		calendarContainer.setBackground(new Color(250, 250, 250));
@@ -132,16 +132,16 @@ public class ItineraryScreen implements ActionListener {
 
 		gbc.gridy = 4;
 		formContainer.add(button(registerButton, "Criar Itinerário"), gbc);
-		
+
 		gbc.gridy = 5;
 		gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.NONE;
-        formContainer.add(goBack(goBackButton, "Voltar"), gbc);
+		gbc.fill = GridBagConstraints.NONE;
+		formContainer.add(goBack(goBackButton, "Voltar"), gbc);
 
 		container.add(formContainer);
 
 		this.updateMonth();
-		window.add(container);
+		window.setContentPane(container);
 		window.setSize(800, 600);
 		window.getContentPane().setBackground(new Color(250, 250, 250));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -205,7 +205,7 @@ public class ItineraryScreen implements ActionListener {
 
 		return button;
 	}
-	
+
 	private JButton goBack(JButton goBackButton, String text) {
 		goBackButton.setText(text);
 		goBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -283,16 +283,17 @@ public class ItineraryScreen implements ActionListener {
 					departureTime, arrivalTime);
 
 			if (errorMessage.isEmpty()) {
-				JOptionPane.showMessageDialog(window, "Iinerário cadastrado com sucesso!");
 				ItineraryController.createItinerary(origin, destination, selectedDate, departureTime, arrivalTime,
 						company);
-				clearFields();
+				JOptionPane.showMessageDialog(window, "Iinerário cadastrado com sucesso!");
+				ItineraryScreen.window.dispose();
+				new CompanyItinerariesScreen(company);
 			} else {
 				JOptionPane.showMessageDialog(window, "Erro(s) de validação:\n\n" + errorMessage);
 			}
 		}
-		
-		if(src == goBackButton) {
+
+		if (src == goBackButton) {
 			new CompanyScreen(company);
 			ItineraryScreen.window.dispose();
 		}

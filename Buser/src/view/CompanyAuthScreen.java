@@ -67,10 +67,10 @@ public class CompanyAuthScreen implements ActionListener {
 		contentPane.add(button(registerButton, "Cadastrar"), gbc);
 
 		gbc.gridy = 8;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.insets = new Insets(10, 10, 10, 10);
-        contentPane.add(linkButton(linkTo, "Cadastro de Cliente"), gbc);
+		gbc.gridwidth = 2;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.insets = new Insets(10, 10, 10, 10);
+		contentPane.add(linkButton(linkTo, "Cadastro de Cliente"), gbc);
 
 		window.setContentPane(contentPane);
 
@@ -179,12 +179,14 @@ public class CompanyAuthScreen implements ActionListener {
 
 			if (errorMessage.isEmpty()) {
 				JOptionPane.showMessageDialog(window, "Cadastro realizado com sucesso!");
+				new CompanyScreen(companyData);
+				CompanyAuthScreen.window.dispose();
 			} else {
 				JOptionPane.showMessageDialog(window, "Erro(s) de validação:\n\n" + errorMessage);
 			}
 		}
-		
-		if(src == linkTo) {
+
+		if (src == linkTo) {
 			new ClientAuthScreen();
 			CompanyAuthScreen.window.dispose();
 		}

@@ -143,7 +143,7 @@ public class EditItineraryScreen implements ActionListener {
 		container.add(formContainer);
 
 		this.updateMonth();
-		window.add(container);
+		window.setContentPane(container);
 		window.setSize(800, 600);
 		window.getContentPane().setBackground(new Color(250, 250, 250));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -278,7 +278,6 @@ public class EditItineraryScreen implements ActionListener {
 				ItineraryController.updateItinerary(id, origin, destination, selectedDate, departureTime, arrivalTime);
 				new CompanyItinerariesScreen(company);
 				EditItineraryScreen.window.dispose();
-
 			} else {
 				JOptionPane.showMessageDialog(window, "Erro(s) de validação:\n\n" + errorMessage);
 			}

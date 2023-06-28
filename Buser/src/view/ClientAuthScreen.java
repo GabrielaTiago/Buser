@@ -5,7 +5,9 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controllers.AuthController;
+import controllers.TicketController;
 import models.Client;
+import models.Client.GratuityType;
 
 public class ClientAuthScreen implements ActionListener {
 	private static JFrame window = new JFrame("Buser");
@@ -179,18 +181,27 @@ public class ClientAuthScreen implements ActionListener {
 		Object src = event.getSource();
 
 		if (src == registerButton) {
+			
 			String name = nameField.getText();
 			String email = emailField.getText();
 			String phone = phoneField.getText();
 			String address = addressField.getText();
 			String cpf = cpfField.getText();
-			String gratuityType = (String) gratuityOptions.getSelectedItem();
-
-			Client clientData = new Client(name, email, phone, address, cpf, gratuityType);
-			String errorMessage = AuthController.validatesClientData(clientData);
-
+			String gratuity = (String) gratuityOptions.getSelectedItem();
+			GratuityType type = AuthController.getGratuityType(gratuity);
+			
+			Client clientData = new Client(name,  phone, email, address, cpf, type);
+			
+			String errorMessage = AuthController.validatesClientData(clientData, gratuity);
+			
 			if (errorMessage.isEmpty()) {
 				JOptionPane.showMessageDialog(window, "Cadastro realizado com sucesso!");
+				window.dispose();
+				
+				AuthController.registerClient(clientData);
+				TicketController tc = new TicketController();
+				TicketScreen tw = new TicketScreen(tc, 0);
+				
 			} else {
 				JOptionPane.showMessageDialog(window, "Erro(s) de validação:\n\n" + errorMessage);
 			}

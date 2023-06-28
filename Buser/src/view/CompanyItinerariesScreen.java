@@ -48,7 +48,6 @@ public class CompanyItinerariesScreen implements ActionListener {
 		gbc.weightx = 1.0;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 
-		System.out.println("oi\n");
 		if (companyItineraries.isEmpty()) {
 			gbcLocal = 1;
 			JPanel emptyContainer = new JPanel();
@@ -57,7 +56,6 @@ public class CompanyItinerariesScreen implements ActionListener {
 			JLabel label = new JLabel("Ainda não possui itinerários cadastrados no momento :/");
 			label.setForeground(new Color(117, 117, 138));
 			emptyContainer.add(label);
-
 			listContainer.add(emptyContainer, gbc);
 		} else {
 			for (int i = 0; i < companyItineraries.size(); i++) {

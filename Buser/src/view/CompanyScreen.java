@@ -80,17 +80,18 @@ public class CompanyScreen implements ActionListener {
 		Object src = event.getSource();
 
 		if (src == homePageButton) {
-			// TO DO -> go home page with the complete itineraries list page;
+			CompanyScreen.window.dispose();
+			new HomeScreen();
 		}
 
 		if (src == itinerariesButton) {
-			new CompanyItinerariesScreen(company);
 			CompanyScreen.window.dispose();
+			new CompanyItinerariesScreen(company);
 		}
 
 		if (src == createItineraryButton) {
-			new ItineraryScreen(company);
 			CompanyScreen.window.dispose();
+			new ItineraryScreen(company);
 		}
 	}
 }

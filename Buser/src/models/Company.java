@@ -15,7 +15,7 @@ public class Company extends User {
 		this.itineraries = itineraries;
 	}
 
-	public Company(String name, String phone, String email, String address, String cnpj, String corporateName) {
+	public Company(String name, String email, String phone, String address, String cnpj, String corporateName) {
 		super(name, phone, email, address);
 		this.setCNPJ(cnpj);
 		this.setCorporateName(corporateName);

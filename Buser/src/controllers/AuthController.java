@@ -1,10 +1,17 @@
 package controllers;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import database.Database;
 
 import models.*;
 
 public class AuthController {
+	private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+	private static final Pattern pattern = Pattern.compile(EMAIL_PATTERN, Pattern.CASE_INSENSITIVE);
+
 	public static String validatesUserData(String name, String email, String phone, String address) {
 		String errorMessage = "";
 
@@ -64,8 +71,8 @@ public class AuthController {
 	}
 
 	public static boolean isValidEmail(String email) {
-		String emailPattern = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-		return Pattern.matches(emailPattern, email);
+		Matcher matcher = pattern.matcher(email);
+	    return matcher.matches();
 	}
 
 	public static boolean isValidPhone(String phone) {
@@ -93,5 +100,35 @@ public class AuthController {
 
 	public static boolean isValidCorporateName(String corporateName) {
 		return corporateName.matches("[a-zA-ZÀ-ÿ0-9\\s,-]+");
+	}
+
+	public static void loginCLient(Client client) {
+		Database.getClient().add(client);
+	}
+
+	public static void loginCompany(Company company) {
+		Database.getCompany().add(company);
+	}
+
+	public static boolean checkClientLogin() {
+		if (Database.getClient().isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean checkCompanyLogin() {
+		if (Database.getCompany().isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	public static Client getClientLoggedIn() {
+		return Database.getClient().get(0);
+	}
+
+	public static Company getCompanyLoggedIn() {
+		return Database.getCompany().get(0);
 	}
 }

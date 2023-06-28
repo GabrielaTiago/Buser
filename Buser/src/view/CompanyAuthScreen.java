@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controllers.AuthController;
+import database.Database;
 import models.Company;
 
 public class CompanyAuthScreen implements ActionListener {
@@ -161,6 +162,7 @@ public class CompanyAuthScreen implements ActionListener {
 
 	public static void main(String[] args) {
 		new CompanyAuthScreen();
+		Database.teste();
 	}
 
 	public void actionPerformed(ActionEvent event) {
@@ -179,6 +181,7 @@ public class CompanyAuthScreen implements ActionListener {
 
 			if (errorMessage.isEmpty()) {
 				JOptionPane.showMessageDialog(window, "Cadastro realizado com sucesso!");
+				AuthController.loginCompany(companyData);
 				new CompanyScreen(companyData);
 				CompanyAuthScreen.window.dispose();
 			} else {
@@ -191,5 +194,4 @@ public class CompanyAuthScreen implements ActionListener {
 			CompanyAuthScreen.window.dispose();
 		}
 	}
-
 }

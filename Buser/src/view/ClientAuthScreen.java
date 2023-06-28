@@ -188,6 +188,7 @@ public class ClientAuthScreen implements ActionListener {
 
 			if (errorMessage.isEmpty()) {
 				JOptionPane.showMessageDialog(window, "Cadastro realizado com sucesso!");
+				AuthController.loginCLient(clientData);
 			} else {
 				JOptionPane.showMessageDialog(window, "Erro(s) de validação:\n\n" + errorMessage);
 			}

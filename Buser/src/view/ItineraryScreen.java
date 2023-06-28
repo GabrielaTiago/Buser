@@ -249,17 +249,6 @@ public class ItineraryScreen implements ActionListener {
 		}
 	}
 
-	private void clearFields() {
-		originField.setText("Cidade de Origem");
-		originField.setForeground(new Color(117, 117, 138));
-		destinationField.setText("Cidade de Destino");
-		destinationField.setForeground(new Color(117, 117, 138));
-		departureTimeField.setText("Horário de Partida");
-		departureTimeField.setForeground(new Color(117, 117, 138));
-		arrivalTimeField.setText("Horário de Chegada");
-		arrivalTimeField.setForeground(new Color(117, 117, 138));
-	}
-
 	public void actionPerformed(ActionEvent event) {
 		Object src = event.getSource();
 
@@ -294,8 +283,8 @@ public class ItineraryScreen implements ActionListener {
 		}
 
 		if (src == goBackButton) {
-			new CompanyScreen(company);
 			ItineraryScreen.window.dispose();
+			new CompanyScreen(company);
 		}
 	}
 }

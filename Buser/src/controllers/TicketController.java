@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import database.Database;
 import models.Ticket.SeatType;
 import models.*;
+import models.Client.GratuityType;
 
 public class TicketController {
 	
@@ -30,20 +31,12 @@ public class TicketController {
 		itineraries.add(i5);
 		itineraries.add(i6);
 		
-		Ticket t1 = new Ticket(10, SeatType.executivo, "A1", i1);
-		Ticket t2 = new Ticket(15, SeatType.semiLeito, "A2", i2);
-		Ticket t3 = new Ticket(20, SeatType.leito, "A3", i3);
-		Ticket t4 = new Ticket(25, SeatType.executivo, "A4", i4);
-		Ticket t5 = new Ticket(30, SeatType.semiLeito, "A5", i5);
-		Ticket t6 = new Ticket(45, SeatType.leito, "A6", i6);
-		Database.getTickets().add(t1);
-		Database.getTickets().add(t2);
-		Database.getTickets().add(t3);
-		Database.getTickets().add(t4);
-		Database.getTickets().add(t5);
-		Database.getTickets().add(t6);
-		//aqui que tá o problema, só tem esses itinerarios, preciso usar o Database.getItineraries()
-		//mas ele ta vazio. RIP
+		createTicket(10f, 0, "A1", 0);
+		createTicket(15f, 1, "A2", 1);
+		createTicket(20f, 2, "A3", 2);
+		createTicket(25f, 0, "A4", 3);
+		createTicket(30f, 1, "A5", 4);
+		createTicket(45f, 2, "A6", 5);
 		
 		setTicketsQt();
 	}
@@ -53,8 +46,13 @@ public class TicketController {
 		//a new ticket and adds it to the Database ArrayList<Tickets>
 		Itinerary i = itineraries.get(itineraryIndex);
 		SeatType s = getSeatType(seatTypeIndex);
+		
+		if (Database.client.getGratuityType().toString() == "elderly" ||
+			Database.client.getGratuityType().toString() == "phisicallyChallenged") {
+			price = 0f;
+		}
 		Ticket t = new Ticket(price, s, seatNumber, i);
-		Database.getTickets().add(t);
+		Database.client.getTickets().add(t);
 	}
 
 	public void updateTicket(Float price, int seatTypeIndex, String seatNumber, int itineraryIndex, int ticketIndex) { 
@@ -63,15 +61,15 @@ public class TicketController {
 		SeatType s = getSeatType(seatTypeIndex);
 		Itinerary i = itineraries.get(itineraryIndex);
 
-		Database.getTickets().get(ticketIndex).setPrice(price);
-		Database.getTickets().get(ticketIndex).setSeatType(s);
-		Database.getTickets().get(ticketIndex).setSeatNumber(seatNumber);
-		Database.getTickets().get(ticketIndex).setItinerary(i);
+		Database.client.getTickets().get(ticketIndex).setPrice(price);
+		Database.client.getTickets().get(ticketIndex).setSeatType(s);
+		Database.client.getTickets().get(ticketIndex).setSeatNumber(seatNumber);
+		Database.client.getTickets().get(ticketIndex).setItinerary(i);
 	}
 
 	public void deleteTicket(int i) {
 		//deletes the ticket i in arraylist of the database
-		Database.getTickets().remove(i);
+		Database.client.getTickets().remove(i);
 	}
 	
 	public String[] itineraryListToString(int option) {
@@ -121,8 +119,9 @@ public class TicketController {
 		//converts from enum to the index of the seatType in the JComboBox and
 		//gets the correspondent index in the JComboBox is used only when fetching
 		//a ticket information to set the values in the creation window
+		//if it returns 3 we will know by a index out of bounds exception
 		int index = 3;
-		//se retornar o 3, iremos saber por index out of bounds
+		
 		String s = seat.toString();
 		
 		if (s.equals("executivo")) {
@@ -136,9 +135,11 @@ public class TicketController {
 		}
 		return index;
 	}
+	
 	public String[] getToUpdateValues() {
 		return this.toUpdateValues;
 	}
+	
 	public void setToUpdateValues(int i) {
 		//receives the index of the ticket that will be updated 
 		//and stores it's atributes in a string array
@@ -153,7 +154,7 @@ public class TicketController {
 		
 		int itineraryIndex = (getItineraryIndex(itinerary));
 		
-		String[] ticketValues = {String.valueOf(ticket.getPrice()),
+		String[] ticketValues = {String.valueOf(price),
 								 String.valueOf(seatTypeIndex),
 								 seatNumber,
 								 String.valueOf(itineraryIndex)};
@@ -181,10 +182,40 @@ public class TicketController {
 		//this way we know if it reaches this return, since it will lead to a out of bounds
 	}
 	
+	public static String getClientInfo(int i) { 
+		String gratuity;
+		Client c = Database.client;
+		
+		String n = c.getName();
+		String p = c.getPhoneNumber();
+		String e = c.getEmail();
+		String a = c.getAdress();
+		String cpf = c.getCpf();
+		
+		GratuityType Type = Database.client.getGratuityType();
+		
+		if (Type == GratuityType.elderly) {
+			gratuity = "Idade";
+		} 
+		else if (Type == GratuityType.phisicallyChallenged) {
+			gratuity = "Pessoa com Deficiência";
+		} 
+		else {
+			gratuity = "Sem Gratuidade";
+		}
+		
+		String[] info = {"Nome: " + n, "Telefone: " + p,
+						 "E-mail: " + e, "Endereço: " + a,
+						 "CPF: " + cpf, "Tipo de Gratuidade: " + gratuity};
+		
+		return info[i];
+	}
+	
 	public ArrayList<Ticket> getTickets(){
-		ArrayList<Ticket> t = Database.getTickets();
+		ArrayList<Ticket> t = Database.client.getTickets();
 		return t;
 	}
+	
 	public String[] getIndexes() {
 		String[] v = new String[this.getTicketsQt()];
 		for (int i = 0; i < this.getTicketsQt(); i++) {
@@ -192,14 +223,17 @@ public class TicketController {
 		}
 		return v;
 	}
+	
 	public int getItinerariesQt() {
 		int quantity = this.itineraries.size();
 		return quantity;
 	}
+	
 	public int getTicketsQt() {
 		setTicketsQt();
 		return this.ticketsQt;
 	}
+	
 	public void setTicketsQt() {
 		ticketsQt = getTickets().size();
 	}
@@ -211,7 +245,6 @@ public class TicketController {
 	public static void setTicketIndex(int Index) {
 		ticketIndex = Index;
 	}
-	
 }
 
 

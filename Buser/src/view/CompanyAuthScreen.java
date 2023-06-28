@@ -194,5 +194,4 @@ public class CompanyAuthScreen implements ActionListener {
 			CompanyAuthScreen.window.dispose();
 		}
 	}
-
 }

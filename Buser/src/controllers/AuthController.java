@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import database.Database;
+
 import models.*;
 
 public class AuthController {

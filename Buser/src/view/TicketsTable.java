@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import javax.swing.JTable;
 import controllers.TicketController;
 import database.Database;
 import models.*;
+import models.Client.GratuityType;
 
 public class TicketsTable implements ActionListener{
 	
@@ -22,7 +24,8 @@ public class TicketsTable implements ActionListener{
 	private JFrame window;
 	private JTable ticketsTable;
 	private JScrollPane tablePane;
-	private JLabel indexLabel;
+	private JLabel indexLabel, clientLabel, nameLabel, phoneLabel,
+				   emailLabel, adressLabel, cpfLabel, gratuityLabel, tableLabel;
 	private JButton editButton, deleteButton, exitButton;
 	private JComboBox ticketIndexList;
 	private String tableColumns[] = {"Index", "Preço","Tipo de Poltrona","Número Poltrona","Itinerário"};
@@ -31,14 +34,14 @@ public class TicketsTable implements ActionListener{
 	private TicketController controller;
 	
 	public TicketsTable(TicketController controller) {
-		//creates the table with the given arrays
+		//creates the table with the given string arrays
 		this.controller = controller;
 		this.setItineraries(controller.itineraryListToString(1));
 		
 		//JFrame settings
 		window = new JFrame("Lista de Passagens");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setSize(850, 470);
+		window.setSize(850, 600);
 		window.setLayout(null);
 		
 		//JTable
@@ -48,29 +51,57 @@ public class TicketsTable implements ActionListener{
 		
 		ticketIndexList = new JComboBox<String>(controller.getIndexes());
 		
-		indexLabel = new JLabel("Index:");
+		//JLabel
+		indexLabel  = new JLabel("Index:");
+		clientLabel = new JLabel("Dados do Cliente");
+		tableLabel  = new JLabel("Passagens");
+		nameLabel   = new JLabel(	TicketController.getClientInfo(0));
+		phoneLabel  = new JLabel(	TicketController.getClientInfo(1));
+		emailLabel  = new JLabel(	TicketController.getClientInfo(2));
+		adressLabel = new JLabel(	TicketController.getClientInfo(3));
+		cpfLabel    = new JLabel(	TicketController.getClientInfo(4));
+		gratuityLabel = new JLabel(TicketController.getClientInfo(5));
 		
+		//JButtons
 		editButton = new JButton("Editar");
 		deleteButton = new JButton("Deletar");
 		exitButton = new JButton("Voltar");
-		
 		editButton.addActionListener(this);
 		deleteButton.addActionListener(this);
 		exitButton.addActionListener(this);
 		
-		int margem = 190;
-		tablePane.setBounds(20, 30, 800, 330);
-		indexLabel.setBounds(  margem,   	          		 380, 210, 30);
-		ticketIndexList.setBounds(   margem + 45,         		 380, 80, 30);
-		editButton.setBounds(  margem + 45 + 90,    		 380, 100, 30);
-		deleteButton.setBounds(margem + 45 + 90 + 110, 		 380, 100, 30);
-		exitButton.setBounds(  margem + 45 + 90 + 110 + 110, 380, 100, 30);
+		clientLabel.setFont(new Font("Arial", Font.BOLD, 25));
+		tableLabel.setFont(new Font("Arial", Font.BOLD, 25));
 		
+		clientLabel.setBounds(   300, 5, 250, 30);
+		nameLabel.setBounds(	 130, 45, 200, 30);
+		phoneLabel.setBounds(	 330, 45, 200, 30);
+		emailLabel.setBounds(	 530, 45, 200, 30);
+		adressLabel.setBounds(	 130, 70, 200, 30);
+		cpfLabel.setBounds(	 	 330, 70, 200, 30); 
+		gratuityLabel.setBounds( 530, 70, 250, 30);
+		tableLabel.setBounds(325, 110, 250, 30);
+		tablePane.setBounds(20, 160, 800, 330);
+		indexLabel.setBounds(     190,   	          		 160 + 350, 210, 30);
+		ticketIndexList.setBounds(190 + 45,         	     160 + 350, 80, 30);
+		editButton.setBounds(     190 + 45 + 90,    		 160 + 350, 100, 30);
+		deleteButton.setBounds(   190 + 45 + 90 + 110, 		 160 + 350, 100, 30);
+		exitButton.setBounds(     190 + 45 + 90 + 110 + 110, 160 + 350, 100, 30);
+		
+		//nameLabel, phoneLabel, emailLabel, adressLabel, cpfLabel, gratuityLabel
+		window.add(clientLabel);
+		window.add(nameLabel);
+		window.add(phoneLabel);
+		window.add(emailLabel);
+		window.add(adressLabel);
+		window.add(cpfLabel);
+		window.add(gratuityLabel);
+		window.add(tableLabel);
+		window.add(tablePane);
 		window.add(ticketIndexList);
 		window.add(indexLabel);
 		window.add(deleteButton);
 		window.add(editButton);
-		window.add(tablePane);
 		window.add(exitButton);
 		
 		window.setVisible(true);
@@ -81,7 +112,7 @@ public class TicketsTable implements ActionListener{
 			int i = ticketIndexList.getSelectedIndex();
 			controller.setToUpdateValues(i);
 			window.dispose();
-			TicketWindow a = new TicketWindow(controller, 1);
+			TicketScreen newWindow = new TicketScreen(controller, 1);
 		}
 		if (ae.getActionCommand().equals("Deletar")) {
 			int i = ticketIndexList.getSelectedIndex();
@@ -92,20 +123,20 @@ public class TicketsTable implements ActionListener{
 		}
 		if (ae.getActionCommand().equals("Voltar")) {
 			window.dispose();
-			TicketWindow a = new TicketWindow(controller, 0);
+			TicketScreen newWindow = new TicketScreen(controller, 0);
 		}
 	}
 	
 	public String[][] fillTableData(TicketController controller, String[] itineraries) {
-		//returns returns the tabledata in a matrix form 
+		//returns the tabledata in a string[][]
 		int existingTickets = controller.getTicketsQt();
 		int scenario;
-		int lines = 30;
+		int lines = 20;
 		tableData = new String[lines][5]; 
 		
 		if (existingTickets > 0) {
-		//there are tickets in the database instance and we must get their values
-		//and once they are all filled in, proceed to fill with empty data up to line value
+		//there are tickets in the database and we must get their values.
+		//Once they are all filled in, we can proceed to fill with empty data up to line value
 			scenario = 1;
 		}
 		else {

@@ -2,9 +2,30 @@ package controllers;
 
 import java.util.regex.Pattern;
 
+import database.Database;
 import models.*;
+import models.Client.GratuityType;
 
 public class AuthController {
+	public static GratuityType getGratuityType(String gratuity) {
+		GratuityType type = null;
+		
+		if (gratuity == "Idoso"){
+			type = GratuityType.elderly; 
+		}
+		else if (gratuity == "Deficiência física"){
+			type = GratuityType.phisicallyChallenged;
+		}
+		else {
+			type = GratuityType.noGratuity;
+		}
+		return type;
+	}
+	
+	public static void registerClient(Client clientData) {
+		Database.client = clientData;
+	}
+	
 	public static String validatesUserData(String name, String email, String phone, String address) {
 		String errorMessage = "";
 
@@ -43,7 +64,7 @@ public class AuthController {
 		return userErrorMessage += errorMessage;
 	}
 
-	public static String validatesClientData(Client client) {
+	public static String validatesClientData(Client client, String gratuity) {
 		String errorMessage = "";
 		String userErrorMessage = validatesUserData(client.getName(), client.getEmail(), client.getPhoneNumber(),
 				client.getAdress());
@@ -52,7 +73,7 @@ public class AuthController {
 			errorMessage += "CPF inválido, digite apenas números\n";
 		}
 
-		if (!isValidGratuityOption(client.getGratuity())) {
+		if (!isValidGratuityOption(gratuity)) {
 			errorMessage += "Opção de gratuidade não selecionada";
 		}
 

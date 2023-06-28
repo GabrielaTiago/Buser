@@ -1,24 +1,14 @@
 package view;
 
-import java.awt.*;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
 import controllers.TicketController;
+import database.Database;
 import models.Client;
-import models.Company;
-import models.Itinerary;
-import models.Ticket;
 import models.Client.GratuityType;
-import models.Ticket.*;
-import database.*;
 
-public class TicketWindow implements ActionListener{
+public class TicketScreen implements ActionListener{
 	//array given to JlstSeatType
 	private String seatTypes[] = {"Executivo", "Semi-Leito", "Leito"};
 	//array given to JlstItinerary
@@ -37,11 +27,11 @@ public class TicketWindow implements ActionListener{
 	int seatTypeIndex;
 	Float price;
 	String seatNumber;
-	int ticketIndex;
 	
-	TicketWindow(TicketController controller, int option) {
-		//the option parameter determines if it was the TableTickets class that called the TicketWindow, if so, 
-		//the edit button was used and the jcomponents must get the values of the informed ticket index
+	TicketScreen(TicketController controller, int option) {
+		//the option parameter determines if it was the TableTickets class that called the TicketWindow, 
+		//if option = 1, the edit button was used and the jcomponents must get the values of the 
+		//informed ticket index
 		this.controller = controller;
 		itinerariesStrings = controller.itineraryListToString(1);
 		
@@ -166,7 +156,6 @@ public class TicketWindow implements ActionListener{
 		getWindowValues();
 		int ticketIndex = TicketController.getTicketIndex();
 		//isso aqui tá dando merda
-		System.out.println("updateTicket() view - Ticket a ser atualizado: " + ticketIndex);
 		controller.updateTicket(price, seatTypeIndex, seatNumber, itineraryIndex, ticketIndex);
 		mensagemSucessoAtualizar(ticketIndex);
 	}
@@ -179,7 +168,7 @@ public class TicketWindow implements ActionListener{
 				JOptionPane.ERROR_MESSAGE);
 	}
 	public void mensagemSucessoAtualizar(int i) {
-		JOptionPane.showMessageDialog(null,"Passagem de index " + i + "Atualizada Com Sucesso!\n ",
+		JOptionPane.showMessageDialog(null,"Passagem de index " + i + " Atualizada Com Sucesso!\n ",
 				null, JOptionPane.INFORMATION_MESSAGE);
 	}
 	public void mensagemSucessoCriar() {
@@ -188,10 +177,12 @@ public class TicketWindow implements ActionListener{
 	}
 	
 	public static void main(String args[]) {
-		
+		ClientAuthScreen cas = new ClientAuthScreen(true);
+		Database.client = new Client("Gabriel Fernando", "(61) 98663-3660", "Gabriel@e-mail.com",
+							  "Rua alguma coisa", "733.188.761.00", GratuityType.elderly); 
 		TicketController tc = new TicketController();
-		
-		TicketWindow a = new TicketWindow(tc, 0);
-		//TicketsTable b = new TicketsTable(tc);
+		TicketScreen ts = new TicketScreen(tc, 0);
+//		TicketsTable tb = new TicketsTable(tc);
+		//System.out.println(c.toString());
 	}
 }

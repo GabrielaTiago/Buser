@@ -2,9 +2,11 @@ package models;
 
 import java.util.ArrayList;
 
+import models.Client.GratuityType;
+
 public class Client extends User {
 	private String cpf;
-	private String gratuity;
+	String gratuity;
 	private GratuityType gratuityType;
 	private GratuityDocument gratuityDocument;
 	private ArrayList<Ticket> tickets;
@@ -17,7 +19,9 @@ public class Client extends User {
 		birthDate, freePass
 	}
 
-	public Client(String name, String phone, String email, String address, String cpf, GratuityType gratuityType) {
+	public Client(String name, String phone, String email, String address, String cpf,
+			GratuityType gratuityType) {
+		//example of method override
 		super(name, phone, email, address);
 
 		this.setCpf(cpf);
@@ -25,47 +29,28 @@ public class Client extends User {
 		this.tickets = new ArrayList<Ticket>();
 
 		// checking gratuity category the client applies to
-		// and applying it to all existing tickets if so
 		if (gratuityType == GratuityType.elderly) {
 			this.setGratuityType(gratuityType);
 			this.setGratuityDocument(GratuityDocument.birthDate);
-			this.applyGratuity();
-		} else if (gratuityType == GratuityType.phisicallyChallenged) {
+		} 
+		else if (gratuityType == GratuityType.phisicallyChallenged) {
 			this.setGratuityType(gratuityType);
 			this.setGratuityDocument(GratuityDocument.freePass);
-			this.applyGratuity();
-		} else {
+		} 
+		else {
 			this.setGratuityType(gratuityType);
 		}
-
+	}
+	
+	public String getGratuity() {
+		return gratuity;
 	}
 
-	public Client(String name, String phone, String email, String address, String cpf, String gratuityType) {
-		super(name, phone, email, address);
 
-		setCpf(cpf);
-		setGratuity(gratuityType);
-
-		if (gratuityType == "Idade") {
-			setGratuityType(GratuityType.elderly);
-			setGratuityDocument(GratuityDocument.birthDate);
-			applyGratuity();
-		} else if (gratuityType == "Deficiência física") {
-			setGratuityType(GratuityType.phisicallyChallenged);
-			setGratuityDocument(GratuityDocument.freePass);
-			applyGratuity();
-		} else {
-			setGratuityType(GratuityType.elderly);
-		}
+	public void setGratuity(String gratuity) {
+		this.gratuity = gratuity;
 	}
 
-	private void applyGratuity() {
-		// is called only inside the constructor if the client
-		// has the gratuity right
-		for (int i = 0; i < this.getTickets().size(); i++) {
-			this.getTickets().get(i).setPrice(0f);
-		}
-	}
 
 	public String getCpf() {
 		return cpf;
@@ -74,17 +59,9 @@ public class Client extends User {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-
-	public String getGratuity() {
-		return gratuity;
-	}
-
-	public void setGratuity(String gratuity) {
-		this.gratuity = gratuity;
-	}
-
+	
 	public GratuityType getGratuityType() {
-		return gratuityType;
+		return this.gratuityType;
 	}
 
 	public void setGratuityType(GratuityType gratuityType) {

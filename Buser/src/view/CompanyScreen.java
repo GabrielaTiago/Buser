@@ -13,6 +13,8 @@ public class CompanyScreen implements ActionListener {
 	private static JButton homePageButton = new JButton();
 	private static JButton itinerariesButton = new JButton();
 	private static JButton createItineraryButton = new JButton();
+	private static JButton ticketEditionButton = new JButton();
+	private static JButton ticketsScreenButton = new JButton();
 	private static Company company;
 
 	public CompanyScreen(Company company) {
@@ -35,6 +37,8 @@ public class CompanyScreen implements ActionListener {
 		buttonsContainer.add(button(homePageButton, "Página Inicial"));
 		buttonsContainer.add(button(itinerariesButton, "Meus Itinerários"));
 		buttonsContainer.add(button(createItineraryButton, "Criar Itinerário"));
+		buttonsContainer.add(button(ticketEditionButton, "Criar Passagem"));
+		buttonsContainer.add(button(ticketsScreenButton, "Minhas Passagens"));
 
 		dashboardContainer.add(title, BorderLayout.NORTH);
 		dashboardContainer.add(buttonsContainer, BorderLayout.CENTER);
@@ -42,7 +46,7 @@ public class CompanyScreen implements ActionListener {
 		container.add(dashboardContainer, BorderLayout.CENTER);
 
 		window.setContentPane(container);
-		window.setSize(800, 600);
+		window.setSize(1250, 700);
 		window.getContentPane().setBackground(new Color(250, 250, 250));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLocationRelativeTo(null);
@@ -51,6 +55,8 @@ public class CompanyScreen implements ActionListener {
 		homePageButton.addActionListener(this);
 		itinerariesButton.addActionListener(this);
 		createItineraryButton.addActionListener(this);
+		ticketEditionButton.addActionListener(this);
+		ticketsScreenButton.addActionListener(this);
 	}
 
 	private JButton button(JButton button, String text) {
@@ -92,6 +98,14 @@ public class CompanyScreen implements ActionListener {
 		if (src == createItineraryButton) {
 			CompanyScreen.window.dispose();
 			new ItineraryScreen(company);
+		}
+		if (src == ticketsScreenButton) {
+			CompanyScreen.window.dispose();
+			new TicketsScreen(company);
+		}
+		if (src == ticketEditionButton) {
+			CompanyScreen.window.dispose();
+			new TicketEdition(0);
 		}
 	}
 }

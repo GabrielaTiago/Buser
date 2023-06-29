@@ -5,7 +5,9 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controllers.AuthController;
+import database.Database;
 import models.Client;
+import models.Company;
 
 public class ClientAuthScreen implements ActionListener {
 	private static JFrame window = new JFrame("Buser");
@@ -200,6 +202,12 @@ public class ClientAuthScreen implements ActionListener {
 		}
 	}
 	public static void main(String args[]) {
-		ClientAuthScreen ats = new ClientAuthScreen();
+		//Company company = new Company("", "", "", "", "", "");
+		//AuthController.loginCompany(company);
+		//ClientAuthScreen ats = new ClientAuthScreen();
+		//CompanyScreen cs = new CompanyScreen(company);
+		//TicketEdition te = new TicketEdition(0);
+		//TicketsScreen ts = new TicketsScreen(company);
+		
 	}
 }

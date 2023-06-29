@@ -199,4 +199,7 @@ public class ClientAuthScreen implements ActionListener {
 			ClientAuthScreen.window.dispose();
 		}
 	}
+	public static void main(String args[]) {
+		ClientAuthScreen ats = new ClientAuthScreen();
+	}
 }

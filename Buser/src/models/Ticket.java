@@ -4,17 +4,15 @@ public class Ticket {
 	private float price;		
 	private SeatType seatType;
 	private String seatNumber;
-	public Itinerary itinerary;
 	
 	public enum SeatType {
 		executivo, semiLeito, leito
 	}
 
-	public Ticket(float price, SeatType seatType, String seatNumber, Itinerary itinerary) {
+	public Ticket(float price, SeatType seatType, String seatNumber) {
 		this.set_Price(price, seatType);
 		this.setSeatType(seatType);
 		this.setSeatNumber(seatNumber);
-		this.setItinerary(itinerary);
 	}
 	
 	public float getPrice() {
@@ -51,13 +49,5 @@ public class Ticket {
 	
 	public void setSeatNumber(String seatNumber) {
 		this.seatNumber = seatNumber;
-	}
-	
-	public Itinerary getItinerary() {
-		return itinerary;
-	}
-	
-	public void setItinerary(Itinerary itinerary) {
-		this.itinerary = itinerary;
 	}
 }

@@ -3,6 +3,7 @@ package view;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -22,13 +23,12 @@ public class HomeScreen implements ActionListener {
 	private static JButton searchButton = new JButton();
 	private static JButton dashboardButton = new JButton();
 	private static Boolean companyIsLoggedIn;
-	private static ArrayList<Itinerary> itineraries;
+	private static AllItinerariesContainer allItinerariesContainer;
 	private static Company company;
 	private static Client client;
 
 	public HomeScreen() {
-		int gbcLocal = 0;
-		itineraries = ItineraryController.getAllItinerarys();
+		ArrayList<Itinerary> itineraries = ItineraryController.getAllItinerarys();
 		companyIsLoggedIn = AuthController.checkCompanyLogin();
 
 		JPanel container = new JPanel(new BorderLayout());
@@ -56,30 +56,12 @@ public class HomeScreen implements ActionListener {
 		searchContainer.add(button(searchButton, "Buscar"));
 
 		listContainer.add(searchContainer, gbc);
-
+		allItinerariesContainer = new AllItinerariesContainer();
+		populateItineraries(itineraries);
 		gbc.gridy = 1;
-		if (itineraries.isEmpty()) {
-			gbcLocal = 1;
-			JPanel emptyContainer = new JPanel();
-			emptyContainer.setBackground(null);
-			emptyContainer.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
-			JLabel label = new JLabel("Ainda não possui itinerários cadastrados no momento :/");
-			label.setForeground(new Color(117, 117, 138));
-			emptyContainer.add(label);
+		listContainer.add(allItinerariesContainer, gbc);
 
-			listContainer.add(emptyContainer, gbc);
-		} else {
-			for (int i = 0; i < itineraries.size(); i++) {
-				Itinerary it = itineraries.get(i);
-				JPanel itineraryContainer = itinerary(it.getId(), it.getCompany().getName() ,it.getOrigin(), it.getDestination(), it.getDate(),
-						it.getDepartureDate(), it.getArrivalDate());
-				gbcLocal = i + 1;
-				gbc.gridy = gbcLocal;
-				listContainer.add(itineraryContainer, gbc);
-			}
-		}
-
-		gbc.gridy = gbcLocal + 1;
+		gbc.gridy = 2;
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.insets = new Insets(30, 10, 10, 10);
@@ -149,7 +131,7 @@ public class HomeScreen implements ActionListener {
 
 		return button;
 	}
-	
+
 	private JButton goBack(JButton goBackButton, String text) {
 		goBackButton.setText(text);
 		goBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -172,8 +154,30 @@ public class HomeScreen implements ActionListener {
 		return goBackButton;
 	}
 
+	private void populateItineraries(ArrayList<Itinerary> itineraries) {
+		allItinerariesContainer.removeAll();
+		allItinerariesContainer.revalidate();
+		allItinerariesContainer.repaint();
+		if (itineraries.isEmpty()) {
+			JPanel emptyContainer = new JPanel();
+			emptyContainer.setBackground(null);
+			emptyContainer.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+			JLabel label = new JLabel("Ainda não possui itinerários cadastrados no momento :/");
+			label.setForeground(new Color(117, 117, 138));
+			emptyContainer.add(label);
 
-	public JPanel itinerary(int id, String company, String origin, String destination, LocalDate date,
+			allItinerariesContainer.addItinerary(emptyContainer);
+		} else {
+			for (int i = 0; i < itineraries.size(); i++) {
+				Itinerary it = itineraries.get(i);
+				JPanel itineraryContainer = itinerary(it.getId(), it.getCompany().getName(), it.getOrigin(),
+						it.getDestination(), it.getDate(), it.getDepartureDate(), it.getArrivalDate());
+				allItinerariesContainer.addItinerary(itineraryContainer);
+			}
+		}
+	}
+
+	private JPanel itinerary(int id, String company, String origin, String destination, LocalDate date,
 			String departureTime, String arrivalTime) {
 		JPanel itineraryContainer = new JPanel(new GridLayout(1, 3, 10, 0));
 		itineraryContainer.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -221,17 +225,33 @@ public class HomeScreen implements ActionListener {
 		Object src = event.getSource();
 
 		if (src == searchButton) {
-			// TO DO -> search by the respective field (origin,destination,date)
+			String origin = originSearchField.getText();
+			String destination = destinationSearchField.getText();
+			String date = dateSearchField.getText();
+
+			if (origin != null && !origin.isEmpty() && !origin.equals("Digite a cidade de origem")) {
+				ArrayList<Itinerary> itineraries = ItineraryController.getItinerariesByOrigin(origin);
+				populateItineraries(itineraries);
+			} else if (destination != null && !destination.isEmpty()
+					&& !destination.equals("Digite a cidade de destino")) {
+				ArrayList<Itinerary> itineraries = ItineraryController.getItinerariesByDestination(destination);
+				populateItineraries(itineraries);
+			} else if (date != null && !date.isEmpty() && !date.equals("Digite a data")) {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				LocalDate searchDate = LocalDate.parse(date, formatter);
+				ArrayList<Itinerary> itineraries = ItineraryController.getItinerariesByDate(searchDate);
+				populateItineraries(itineraries);
+			}
 		}
 
 		if (src == dashboardButton) {
-			if(companyIsLoggedIn) {
+			if (companyIsLoggedIn) {
 				company = AuthController.getCompanyLoggedIn();
 				new CompanyScreen(company);
-				HomeScreen.window.dispose();				
+				HomeScreen.window.dispose();
 			} else {
 				// [TO DO] -> client dashboardPage
-			}	
+			}
 		}
 	}
 }

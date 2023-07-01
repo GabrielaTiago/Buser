@@ -7,7 +7,7 @@ public abstract class User {
 	private String password;
 	private String address;
 
-	public User(String name, String phone, String email, String password, String address) {
+	public User(String name, String email, String password, String phone, String address) {
 		this.setName(name);
 		this.setEmail(email);
 		this.setPassword(password);
@@ -23,10 +23,6 @@ public abstract class User {
 		this.name = name;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -40,7 +36,11 @@ public abstract class User {
 	}
 
 	public void setPassword(String password) {
-		this.name = password;
+		this.password = password;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 
 	public void setPhoneNumber(String phoneNumber) {

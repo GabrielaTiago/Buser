@@ -17,29 +17,6 @@ public class Client extends User {
 		birthDate, freePass
 	}
 
-	public Client(String name, String phone, String email, String address, String cpf, GratuityType gratuityType,
-			ArrayList<Ticket> tickets) {
-		super(name, phone, email, address);
-
-		this.setCpf(cpf);
-		this.setTickets(tickets);
-
-		// checking gratuity category the client applies to
-		// and applying it to all existing tickets if so
-		if (gratuityType == GratuityType.elderly) {
-			this.setGratuityType(gratuityType);
-			this.setGratuityDocument(GratuityDocument.birthDate);
-			this.applyGratuity();
-		} else if (gratuityType == GratuityType.phisicallyChallenged) {
-			this.setGratuityType(gratuityType);
-			this.setGratuityDocument(GratuityDocument.freePass);
-			this.applyGratuity();
-		} else {
-			this.setGratuityType(gratuityType);
-		}
-
-	}
-
 	public Client(String name, String phone, String email, String address, String cpf, String gratuityType) {
 		super(name, phone, email, address);
 

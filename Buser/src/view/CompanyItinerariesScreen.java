@@ -91,22 +91,23 @@ public class CompanyItinerariesScreen implements ActionListener {
 		JPanel itineraryContainer = new JPanel(new GridLayout(1, 3, 10, 0));
 		itineraryContainer.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-		JPanel locationContainer = new JPanel(new GridLayout(2, 1, 0, 5));
+		JPanel locationContainer = new JPanel(new GridLayout(2, 1, 5, 5));
 		locationContainer.setBackground(null);
 		locationContainer.add(new JLabel("Cidade de Origem: " + origin));
 		locationContainer.add(new JLabel("Cidade de Destino: " + destination));
 
-		JPanel dateContainer = new JPanel(new GridLayout(3, 1, 0, 5));
+		JPanel dateContainer = new JPanel(new GridLayout(3, 1, 5, 5));
 		dateContainer.setBackground(null);
 		dateContainer.add(new JLabel("Data da viagem: " + date));
 		dateContainer.add(new JLabel("Horário de Partida: " + departureTime));
 		dateContainer.add(new JLabel("Horário de Chegada: " + arrivalTime));
 
-		JPanel actionContainer = new JPanel(new GridLayout(2, 1, 0, 10));
+		JPanel actionContainer = new JPanel(new GridLayout(3, 1, 10, 10));
 		actionContainer.setBackground(null);
 		actionContainer.setPreferredSize(new Dimension(60, actionContainer.getPreferredSize().height));
 		actionContainer.add(editItinerary(id));
 		actionContainer.add(deleteItinerary(id));
+		actionContainer.add(ticketsButton(id));
 
 		itineraryContainer.add(locationContainer);
 		itineraryContainer.add(dateContainer);
@@ -184,7 +185,37 @@ public class CompanyItinerariesScreen implements ActionListener {
 
 		return button;
 	}
+	private JButton ticketsButton(int id) {
+		JButton ticketsButton = new JButton("Passagens");
+		
+		ticketsButton.setText("Passagens");
+		ticketsButton.setFocusPainted(false);
+		ticketsButton.setOpaque(true);
+		ticketsButton.setBackground(new Color(241, 16, 117));
+		ticketsButton.setBorder(BorderFactory.createEmptyBorder());
+		ticketsButton.setPreferredSize(new Dimension(ticketsButton.getPreferredSize().width, 30));
+		ticketsButton.setFont(ticketsButton.getFont().deriveFont(14f));
+		ticketsButton.setForeground(Color.WHITE);
 
+		ticketsButton.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				ticketsButton.setBackground(new Color(242, 105, 149));
+				ticketsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+
+			public void mouseExited(java.awt.event.MouseEvent evt) {
+				ticketsButton.setBackground(new Color(241, 16, 117));
+			}
+		});
+		ticketsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new TicketsScreen(company, id);
+				CompanyItinerariesScreen.window.dispose();
+			}
+		});
+		return ticketsButton;
+	}
 	private JButton goBack(JButton goBackButton, String text) {
 		goBackButton.setText(text);
 		goBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

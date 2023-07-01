@@ -70,6 +70,17 @@ public class AuthController {
 		return userErrorMessage += errorMessage;
 	}
 
+	public static String validatesClient(String email, String password) {
+		String errorMessage = "";
+		Client client = getClientLoggedIn();
+
+		if (!client.getEmail().equals(email) || !client.getPassword().equals(password)) {
+			errorMessage += "Email e/ou senha errados";
+		}
+
+		return errorMessage;
+	}
+
 	public static String validatesCompany(String email, String password) {
 		String errorMessage = "";
 		Company company = getCompanyLoggedIn();

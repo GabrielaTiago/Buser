@@ -43,6 +43,13 @@ public class TicketController {
 		ItineraryController.getCompanyItineraries(name).get(index).getTickets().remove(ticketIndex);
 	}
 	
+	public static boolean checkTicketData(float price, int seatNumber) {
+		if ((price >= 0f) && (seatNumber > 0)) {
+			return true;
+		}
+		return false;
+	}
+	
 	public static SeatType getSeatType(int i) {
 		//based on the index received, returns the correspondent enum type
 		SeatType seatType = null;

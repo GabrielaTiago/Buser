@@ -5,25 +5,20 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controllers.AuthController;
-import database.Database;
 import models.Company;
 
-public class CompanyAuthScreen implements ActionListener {
+public class LoginCompanyScreen implements ActionListener {
 
 	private static JFrame window = new JFrame("Buser");
 	private static JLabel title = new JLabel("Boas-vindas à Buser!");
-	private static JTextField nameField = new JTextField();
 	private static JTextField emailField = new JTextField();
 	private static JTextField passwordField = new JPasswordField();
-	private static JTextField phoneField = new JTextField();
-	private static JTextField addressField = new JTextField();
-	private static JTextField cnpjField = new JTextField();
-	private static JTextField corporateNameField = new JTextField();
-	private static JButton registerButton = new JButton();
 	private static JButton loginButton = new JButton();
+	private static JButton registerButton = new JButton();
 	private static JButton linkTo = new JButton();
+	private static Company company;
 
-	public CompanyAuthScreen() {
+	public LoginCompanyScreen() {
 		title.setFont(new Font("Serif", Font.BOLD, 36));
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -50,41 +45,27 @@ public class CompanyAuthScreen implements ActionListener {
 		gbc.gridy = 1;
 		gbc.weightx = 1.0;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		authContainer.add(textField(nameField, "Nome"), gbc);
-
-		gbc.gridy = 2;
 		authContainer.add(textField(emailField, "Email"), gbc);
 
-		gbc.gridy = 3;
+		gbc.gridy = 2;
 		authContainer.add(passwordField((JPasswordField) passwordField, "Senha"), gbc);
 
-		gbc.gridy = 4;
-		authContainer.add(textField(phoneField, "Telefone"), gbc);
-
-		gbc.gridy = 5;
-		authContainer.add(textField(addressField, "Endereço"), gbc);
-
-		gbc.gridy = 6;
-		authContainer.add(textField(cnpjField, "CNPJ"), gbc);
-
-		gbc.gridy = 7;
-		authContainer.add(textField(corporateNameField, "Razão Social"), gbc);
-
 		gbc.gridx = 0;
-		gbc.gridy = 8;
+		gbc.gridy = 3;
 		gbc.gridwidth = 2;
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.insets = new Insets(30, 25, 10, 25);
-		authContainer.add(button(registerButton, "Cadastrar"), gbc);
+		authContainer.add(button(loginButton, "Entrar"), gbc);
 
-		gbc.gridy = 9;
+		gbc.gridy = 4;
 		gbc.gridwidth = 2;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.insets = new Insets(10, 25, 10, 25);
-		authContainer.add(linkButton(loginButton, "Já possui cadastro como empresa? Clique aqui para entrar"), gbc);
+		authContainer.add(linkButton(registerButton, "Não possui cadastro como empresa? Clique aqui para se cadastrar"),
+				gbc);
 
-		gbc.gridy = 10;
-		authContainer.add(linkButton(linkTo, "Cadastro de Cliente"), gbc);
+		gbc.gridy = 5;
+		authContainer.add(linkButton(linkTo, "Login de Cliente"), gbc);
 
 		container.add(authContainer, BorderLayout.CENTER);
 
@@ -203,44 +184,32 @@ public class CompanyAuthScreen implements ActionListener {
 		return linkButton;
 	}
 
-	public static void main(String[] args) {
-		new CompanyAuthScreen();
-		Database.teste();
-	}
-
 	public void actionPerformed(ActionEvent event) {
 		Object src = event.getSource();
 
-		if (src == registerButton) {
-			String name = nameField.getText();
+		if (src == loginButton) {
 			String email = emailField.getText();
 			String password = passwordField.getText();
-			String phone = phoneField.getText();
-			String address = addressField.getText();
-			String cnpj = cnpjField.getText();
-			String corporateName = corporateNameField.getText();
 
-			Company companyData = new Company(name, email, password, phone, address, cnpj, corporateName);
-			String errorMessage = AuthController.validatesCompanyData(companyData);
+			String errorMessage = AuthController.validatesCompany(email, password);
 
 			if (errorMessage.isEmpty()) {
-				JOptionPane.showMessageDialog(window, "Cadastro realizado com sucesso!");
-				AuthController.registerCompany(companyData);
-				CompanyAuthScreen.window.dispose();
-				new LoginClientScreen();
+				company = AuthController.getCompanyLoggedIn();
+				LoginCompanyScreen.window.dispose();
+				new CompanyScreen(company);
 			} else {
-				JOptionPane.showMessageDialog(window, "Erro(s) de validação:\n\n" + errorMessage);
+				JOptionPane.showMessageDialog(window, "Erro de validação:\n" + errorMessage);
 			}
 		}
 
-		if (src == loginButton) {
-			CompanyAuthScreen.window.dispose();
-			new LoginClientScreen();
+		if (src == registerButton) {
+			LoginCompanyScreen.window.dispose();
+			new CompanyAuthScreen();
 		}
 
 		if (src == linkTo) {
-			CompanyAuthScreen.window.dispose();
-			new ClientAuthScreen();
+			LoginCompanyScreen.window.dispose();
+			new LoginClientScreen();
 		}
 	}
 }

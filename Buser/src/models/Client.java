@@ -29,11 +29,9 @@ public class Client extends User {
 		if (gratuityType == GratuityType.elderly) {
 			this.setGratuityType(gratuityType);
 			this.setGratuityDocument(GratuityDocument.birthDate);
-			this.applyGratuity();
 		} else if (gratuityType == GratuityType.phisicallyChallenged) {
 			this.setGratuityType(gratuityType);
 			this.setGratuityDocument(GratuityDocument.freePass);
-			this.applyGratuity();
 		} else {
 			this.setGratuityType(gratuityType);
 		}
@@ -49,21 +47,11 @@ public class Client extends User {
 		if (gratuityType == "Idade") {
 			setGratuityType(GratuityType.elderly);
 			setGratuityDocument(GratuityDocument.birthDate);
-			applyGratuity();
 		} else if (gratuityType == "Deficiência física") {
 			setGratuityType(GratuityType.phisicallyChallenged);
 			setGratuityDocument(GratuityDocument.freePass);
-			applyGratuity();
 		} else {
 			setGratuityType(GratuityType.elderly);
-		}
-	}
-
-	private void applyGratuity() {
-		// is called only inside the constructor if the client
-		// has the gratuity right
-		for (int i = 0; i < this.getTickets().size(); i++) {
-			this.getTickets().get(i).setPrice(0f);
 		}
 	}
 

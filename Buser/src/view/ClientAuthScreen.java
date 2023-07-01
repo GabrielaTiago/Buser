@@ -5,35 +5,41 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controllers.AuthController;
-import database.Database;
 import models.Client;
-import models.Company;
 
 public class ClientAuthScreen implements ActionListener {
+
 	private static JFrame window = new JFrame("Buser");
 	private static JLabel title = new JLabel("Boas-vindas à Buser!");
 	private static JTextField nameField = new JTextField();
 	private static JTextField emailField = new JTextField();
+	private static JTextField passwordField = new JPasswordField();
 	private static JTextField phoneField = new JTextField();
 	private static JTextField addressField = new JTextField();
 	private static JTextField cpfField = new JTextField();
 	private static JComboBox<String> gratuityOptions = new JComboBox<>();
 	private static JButton registerButton = new JButton();
+	private static JButton loginButton = new JButton();
 	private static JButton linkTo = new JButton();
 
 	public ClientAuthScreen() {
 		title.setFont(new Font("Serif", Font.BOLD, 36));
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 
-		JPanel contentPane = new JPanel(new GridBagLayout());
+		JPanel container = new JPanel();
+		container.setLayout(new BorderLayout());
+		container.setBorder(BorderFactory.createEmptyBorder(55, 55, 55, 55));
+
+		JPanel authContainer = new JPanel(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(10, 10, 10, 10);
+		gbc.insets = new Insets(8, 25, 8, 25);
+		authContainer.setBackground(new Color(250, 250, 250));
 
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.gridwidth = 2;
 		gbc.anchor = GridBagConstraints.CENTER;
-		contentPane.add(title, gbc);
+		authContainer.add(title, gbc);
 
 		gbc.gridy = 1;
 		gbc.gridwidth = 1;
@@ -43,46 +49,53 @@ public class ClientAuthScreen implements ActionListener {
 		gbc.gridy = 1;
 		gbc.weightx = 1.0;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		contentPane.add(textField(nameField, "Nome"), gbc);
+		authContainer.add(textField(nameField, "Nome"), gbc);
 
 		gbc.gridy = 2;
-		contentPane.add(textField(emailField, "Email"), gbc);
+		authContainer.add(textField(emailField, "Email"), gbc);
 
 		gbc.gridy = 3;
-		contentPane.add(textField(phoneField, "Telefone"), gbc);
+		authContainer.add(passwordField((JPasswordField) passwordField, "Senha"), gbc);
 
 		gbc.gridy = 4;
-		contentPane.add(textField(addressField, "Endereço"), gbc);
+		authContainer.add(textField(phoneField, "Telefone"), gbc);
 
 		gbc.gridy = 5;
-		contentPane.add(textField(cpfField, "CPF"), gbc);
+		authContainer.add(textField(addressField, "Endereço"), gbc);
 
 		gbc.gridy = 6;
-		contentPane.add(selectGratuityOption(gratuityOptions, "Tipo de gratuidade"), gbc);
+		authContainer.add(textField(cpfField, "CPF"), gbc);
+
+		gbc.gridy = 7;
+		authContainer.add(selectGratuityOption(gratuityOptions, "Tipo de gratuidade"), gbc);
 
 		gbc.gridx = 0;
-		gbc.gridy = 7;
+		gbc.gridy = 8;
 		gbc.gridwidth = 2;
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.insets = new Insets(30, 10, 10, 10);
-		contentPane.add(button(registerButton, "Cadastrar"), gbc);
+		authContainer.add(button(registerButton, "Cadastrar"), gbc);
 
-		gbc.gridy = 8;
+		gbc.gridy = 9;
 		gbc.gridwidth = 2;
 		gbc.fill = GridBagConstraints.NONE;
-		gbc.insets = new Insets(10, 10, 10, 10);
-		contentPane.add(linklinkButton(linkTo, "Cadastro de Empresa"), gbc);
+		gbc.insets = new Insets(10, 25, 10, 25);
+		authContainer.add(linkButton(loginButton, "Já possui cadastro como cliente? Clique aqui para entrar"), gbc);
 
-		window.setContentPane(contentPane);
+		gbc.gridy = 10;
+		authContainer.add(linkButton(linkTo, "Cadastro de Empresa"), gbc);
 
-		window.setSize(800, 600);
-		window.getContentPane().setBackground(new Color(250, 250, 250));
+		container.add(authContainer, BorderLayout.CENTER);
+
+		window.setContentPane(container);
+		window.setSize(800, 700);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 		window.requestFocusInWindow();
 
 		registerButton.addActionListener(this);
+		loginButton.addActionListener(this);
 		linkTo.addActionListener(this);
 	}
 
@@ -112,6 +125,36 @@ public class ClientAuthScreen implements ActionListener {
 		});
 
 		return textField;
+	}
+
+	private JPasswordField passwordField(JPasswordField passwordField, String placeholder) {
+		passwordField.setOpaque(false);
+		passwordField.setPreferredSize(new Dimension(passwordField.getPreferredSize().width, 30));
+		passwordField.setForeground(new Color(117, 117, 138));
+		passwordField.setText(placeholder);
+		passwordField.setEchoChar((char) 0);
+
+		passwordField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent event) {
+				if (String.valueOf(passwordField.getPassword()).equals(placeholder)) {
+					passwordField.setText("");
+					passwordField.setEchoChar('\u2022');
+					passwordField.setForeground(Color.BLACK);
+				}
+			}
+
+			@Override
+			public void focusLost(FocusEvent event) {
+				if (String.valueOf(passwordField.getPassword()).isEmpty()) {
+					passwordField.setEchoChar((char) 0);
+					passwordField.setForeground(new Color(117, 117, 138));
+					passwordField.setText(placeholder);
+				}
+			}
+		});
+
+		return passwordField;
 	}
 
 	private JComboBox<String> selectGratuityOption(JComboBox<String> comboBox, String label) {
@@ -153,13 +196,14 @@ public class ClientAuthScreen implements ActionListener {
 		return button;
 	}
 
-	private JButton linklinkButton(JButton linkButton, String text) {
+	private JButton linkButton(JButton linkButton, String text) {
 		linkButton.setText(text);
 		linkButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		linkButton.setBackground(null);
 		linkButton.setBorder(null);
 
 		linkButton.addMouseListener(new MouseAdapter() {
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				linkButton.setText("<html><u>" + text + "</u></html>");
@@ -181,11 +225,12 @@ public class ClientAuthScreen implements ActionListener {
 			String name = nameField.getText();
 			String email = emailField.getText();
 			String phone = phoneField.getText();
+			String password = passwordField.getText();
 			String address = addressField.getText();
 			String cpf = cpfField.getText();
 			String gratuityType = (String) gratuityOptions.getSelectedItem();
 
-			Client clientData = new Client(name, email, phone, address, cpf, gratuityType);
+			Client clientData = new Client(name, email, password, phone, address, cpf, gratuityType);
 			String errorMessage = AuthController.validatesClientData(clientData);
 
 			if (errorMessage.isEmpty()) {
@@ -197,17 +242,8 @@ public class ClientAuthScreen implements ActionListener {
 		}
 
 		if (src == linkTo) {
-			new CompanyAuthScreen();
 			ClientAuthScreen.window.dispose();
+			new CompanyAuthScreen();
 		}
-	}
-	public static void main(String args[]) {
-		//Company company = new Company("", "", "", "", "", "");
-		//AuthController.loginCompany(company);
-		//ClientAuthScreen ats = new ClientAuthScreen();
-		//CompanyScreen cs = new CompanyScreen(company);
-		//TicketEdition te = new TicketEdition(0);
-		//TicketsScreen ts = new TicketsScreen(company);
-		
 	}
 }

@@ -9,7 +9,13 @@ import javax.swing.*;
 import controllers.ItineraryController;
 import models.Company;
 import models.Itinerary;
-
+/**
+ * A classe CompanyItinerariesScreen é a responsável pela tela que lista todos os 
+ * itinerários associadas à empresa cadastrada, sendo possível ver os atributos de 
+ * cada itinerário, os editar ou excluir e listar passagens associadas a um itinerário
+ * em específico 
+ * @author Gabriela Tiago
+ */
 public class CompanyItinerariesScreen implements ActionListener {
 
 	private static JFrame window = new JFrame("Buser");
@@ -17,7 +23,19 @@ public class CompanyItinerariesScreen implements ActionListener {
 	private static JButton goBackButton = new JButton();
 	private static ArrayList<Itinerary> companyItineraries;
 	private static Company company;
-
+	/**
+	 * Construtor da classe que instancia uma tela contendo um container
+	 * de containers com as informações sobre os respectivos itinerários de uma empresa, 
+	 * também formata os botões de editar e deletar um itinerário e o de 
+	 * listar suas passagem
+	 * @param company a empresa cadastrada
+	 * @see #actionPerformed(ActionEvent)
+	 * @see #deleteItinerary(int)
+	 * @see #editItinerary(int)
+	 * @see #goBack(JButton, String)
+	 * @see #itinerary(int, String, String, LocalDate, String, String)
+	 * @see #ticketsButton(int)
+	 */
 	public CompanyItinerariesScreen(Company company) {
 		int gbcLocal = 0;
 		CompanyItinerariesScreen.company = company;
@@ -85,7 +103,18 @@ public class CompanyItinerariesScreen implements ActionListener {
 
 		goBackButton.addActionListener(this);
 	}
-
+	/**
+	 * Método que cria um container para a origem e destino, um container para 
+	 * as datas e horas e outro container para os botões de editar, deletar e lista
+	 * passagens de um itinerário
+	 * @param id			o id do itinerário
+	 * @param origin		a ciadade de origem do itinerário 
+	 * @param destination	a cidade de destino do itinerário
+	 * @param date			a data de partida do itinerário
+	 * @param departureTime a hora de partida do itinerário
+	 * @param arrivalTime   a hora de chegada do itinerário
+	 * @return JPanel com as informações de um itinerário e botões de edição
+	 */
 	public JPanel itinerary(int id, String origin, String destination, LocalDate date, String departureTime,
 			String arrivalTime) {
 		JPanel itineraryContainer = new JPanel(new GridLayout(1, 3, 10, 0));
@@ -115,7 +144,14 @@ public class CompanyItinerariesScreen implements ActionListener {
 
 		return itineraryContainer;
 	}
-
+	/**
+	 * Cria e retorna um JButton configurado para a edição de um itinerário.
+	 * Também adiciona um action Listener ao botão, que quando acionado,
+	 * indica para a tela de edição o index do itinerário e a compania a quem pertence,
+	 * e fecha a janela de itinerarios, instanciando a tela de edição de itinerarios EditItineraryScreen
+	 * @param id o índice do itinerário a ser editado
+	 * @return o JButton configurado para edição
+	 */
 	public JButton editItinerary(int id) {
 		JButton button = new JButton("Editar");
 		button.setFocusPainted(false);
@@ -185,6 +221,12 @@ public class CompanyItinerariesScreen implements ActionListener {
 
 		return button;
 	}
+	/**
+	 * Método que cria e configura a função e o formato de um botão que leva
+	 * para a tela de listagem de passagens de um itinerário
+	 * @param id identificação do itinerário
+	 * @return JButton que leva à lista de passagens de um itinerário
+	 */
 	private JButton ticketsButton(int id) {
 		JButton ticketsButton = new JButton("Passagens");
 		
@@ -216,6 +258,14 @@ public class CompanyItinerariesScreen implements ActionListener {
 		});
 		return ticketsButton;
 	}
+	/**
+	 * Configura um botão de voltar com o texto fornecido e o configura com um 
+	 * estilo personalizado, sublinhando o botão quando o cursor do mouse passa por cima 
+	 * e voltando ao normal quando o mouse sai.
+	 * @param goBackButton o botão de voltar para ser configurado
+	 * @param text   o texto a ser exibido no botão
+	 * @return o botão configurado
+	 */
 	private JButton goBack(JButton goBackButton, String text) {
 		goBackButton.setText(text);
 		goBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -237,7 +287,11 @@ public class CompanyItinerariesScreen implements ActionListener {
 
 		return goBackButton;
 	}
-
+/**
+ * Método que identifica se o botão de voltar foi acionado, voltando
+ * para a tela da compania cadastrada
+ * @param event evento capturado pelo ActionListener 
+ */
 	public void actionPerformed(ActionEvent event) {
 		Object src = event.getSource();
 

@@ -5,10 +5,14 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controllers.AuthController;
-import database.Database;
 import models.Client;
-import models.Company;
-
+/**
+ *Essa classe é responsável pela tela usada para cadastrar os clientes no sistema.
+ *Inclui campos para inserir nome, email, telefone, endereço, CPF e opção de gratuidade.
+ *Também possui botões para cadastrar e um link para a tela de cadastro de empresa.
+ *@author Gabriela Tiago
+ *
+ */
 public class ClientAuthScreen implements ActionListener {
 	private static JFrame window = new JFrame("Buser");
 	private static JLabel title = new JLabel("Boas-vindas à Buser!");
@@ -20,7 +24,13 @@ public class ClientAuthScreen implements ActionListener {
 	private static JComboBox<String> gratuityOptions = new JComboBox<>();
 	private static JButton registerButton = new JButton();
 	private static JButton linkTo = new JButton();
-
+	
+	/**
+    	Adiciona compenentes ao JFrame window para o cadatsro de clientes.
+    	@see #button(JButton, String) 
+		@see #linkButton(JButton, String)
+		@see #textField(JTextField, String)
+	 */
 	public ClientAuthScreen() {
 		title.setFont(new Font("Serif", Font.BOLD, 36));
 		title.setHorizontalAlignment(SwingConstants.CENTER);
@@ -85,7 +95,14 @@ public class ClientAuthScreen implements ActionListener {
 		registerButton.addActionListener(this);
 		linkTo.addActionListener(this);
 	}
-
+	/**
+	 * Configura um botão com o texto fornecido e configurações de estilo personalizadas, que
+	 * altera a cor de fundo do botão quando o cursor do mouse passa por cima 
+	 * e a restaura quando o mouse sai.
+	 * @param button o botão a ser configurado
+	 * @param text   o texto a ser exibido no botão
+	 * @return o botão configurado
+	 */
 	private JTextField textField(JTextField textField, String placeholder) {
 		textField.setOpaque(false);
 		textField.setPreferredSize(new Dimension(textField.getPreferredSize().width, 30));
@@ -113,7 +130,13 @@ public class ClientAuthScreen implements ActionListener {
 
 		return textField;
 	}
-
+	/**
+	 * Configura uma caixa de seleção do tipo JComboBox com opções de gratuidade.
+	 *
+	 * @param comboBox A caixa de seleção a ser configurada.
+	 * @param label    O rótulo a ser exibido como a primeira opção da caixa de seleção.
+	 * @return A caixa de seleção configurada.
+	 */
 	private JComboBox<String> selectGratuityOption(JComboBox<String> comboBox, String label) {
 		if (comboBox.getItemCount() == 0) {
 			comboBox.addItem(label);
@@ -128,7 +151,14 @@ public class ClientAuthScreen implements ActionListener {
 
 		return comboBox;
 	}
-
+	/**
+	 * Configura um botão com o texto fornecido e configurações de estilo personalizadas, que
+	 * altera a cor de fundo do botão quando o cursor do mouse passa por cima 
+	 * e a restaura quando o mouse sai.
+	 * @param button o botão a ser configurado
+	 * @param text   o texto a ser exibido no botão
+	 * @return o botão configurado
+	 */
 	private JButton button(JButton button, String text) {
 		button.setText(text);
 		button.setFocusPainted(false);
@@ -152,7 +182,14 @@ public class ClientAuthScreen implements ActionListener {
 
 		return button;
 	}
-
+	/**
+	 * Configura um botão com o texto fornecido e configura com um estilo personalizado,
+	 * sublinhando o botão quando o cursor do mouse passa por cima 
+	 * e voltando ao normal quando o mouse sai.
+	 * @param button o botão a ser configurado
+	 * @param text   o texto a ser exibido no botão
+	 * @return o botão configurado
+	 */
 	private JButton linklinkButton(JButton linkButton, String text) {
 		linkButton.setText(text);
 		linkButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -173,7 +210,12 @@ public class ClientAuthScreen implements ActionListener {
 
 		return linkButton;
 	}
-
+	/**
+	 * Trata os eventos de ação do botão de cadastro e do link para o cadastro de empresa.
+	 * Caso, os dados inseridos sejam validados, o cadastro é realizado, caso contrário, uma
+	 * mensagem de erro será exibida na tela
+	 * @param event o evento de ação
+	 */
 	public void actionPerformed(ActionEvent event) {
 		Object src = event.getSource();
 
@@ -200,14 +242,5 @@ public class ClientAuthScreen implements ActionListener {
 			new CompanyAuthScreen();
 			ClientAuthScreen.window.dispose();
 		}
-	}
-	public static void main(String args[]) {
-		//Company company = new Company("", "", "", "", "", "");
-		//AuthController.loginCompany(company);
-		//ClientAuthScreen ats = new ClientAuthScreen();
-		//CompanyScreen cs = new CompanyScreen(company);
-		//TicketEdition te = new TicketEdition(0);
-		//TicketsScreen ts = new TicketsScreen(company);
-		
 	}
 }

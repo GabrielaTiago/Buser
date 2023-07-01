@@ -19,14 +19,15 @@ public class TicketsScreen implements ActionListener {
 	private static JButton goBackButton = new JButton();
 	private static JButton ticketEditionButton = new JButton();
 	private static ArrayList<Ticket> itineraryTickets = new ArrayList<Ticket>();
-	private static ArrayList<Itinerary> companyItineraries = new ArrayList<Itinerary>();
+	private static AllItinerariesContainer allTicketsContainer;
+	private static Company company;
 	private static int itineraryId;
 
-	public TicketsScreen(ArrayList<Itinerary> itineraries, int id) {
-		int gbcLocal = 0;
-		companyItineraries = itineraries;
-		Itinerary itinerary = ItineraryController.getItinerariesByID(itineraries, id);
-		itineraryTickets = itinerary.getTickets();
+	public TicketsScreen(Company company, int id) {
+		TicketsScreen.company = company;
+		
+		itineraryTickets = ItineraryController.getItineraryTicketsByID(id);
+		 
 		itineraryId = id;
 
 		title.setFont(new Font("Serif", Font.BOLD, 36));
@@ -46,38 +47,21 @@ public class TicketsScreen implements ActionListener {
 		gbc.anchor = GridBagConstraints.CENTER;
 		listContainer.add(title, gbc);
 
+		gbc.gridx = 1;
+		gbc.weightx = 1.0;
 		gbc.gridy = 1;
 		gbc.gridwidth = 1;
 		gbc.anchor = GridBagConstraints.WEST;
-
-		gbc.gridx = 1;
-		gbc.weightx = 1.0;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
+		allTicketsContainer = new AllItinerariesContainer();
+		populateTickets(itineraryTickets);
+		listContainer.add(allTicketsContainer, gbc);
 
-		if (itineraryTickets.isEmpty()) {
-			gbcLocal = 1;
-			JPanel emptyContainer = new JPanel(new GridLayout(2, 1, 10, 10));
-			emptyContainer.setBackground(null);
-			emptyContainer.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
-			JLabel label = new JLabel("Ainda não possui passagens cadastrados no momento :/");
-			label.setForeground(new Color(117, 117, 138));
-			emptyContainer.add(label);
-			emptyContainer.add(button(ticketEditionButton, "Criar Passagem"));
-			listContainer.add(emptyContainer, gbc);
-		} else {
-			for (int i = 0; i < itineraryTickets.size(); i++) {
-				Ticket ticket = itineraryTickets.get(i);
-				JPanel ticketContainer = ticket(i, ticket.getPrice(), ticket.getSeatNumber(), ticket.getSeatTypeString());
-				gbcLocal = i + 1;
-				gbc.gridy = gbcLocal;
-				listContainer.add(ticketContainer, gbc);
-			}
-		}
-
-		gbc.gridy = gbcLocal + 1;
+		gbc.gridy = 2;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.anchor = GridBagConstraints.CENTER;
 		listContainer.add(button(ticketEditionButton, "Criar Passagem"), gbc);
+		gbc.gridy = 3;
 		listContainer.add(goBack(goBackButton, "Voltar"), gbc);
 
 		container.add(listContainer);
@@ -95,7 +79,28 @@ public class TicketsScreen implements ActionListener {
 
 		goBackButton.addActionListener(this);
 	}
+	private void populateTickets(ArrayList<Ticket> tickets) {
+		allTicketsContainer.removeAll();
+		allTicketsContainer.revalidate();
+		allTicketsContainer.repaint();
+		if (tickets.isEmpty()) {
+			JPanel emptyContainer = new JPanel();
+			emptyContainer.setBackground(null);
+			emptyContainer.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+			JLabel label = new JLabel("Ainda não possui passagens cadastradas no momento :/");
+			label.setForeground(new Color(117, 117, 138));
+			emptyContainer.add(label);
 
+			allTicketsContainer.addItinerary(emptyContainer);
+		} else {
+			for (int i = 0; i < tickets.size(); i++) {
+				Ticket ticket = tickets.get(i);
+				JPanel ticketContainer = ticket(i, ticket.getPrice(), ticket.getSeatNumber(), ticket.getSeatTypeString());
+				allTicketsContainer.addItinerary(ticketContainer);
+			}
+		}
+	}
+	
 	public JPanel ticket(int index, float price, int seatNumber, String seatType) {
 		JPanel ticketConteiner = new JPanel(new GridLayout(1, 2, 0, 0));
 		ticketConteiner.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -170,7 +175,7 @@ public class TicketsScreen implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				TicketsScreen.window.dispose();
 				TicketController.setUpdatingTicketIndex(index);
-				new EditTicketScreen(itineraryId);
+				new EditTicketScreen(itineraryId, company);
 			}
 		});
 
@@ -208,7 +213,7 @@ public class TicketsScreen implements ActionListener {
 				if (result == JOptionPane.YES_OPTION) {
 					TicketController.deleteTicket(index, itineraryId);
 					TicketsScreen.window.dispose();
-					new TicketsScreen(companyItineraries, itineraryId);
+					new TicketsScreen(company, itineraryId);
 				}
 			}
 		});
@@ -242,12 +247,12 @@ public class TicketsScreen implements ActionListener {
 		Object src = event.getSource();
 
 		if (src == goBackButton) {
-			window.dispose();
+			TicketsScreen.window.dispose();
 			new CompanyScreen(AuthController.getCompanyLoggedIn());
 		}
 		if (src == ticketEditionButton) {
-			window.dispose();
-			new EditTicketScreen(itineraryId);
+			TicketsScreen.window.dispose();
+			new EditTicketScreen(itineraryId, company);
 		}
 	}
 }

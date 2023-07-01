@@ -173,6 +173,15 @@ public class ItineraryController {
 			}
 		}
 	}
+	public static Itinerary getItinerariesByID(ArrayList<Itinerary> companyItineraries, int id) {
+		Itinerary itinerary = null;
+		for (int i = 0; i < companyItineraries.size(); i++) {
+			if (companyItineraries.get(i).getId() == id) {
+				itinerary =  companyItineraries.get(i);
+			}
+		}
+		return itinerary;
+	}
 
 	public static void displayItineraryData(Itinerary itinerary) {
 		System.out.println("Id: " + itinerary.getId());

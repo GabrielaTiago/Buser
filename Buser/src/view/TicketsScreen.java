@@ -5,8 +5,11 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
+import controllers.AuthController;
+import controllers.ItineraryController;
 import controllers.TicketController;
 import models.Company;
+import models.Itinerary;
 import models.Ticket;
 
 public class TicketsScreen implements ActionListener {
@@ -14,13 +17,17 @@ public class TicketsScreen implements ActionListener {
 	private static JFrame window = new JFrame("Buser");
 	private static JLabel title = new JLabel("Passagens Cadastradas");
 	private static JButton goBackButton = new JButton();
-	private static ArrayList<Ticket> companyTickets;
-	private static Company company;
+	private static JButton ticketEditionButton = new JButton();
+	private static ArrayList<Ticket> itineraryTickets = new ArrayList<Ticket>();
+	private static ArrayList<Itinerary> companyItineraries = new ArrayList<Itinerary>();
+	private static int itineraryId;
 
-	public TicketsScreen(Company company) {
+	public TicketsScreen(ArrayList<Itinerary> itineraries, int id) {
 		int gbcLocal = 0;
-		TicketsScreen.company = company;
-		companyTickets = TicketController.getTickets();
+		companyItineraries = itineraries;
+		Itinerary itinerary = ItineraryController.getItinerariesByID(itineraries, id);
+		itineraryTickets = itinerary.getTickets();
+		itineraryId = id;
 
 		title.setFont(new Font("Serif", Font.BOLD, 36));
 
@@ -47,35 +54,37 @@ public class TicketsScreen implements ActionListener {
 		gbc.weightx = 1.0;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 
-		if (companyTickets.isEmpty()) {
+		if (itineraryTickets.isEmpty()) {
 			gbcLocal = 1;
-			JPanel emptyContainer = new JPanel();
+			JPanel emptyContainer = new JPanel(new GridLayout(2, 1, 10, 10));
 			emptyContainer.setBackground(null);
 			emptyContainer.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
 			JLabel label = new JLabel("Ainda não possui passagens cadastrados no momento :/");
 			label.setForeground(new Color(117, 117, 138));
 			emptyContainer.add(label);
+			emptyContainer.add(button(ticketEditionButton, "Criar Passagem"));
 			listContainer.add(emptyContainer, gbc);
 		} else {
-			for (int i = 0; i < companyTickets.size(); i++) {
-				Ticket ticket = companyTickets.get(i);
-				JPanel tickerContainer = ticket(i, ticket.getPrice(), ticket.getSeatNumber(),ticket.getSeatType().toString());
+			for (int i = 0; i < itineraryTickets.size(); i++) {
+				Ticket ticket = itineraryTickets.get(i);
+				JPanel ticketContainer = ticket(i, ticket.getPrice(), ticket.getSeatNumber(), ticket.getSeatTypeString());
 				gbcLocal = i + 1;
 				gbc.gridy = gbcLocal;
-				listContainer.add(tickerContainer, gbc);
+				listContainer.add(ticketContainer, gbc);
 			}
 		}
 
 		gbc.gridy = gbcLocal + 1;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.anchor = GridBagConstraints.CENTER;
+		listContainer.add(button(ticketEditionButton, "Criar Passagem"), gbc);
 		listContainer.add(goBack(goBackButton, "Voltar"), gbc);
 
 		container.add(listContainer);
 		JScrollPane listPane = new JScrollPane(container);
-		//JScrollPane listPane = new JScrollPane(listContainer);
-		//container.add(listPane);
-		//JScrollPane listPane = new JScrollPane(container);
+		
+		
+		ticketEditionButton.addActionListener(this);
 		window.setContentPane(listPane);
 		window.setSize(800, 600);
 		window.getContentPane().setBackground(new Color(250, 250, 250));
@@ -83,12 +92,11 @@ public class TicketsScreen implements ActionListener {
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 		window.requestFocusInWindow();
-		//window.pack();
 
 		goBackButton.addActionListener(this);
 	}
 
-	public JPanel ticket(int index, float price, String seatNumber, String seatType) {
+	public JPanel ticket(int index, float price, int seatNumber, String seatType) {
 		JPanel ticketConteiner = new JPanel(new GridLayout(1, 2, 0, 0));
 		ticketConteiner.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
@@ -115,7 +123,28 @@ public class TicketsScreen implements ActionListener {
 
 		return ticketConteiner;
 	}
+	private JButton button(JButton button, String text) {
+		button.setText(text);
+		button.setFocusPainted(false);
+		button.setOpaque(true);
+		button.setBackground(new Color(241, 16, 117));
+		button.setBorder(BorderFactory.createEmptyBorder());
+		button.setFont(button.getFont().deriveFont(18f));
+		button.setForeground(Color.WHITE);
 
+		button.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				button.setBackground(new Color(242, 105, 149));
+				button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+
+			public void mouseExited(java.awt.event.MouseEvent evt) {
+				button.setBackground(new Color(241, 16, 117));
+			}
+		});
+
+		return button;
+	}
 	public JButton editTicket(int index) {
 		JButton button = new JButton("Editar");
 		button.setFocusPainted(false);
@@ -139,9 +168,9 @@ public class TicketsScreen implements ActionListener {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				TicketController.setToUpdateValues(index);
 				TicketsScreen.window.dispose();
-				new TicketEdition(1);
+				TicketController.setUpdatingTicketIndex(index);
+				new EditTicketScreen(itineraryId);
 			}
 		});
 
@@ -177,9 +206,9 @@ public class TicketsScreen implements ActionListener {
 				int result = JOptionPane.showConfirmDialog(frame, "Tem certeza que quer excluir essa passagem?",
 						"Excluir Passagem", JOptionPane.YES_NO_OPTION);
 				if (result == JOptionPane.YES_OPTION) {
-					TicketController.deleteTicket(index);
+					TicketController.deleteTicket(index, itineraryId);
 					TicketsScreen.window.dispose();
-					new TicketsScreen(company);
+					new TicketsScreen(companyItineraries, itineraryId);
 				}
 			}
 		});
@@ -214,7 +243,11 @@ public class TicketsScreen implements ActionListener {
 
 		if (src == goBackButton) {
 			window.dispose();
-			new CompanyScreen(company);
+			new CompanyScreen(AuthController.getCompanyLoggedIn());
+		}
+		if (src == ticketEditionButton) {
+			window.dispose();
+			new EditTicketScreen(itineraryId);
 		}
 	}
 }

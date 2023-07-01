@@ -1,6 +1,7 @@
 package models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Itinerary {
 	private static int nextId = 1;
@@ -12,9 +13,11 @@ public class Itinerary {
 	private String departureDate;
 	private String arrivalDate;
 	private Company company;
+	private ArrayList<Ticket> tickets;
 
 	public Itinerary(String origin, String destination, LocalDate date, String departureDate, String arrivalDate,
 			Company company) {
+		this.tickets = new ArrayList<Ticket>();
 		this.setId();
 		this.setOrigin(origin);
 		this.setDestination(destination);
@@ -22,6 +25,14 @@ public class Itinerary {
 		this.setDepartureDate(departureDate);
 		this.setArrivalDate(arrivalDate);
 		this.setCompany(company);
+		
+	}
+	public ArrayList<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(ArrayList<Ticket> tickets) {
+		this.tickets = tickets;
 	}
 
 	public void setId() {

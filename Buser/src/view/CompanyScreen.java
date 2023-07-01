@@ -42,7 +42,7 @@ public class CompanyScreen implements ActionListener {
 		container.add(dashboardContainer, BorderLayout.CENTER);
 
 		window.setContentPane(container);
-		window.setSize(800, 600);
+		window.setSize(1250, 700);
 		window.getContentPane().setBackground(new Color(250, 250, 250));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLocationRelativeTo(null);
@@ -93,5 +93,6 @@ public class CompanyScreen implements ActionListener {
 			CompanyScreen.window.dispose();
 			new ItineraryScreen(company);
 		}
+
 	}
 }

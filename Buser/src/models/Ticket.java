@@ -1,20 +1,20 @@
 package models;
 
+import models.Ticket.SeatType;
+
 public class Ticket {
 	private float price;		
 	private SeatType seatType;
-	private String seatNumber;
-	public Itinerary itinerary;
+	private int seatNumber;
 	
 	public enum SeatType {
 		executivo, semiLeito, leito
 	}
 
-	public Ticket(float price, SeatType seatType, String seatNumber, Itinerary itinerary) {
+	public Ticket(float price, SeatType seatType, int seatNumber) {
 		this.set_Price(price, seatType);
 		this.setSeatType(seatType);
 		this.setSeatNumber(seatNumber);
-		this.setItinerary(itinerary);
 	}
 	
 	public float getPrice() {
@@ -40,24 +40,30 @@ public class Ticket {
 	public SeatType getSeatType() {
 		return seatType;
 	}
-	
+	public String getSeatTypeString() {
+		String s = null;
+		String seatType = this.getSeatType().toString();
+		
+		if (seatType.equals("executivo")) {
+			s = "Executivo";
+		}
+		if (seatType.equals("semiLeito")) {
+			s = "Semi-Leito";
+		}
+		if (seatType.equals("leito")) {
+			s = "Leito";
+		}
+		return s;
+	}
 	public void setSeatType(SeatType seatType) {
 		this.seatType = seatType;
 	}
 	
-	public String getSeatNumber() {
+	public int getSeatNumber() {
 		return seatNumber;
 	}
 	
-	public void setSeatNumber(String seatNumber) {
+	public void setSeatNumber(int seatNumber) {
 		this.seatNumber = seatNumber;
-	}
-	
-	public Itinerary getItinerary() {
-		return itinerary;
-	}
-	
-	public void setItinerary(Itinerary itinerary) {
-		this.itinerary = itinerary;
 	}
 }

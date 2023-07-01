@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import database.Database;
 
 import models.*;
+import models.Client.GratuityType;
 
 public class AuthController {
 	private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -134,7 +135,17 @@ public class AuthController {
 	}
 
 	public static void registerClient(Client client) {
-		Database.getClientData().add(client);
+		String name = client.getName();
+		String email = client.getEmail();
+		String password = client.getPassword();
+		String phone = client.getPhoneNumber();
+		String address = client.getAdress();
+		String cpf = client.getCpf();
+		GratuityType gratuityType = client.getGratuityType();
+
+		Client c = new Client(name, email, password, phone, address, cpf, gratuityType, Database.getTicketsData());
+
+		Database.getClientData().add(c);
 	}
 
 	public static void registerCompany(Company company) {

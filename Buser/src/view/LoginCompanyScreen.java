@@ -55,7 +55,7 @@ public class LoginCompanyScreen implements ActionListener {
 		gbc.gridwidth = 2;
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.insets = new Insets(30, 25, 10, 25);
-		authContainer.add(button(loginButton, "Entrar"), gbc);
+		authContainer.add(button(loginButton, "Entrar como empresa"), gbc);
 
 		gbc.gridy = 4;
 		gbc.gridwidth = 2;

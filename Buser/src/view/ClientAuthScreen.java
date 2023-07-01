@@ -74,7 +74,7 @@ public class ClientAuthScreen implements ActionListener {
 		gbc.gridwidth = 2;
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.insets = new Insets(30, 10, 10, 10);
-		authContainer.add(button(registerButton, "Cadastrar"), gbc);
+		authContainer.add(button(registerButton, "Cadastrar Cliente"), gbc);
 
 		gbc.gridy = 9;
 		gbc.gridwidth = 2;
@@ -235,10 +235,17 @@ public class ClientAuthScreen implements ActionListener {
 
 			if (errorMessage.isEmpty()) {
 				JOptionPane.showMessageDialog(window, "Cadastro realizado com sucesso!");
-				AuthController.loginCLient(clientData);
+				AuthController.registerClient(clientData);
+				ClientAuthScreen.window.dispose();
+				new LoginClientScreen();
 			} else {
 				JOptionPane.showMessageDialog(window, "Erro(s) de validação:\n\n" + errorMessage);
 			}
+		}
+
+		if (src == loginButton) {
+			ClientAuthScreen.window.dispose();
+			new LoginClientScreen();
 		}
 
 		if (src == linkTo) {

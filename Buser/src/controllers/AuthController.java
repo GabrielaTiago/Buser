@@ -70,6 +70,17 @@ public class AuthController {
 		return userErrorMessage += errorMessage;
 	}
 
+	public static String validatesCompany(String email, String password) {
+		String errorMessage = "";
+		Company company = getCompanyLoggedIn();
+
+		if (!company.getEmail().equals(email) || !company.getPassword().equals(password)) {
+			errorMessage += "Email e/ou senha errados";
+		}
+
+		return errorMessage;
+	}
+
 	public static boolean isValidName(String name) {
 		return name.matches("[a-zA-ZÀ-ÿ\\s]+");
 	}
@@ -111,33 +122,43 @@ public class AuthController {
 		return corporateName.matches("[a-zA-ZÀ-ÿ0-9\\s,-]+");
 	}
 
-	public static void loginCLient(Client client) {
-		Database.getClient().add(client);
+	public static void registerClient(Client client) {
+		Database.getClientData().add(client);
 	}
 
-	public static void loginCompany(Company company) {
-		Database.getCompany().add(company);
+	public static void registerCompany(Company company) {
+		String name = company.getName();
+		String email = company.getEmail();
+		String password = company.getPassword();
+		String phone = company.getPhoneNumber();
+		String address = company.getAdress();
+		String cnpj = company.getCNPJ();
+		String corporateName = company.getCorporateName();
+
+		Company c = new Company(name, email, password, phone, address, cnpj, corporateName,
+				Database.getItinaraiesData());
+		Database.getCompanyData().add(c);
+	}
+
+	public static Client getClientLoggedIn() {
+		return Database.getClientData().get(0);
+	}
+
+	public static Company getCompanyLoggedIn() {
+		return Database.getCompanyData().get(0);
 	}
 
 	public static boolean checkClientLogin() {
-		if (Database.getClient().isEmpty()) {
+		if (Database.getClientData().isEmpty()) {
 			return false;
 		}
 		return true;
 	}
 
 	public static boolean checkCompanyLogin() {
-		if (Database.getCompany().isEmpty()) {
+		if (Database.getCompanyData().isEmpty()) {
 			return false;
 		}
 		return true;
-	}
-
-	public static Client getClientLoggedIn() {
-		return Database.getClient().get(0);
-	}
-
-	public static Company getCompanyLoggedIn() {
-		return Database.getCompany().get(0);
 	}
 }

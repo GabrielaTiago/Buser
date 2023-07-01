@@ -1,5 +1,7 @@
 package models;
 
+import models.Ticket.SeatType;
+
 public class Ticket {
 	private float price;		
 	private SeatType seatType;
@@ -38,7 +40,21 @@ public class Ticket {
 	public SeatType getSeatType() {
 		return seatType;
 	}
-	
+	public String getSeatTypeString() {
+		String s = null;
+		String seatType = this.getSeatType().toString();
+		
+		if (seatType.equals("executivo")) {
+			s = "Executivo";
+		}
+		if (seatType.equals("semiLeito")) {
+			s = "Semi-Leito";
+		}
+		if (seatType.equals("leito")) {
+			s = "Leito";
+		}
+		return s;
+	}
 	public void setSeatType(SeatType seatType) {
 		this.seatType = seatType;
 	}

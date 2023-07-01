@@ -175,7 +175,7 @@ public class TicketsScreen implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				TicketsScreen.window.dispose();
 				TicketController.setUpdatingTicketIndex(index);
-				new EditTicketScreen(itineraryId, company);
+				new EditTicketScreen(1, itineraryId, company);
 			}
 		});
 
@@ -248,11 +248,11 @@ public class TicketsScreen implements ActionListener {
 
 		if (src == goBackButton) {
 			TicketsScreen.window.dispose();
-			new CompanyScreen(AuthController.getCompanyLoggedIn());
+			new CompanyItinerariesScreen(AuthController.getCompanyLoggedIn());
 		}
 		if (src == ticketEditionButton) {
 			TicketsScreen.window.dispose();
-			new EditTicketScreen(itineraryId, company);
+			new EditTicketScreen(0, itineraryId, company);
 		}
 	}
 }

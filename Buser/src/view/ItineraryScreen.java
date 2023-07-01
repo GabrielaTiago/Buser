@@ -14,7 +14,7 @@ import models.Company;
 
 public class ItineraryScreen implements ActionListener {
 	private static JFrame window = new JFrame("Buser");
-	private static JLabel title = new JLabel();
+	private static JLabel title = new JLabel("Novo Itinerário");
 	private static JTextField originField = new JTextField();
 	private static JTextField destinationField = new JTextField();
 	private static JLabel dateLabel = new JLabel("Escolha o dia:");
@@ -26,14 +26,13 @@ public class ItineraryScreen implements ActionListener {
 	private static LocalDate selectedDate;
 	private static JTextField departureTimeField = new JTextField();
 	private static JTextField arrivalTimeField = new JTextField();
-	private static JButton registerButton = new JButton();
+	private JButton registerButton = new JButton();
 	private static JButton goBackButton = new JButton();
 	private static Company company;
 
 	public ItineraryScreen(Company company) {
 		ItineraryScreen.company = company;
 		title.setFont(new Font("Serif", Font.BOLD, 36));
-		title.setText("Novo Itinerário");
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 
 		JPanel container = new JPanel();
@@ -51,13 +50,11 @@ public class ItineraryScreen implements ActionListener {
 		gbc.anchor = GridBagConstraints.CENTER;
 		formContainer.add(title, gbc);
 
-		gbc.gridy = 1;
-		gbc.gridwidth = 1;
-		gbc.anchor = GridBagConstraints.WEST;
-
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		gbc.weightx = 1.0;
+		gbc.gridwidth = 1;
+		gbc.anchor = GridBagConstraints.WEST;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		formContainer.add(textField(originField, "Cidade de Origem"), gbc);
 
@@ -169,7 +166,6 @@ public class ItineraryScreen implements ActionListener {
 					textField.setForeground(Color.BLACK);
 				}
 			}
-
 			@Override
 			public void focusLost(FocusEvent event) {
 				if (textField.getText().isEmpty()) {

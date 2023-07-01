@@ -16,21 +16,20 @@ import javax.swing.*;
 import controllers.AuthController;
 import controllers.ItineraryController;
 import controllers.TicketController;
+import models.Company;
 import models.Itinerary;
 
 public class EditTicketScreen implements ActionListener{
 	//array given to JlstSeatType
-	private String seatTypes[] = {"Executivo", "Semi-Leito", "Leito"};
-
-	//JTextField
-	private static JFrame window;
-	private JTextField priceField;
-	private JTextField seatNumberField;
-	private JComboBox seatTypeList;
-	private JButton createButton = new JButton();
-	private JButton updateButton  = new JButton();
-	private JButton exitButton = new JButton();
-	ArrayList<Itinerary> companyItineraries;
+	private static String seatTypes[] = {"Executivo", "Semi-Leito", "Leito"};
+	private static JFrame window = new JFrame("Criar/Atualizar Passagens");
+	private static JTextField priceField  = new JTextField(10);
+	private static JTextField seatNumberField = new JTextField(10);;
+	private static JComboBox seatTypeList = new JComboBox<String>(seatTypes);
+	private static JButton createButton = new JButton();
+	private static JButton updateButton  = new JButton();
+	private static JButton exitButton = new JButton();
+	private static Company company;
 	
 	
 	//variables who will store input from JComponents
@@ -39,17 +38,14 @@ public class EditTicketScreen implements ActionListener{
 	private int seatNumber;
 	private int itineraryId;
 	
-	EditTicketScreen(int id) {
+	EditTicketScreen(int id, Company company) {
 		itineraryId = id;
+		EditTicketScreen.company = company;
 		
 	    JPanel container = new JPanel(new BorderLayout());
 	    container.setBorder(BorderFactory.createEmptyBorder(45, 45, 45, 45));
 	    
 	    //atributes panel 
-	    priceField = new JTextField(10);
-	    seatNumberField = new JTextField(10);
-	    seatTypeList = new JComboBox<String>(seatTypes);
-	    companyItineraries = ItineraryController.getCompanyItineraries(AuthController.getCompanyLoggedIn().getName());
 	    JLabel priceLabel = new JLabel("Preço: R$");
 	    JLabel seatTypeLabel = new JLabel("Tipo de Poltrona: ");
 	    seatTypeLabel.setToolTipText("Há um adicional de R$10, R$15 e R$20 para os respectivos tipos de poltronas");
@@ -70,20 +66,19 @@ public class EditTicketScreen implements ActionListener{
 	    buttonPanel.add(button(createButton, "Criar"));
 	    buttonPanel.add(button(updateButton, "Atualizar"));
 	    buttonPanel.add(goBack(exitButton, "Voltar"));
-	    createButton.addActionListener(this);
-	    updateButton.addActionListener(this);
-	    exitButton.addActionListener(this);
 	    buttonPanel.setLayout(new GridLayout(3,1,5,10));
 	    	
 	    container.add(atributesPanel, BorderLayout.CENTER);
 	    container.add(buttonPanel, BorderLayout.SOUTH);
 	    
-	    window = new JFrame("Criar/Atualizar Passagens");
 	    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    window.setSize(650, 450);
 	    window.setContentPane(container);
-	  
 	    window.setVisible(true);
+	    
+	    createButton.addActionListener(this);
+	    updateButton.addActionListener(this);
+	    exitButton.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent ae) {
@@ -116,7 +111,7 @@ public class EditTicketScreen implements ActionListener{
 			}
 			if (ae.getSource() == exitButton) {
 				EditTicketScreen.window.dispose();
-				new TicketsScreen(companyItineraries, itineraryId);
+				new TicketsScreen(company, itineraryId);
 			}
 	}
 	private JButton goBack(JButton goBackButton, String text) {

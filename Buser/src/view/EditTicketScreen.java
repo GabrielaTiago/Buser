@@ -4,59 +4,54 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
 import controllers.AuthController;
+import controllers.ItineraryController;
 import controllers.TicketController;
-import database.Database;
-import models.Client;
-import models.Client.GratuityType;
+import models.Company;
+import models.Itinerary;
 
-public class TicketEdition implements ActionListener{
+public class EditTicketScreen implements ActionListener{
 	//array given to JlstSeatType
-	private String seatTypes[] = {"Executivo", "Semi-Leito", "Leito"};
-
-	//JTextField
-	private static JFrame window;
-	private JTextField priceField, seatNumberField;
-	private JComboBox seatTypeList;
-	private JButton createButton = new JButton();
-	private JButton updateButton  = new JButton();
-	private JButton exitButton = new JButton();
+	private static String seatTypes[] = {"Executivo", "Semi-Leito", "Leito"};
+	private static JFrame window = new JFrame("Criar/Atualizar Passagens");
+	private static JTextField priceField  = new JTextField(10);
+	private static JTextField seatNumberField = new JTextField(10);;
+	private static JComboBox seatTypeList = new JComboBox<String>(seatTypes);
+	private static JButton createButton = new JButton();
+	private static JButton updateButton  = new JButton();
+	private static JButton exitButton = new JButton();
+	private static Company company;
+	
 	
 	//variables who will store input from JComponents
 	private int seatTypeIndex;
 	private Float price;
-	private String seatNumber;
-	private static int bugIndex = 0;
+	private int seatNumber;
+	private int itineraryId;
 	
-	TicketEdition(int option) {
-		//the option parameter determines if it was the TicketsScreen class that called the TicketEditon, 
-		//if option = 1, the edit button was used and the jcomponents must get the values of the 
-		//informed ticket index
-	    
+	EditTicketScreen(int id, Company company) {
+		itineraryId = id;
+		EditTicketScreen.company = company;
+		
 	    JPanel container = new JPanel(new BorderLayout());
 	    container.setBorder(BorderFactory.createEmptyBorder(45, 45, 45, 45));
 	    
 	    //atributes panel 
-	    priceField = new JTextField(10);
-	    seatNumberField = new JTextField(10);
-	    seatTypeList = new JComboBox<String>(seatTypes);
 	    JLabel priceLabel = new JLabel("Preço: R$");
-	    JLabel seatTypeLabel = new JLabel("Tipo de Poltrona:");
-	    JLabel seatNumberLabel = new JLabel("Poltrona:");
+	    JLabel seatTypeLabel = new JLabel("Tipo de Poltrona: ");
+	    seatTypeLabel.setToolTipText("Há um adicional de R$10, R$15 e R$20 para os respectivos tipos de poltronas");
+	    JLabel seatNumberLabel = new JLabel("Nº Poltrona: ");
 	    JPanel atributesPanel = new JPanel(new GridLayout(4, 2, 0, 5));
+	    atributesPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 	    atributesPanel.add(priceLabel);
 	    atributesPanel.add(priceField);
 	    atributesPanel.add(seatNumberLabel);
@@ -71,30 +66,21 @@ public class TicketEdition implements ActionListener{
 	    buttonPanel.add(button(createButton, "Criar"));
 	    buttonPanel.add(button(updateButton, "Atualizar"));
 	    buttonPanel.add(goBack(exitButton, "Voltar"));
-	    createButton.addActionListener(this);
-	    updateButton.addActionListener(this);
-	    exitButton.addActionListener(this);
 	    buttonPanel.setLayout(new GridLayout(3,1,5,10));
-	    
-	    //Adding the panels to the container
+	    	
 	    container.add(atributesPanel, BorderLayout.CENTER);
 	    container.add(buttonPanel, BorderLayout.SOUTH);
 	    
-	    window = new JFrame("Criar/Atualizar Passagens");
 	    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    window.setSize(370, 390);
+	    window.setSize(650, 450);
 	    window.setContentPane(container);
-	    //window.getContentPane().setBackground(new Color(250, 250, 250));
-	    
-	    if (option == 1) {
-	        setWindowValues();
-	    }
-	    
 	    window.setVisible(true);
+	    
+	    createButton.addActionListener(this);
+	    updateButton.addActionListener(this);
+	    exitButton.addActionListener(this);
 	}
-	public int pegaBug() {
-		return bugIndex++;
-	}
+
 	public void actionPerformed(ActionEvent ae) {
 		//listens to an event and then determines from which 
 		//JComponent it came from and what's it supposed to do
@@ -106,7 +92,7 @@ public class TicketEdition implements ActionListener{
 			if (ae.getSource() == createButton) {
 				try {
 					getWindowValues();
-					TicketController.createTicket(price, seatTypeIndex, seatNumber);
+					TicketController.createTicket(price, seatTypeIndex, seatNumber, itineraryId);
 					mensagemSucessoCriar();
 				} catch (NumberFormatException exception) {
 					mensagemErroCadastro();
@@ -116,7 +102,7 @@ public class TicketEdition implements ActionListener{
 				try {
 					getWindowValues();
 					int ticketIndex = TicketController.getUpdatingTicketIndex();
-					TicketController.updateTicket(price, seatTypeIndex, seatNumber, ticketIndex);
+					TicketController.updateTicket(price, seatTypeIndex, seatNumber, ticketIndex, itineraryId);
 					mensagemSucessoAtualizar(ticketIndex);
 				} 
 				catch (NumberFormatException exception) {
@@ -124,9 +110,8 @@ public class TicketEdition implements ActionListener{
 				}
 			}
 			if (ae.getSource() == exitButton) {
-				TicketEdition.window.dispose();
-				new CompanyScreen(AuthController.getCompanyLoggedIn());
-				System.out.println(pegaBug());
+				EditTicketScreen.window.dispose();
+				new TicketsScreen(company, itineraryId);
 			}
 	}
 	private JButton goBack(JButton goBackButton, String text) {
@@ -173,20 +158,11 @@ public class TicketEdition implements ActionListener{
 		return button;
 	}
 	
-	private void setWindowValues() {
-		//sets the values for the JComponents 
-		String[] values = TicketController.getToUpdateValues();
-		
-		priceField.setText(values[0]);
-		seatTypeList.setSelectedIndex(Integer.parseInt(values[1]));
-		seatNumberField.setText(values[2]);	
-	}
-	
 	private void getWindowValues() {
 		//get the input values from jcomponents
 		price = Float.parseFloat(priceField.getText());
 		seatTypeIndex = seatTypeList.getSelectedIndex();
-		seatNumber = seatNumberField.getText();
+		seatNumber = Integer.parseInt(seatNumberField.getText());
 	}
 
 	private void mensagemErroCadastro() {

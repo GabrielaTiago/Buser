@@ -46,7 +46,10 @@ public class Client extends User {
 
 		setCpf(cpf);
 		setGratuity(gratuityType);
+		validateGratuity(gratuityType);
+	}
 
+	public void validateGratuity(String gratuityType) {
 		if (gratuityType == "Idade") {
 			setGratuityType(GratuityType.elderly);
 			setGratuityDocument(GratuityDocument.birthDate);

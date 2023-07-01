@@ -5,6 +5,11 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import models.Company;
+/**
+ * Classe reponsável pela tela que permite a empresa cadastrada criar um itinerário,
+ * fazer uma busca por itinerário e ver os itinerários cadastrados
+ * @author Gabriela Tiago
+ */
 
 public class CompanyScreen implements ActionListener {
 
@@ -14,7 +19,14 @@ public class CompanyScreen implements ActionListener {
 	private static JButton itinerariesButton = new JButton();
 	private static JButton createItineraryButton = new JButton();
 	private static Company company;
-
+/**
+ * O construtor da classe é o responsável por estilizar e organizar
+ * em containers os botões que levam a outras telas, os adicionando
+ * ao JFrame window
+ * @param company compania cadastrada
+ * @see #actionPerformed(ActionEvent)
+ * @see #button(JButton, String)
+ */
 	public CompanyScreen(Company company) {
 		CompanyScreen.company = company;
 		title.setFont(new Font("Serif", Font.BOLD, 36));
@@ -52,7 +64,14 @@ public class CompanyScreen implements ActionListener {
 		itinerariesButton.addActionListener(this);
 		createItineraryButton.addActionListener(this);
 	}
-
+	/**
+	 * Configura um botão com o texto fornecido e configurações de estilo personalizadas, que
+	 * altera a cor de fundo do botão quando o cursor do mouse passa por cima 
+	 * e a restaura quando o mouse sai.
+	 * @param button o botão a ser configurado
+	 * @param text   o texto a ser exibido no botão
+	 * @return o botão configurado
+	 */
 	private JButton button(JButton button, String text) {
 		button.setText(text);
 		button.setFocusPainted(false);
@@ -75,7 +94,10 @@ public class CompanyScreen implements ActionListener {
 
 		return button;
 	}
-
+/**Método que identifica se o botão de "Página Inicial", "Meus Itinerários" ou
+ * o de "Criar Itinerário" foi acionado, redirecionando para as respectivas telas
+ * @param event evento capturado pelo ActionListener
+ */
 	public void actionPerformed(ActionEvent event) {
 		Object src = event.getSource();
 

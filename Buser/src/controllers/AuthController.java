@@ -12,7 +12,7 @@ public class AuthController {
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	private static final Pattern pattern = Pattern.compile(EMAIL_PATTERN, Pattern.CASE_INSENSITIVE);
 
-	public static String validatesUserData(String name, String email, String phone, String address) {
+	public static String validatesUserData(String name, String email, String password, String phone, String address) {
 		String errorMessage = "";
 
 		if (!isValidName(name)) {
@@ -21,6 +21,10 @@ public class AuthController {
 
 		if (!isValidEmail(email)) {
 			errorMessage += "Email inválido\n";
+		}
+
+		if (!isValidPassword(password)) {
+			errorMessage += "Senha inválida. É necessário: letras maiúsculas, letras minúsculas, caracteres especiais, ter entre 8 e 20 caracteres\n";
 		}
 
 		if (!isValidPhone(phone)) {
@@ -36,11 +40,11 @@ public class AuthController {
 
 	public static String validatesCompanyData(Company company) {
 		String errorMessage = "";
-		String userErrorMessage = validatesUserData(company.getName(), company.getEmail(), company.getPhoneNumber(),
-				company.getAdress());
+		String userErrorMessage = validatesUserData(company.getName(), company.getEmail(), company.getPassword(),
+				company.getPhoneNumber(), company.getAdress());
 
 		if (!isValidCNPJ(company.getCNPJ())) {
-			errorMessage += "CNPJ inválido, digite apenas númeroso\n";
+			errorMessage += "CNPJ inválido, digite apenas números\n";
 		}
 
 		if (!isValidCorporateName(company.getCorporateName())) {
@@ -52,8 +56,8 @@ public class AuthController {
 
 	public static String validatesClientData(Client client) {
 		String errorMessage = "";
-		String userErrorMessage = validatesUserData(client.getName(), client.getEmail(), client.getPhoneNumber(),
-				client.getAdress());
+		String userErrorMessage = validatesUserData(client.getName(), client.getEmail(), client.getPassword(),
+				client.getPhoneNumber(), client.getAdress());
 
 		if (!isValidCPF(client.getCpf())) {
 			errorMessage += "CPF inválido, digite apenas números\n";
@@ -72,7 +76,12 @@ public class AuthController {
 
 	public static boolean isValidEmail(String email) {
 		Matcher matcher = pattern.matcher(email);
-	    return matcher.matches();
+		return matcher.matches();
+	}
+
+	public static boolean isValidPassword(String password) {
+		String passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).{8,20}$";
+		return password.matches(passwordRegex);
 	}
 
 	public static boolean isValidPhone(String phone) {

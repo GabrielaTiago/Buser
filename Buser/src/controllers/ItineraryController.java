@@ -122,56 +122,35 @@ public class ItineraryController {
 	}
 
 	public static ArrayList<Itinerary> getAllItinerarys() {
-		System.out.println("------------------------------------------");
-		System.out.println("Lista de todos os itinerários disponíveis");
-		System.out.println("------------------------------------------\n");
+		ArrayList<Itinerary> itineraries = Database.getItinaraiesData();
 
-		ArrayList<Itinerary> itinerarys = Database.getItinaraiesData();
-
-		for (int i = 0; i < itinerarys.size(); i++) {
-			displayItineraryData(itinerarys.get(i));
-			System.out.println("*\n");
-		}
-		return itinerarys;
+		return itineraries;
 	}
 
-	public static void getItinerariesByDay(LocalDate date, ArrayList<Itinerary> itineraries) {
-		System.out.println("------------------------------------------------------------");
-		System.out.println("Lista de todos os itinerários disponíveis na data " + date);
-		System.out.println("------------------------------------------------------------\n");
-
-		for (int i = 0; i < itineraries.size(); i++) {
-			if (itineraries.get(i).getDate().equals(date)) {
-				displayItineraryData(itineraries.get(i));
-				System.out.println("*\n");
-			}
-		}
-	}
-
-	public static void getItinerariesByOrigin(String origin, ArrayList<Itinerary> itineraries) {
-		System.out.println("-----------------------------------------------------------------");
-		System.out.println("Lista de todos os itinerários disponíveis saindo de " + origin);
-		System.out.println("-----------------------------------------------------------------\n");
+	public static ArrayList<Itinerary> getItinerariesByOrigin(String origin) {
+		ArrayList<Itinerary> itineraries = Database.getItinaraiesData();
+		ArrayList<Itinerary> filteredItineraries = new ArrayList<>();
 
 		for (int i = 0; i < itineraries.size(); i++) {
 			if (itineraries.get(i).getOrigin().equals(origin)) {
-				displayItineraryData(itineraries.get(i));
-				System.out.println("*\n");
+				filteredItineraries.add(itineraries.get(i));
 			}
 		}
+
+		return filteredItineraries;
 	}
 
-	public static void getItinerariesByDestination(String destination, ArrayList<Itinerary> itineraries) {
-		System.out.println("-----------------------------------------------------------------");
-		System.out.println("Lista de todos os itinerários disponíveis indo para " + destination);
-		System.out.println("-----------------------------------------------------------------\n");
+	public static ArrayList<Itinerary> getItinerariesByDestination(String destination) {
+		ArrayList<Itinerary> itineraries = Database.getItinaraiesData();
+		ArrayList<Itinerary> filteredItineraries = new ArrayList<>();
 
 		for (int i = 0; i < itineraries.size(); i++) {
 			if (itineraries.get(i).getDestination().equals(destination)) {
-				displayItineraryData(itineraries.get(i));
-				System.out.println("*\n");
+				filteredItineraries.add(itineraries.get(i));
 			}
 		}
+
+		return filteredItineraries;
 	}
 	public static Itinerary getItinerariesByID(ArrayList<Itinerary> companyItineraries, int id) {
 		Itinerary itinerary = null;
@@ -183,13 +162,16 @@ public class ItineraryController {
 		return itinerary;
 	}
 
-	public static void displayItineraryData(Itinerary itinerary) {
-		System.out.println("Id: " + itinerary.getId());
-		System.out.println("Empresa: " + itinerary.getCompany().getName());
-		System.out.println("Cidade de origem: " + itinerary.getOrigin());
-		System.out.println("Cidade de destino: " + itinerary.getDestination());
-		System.out.println("Data da viagem: " + itinerary.getDate());
-		System.out.println("Horário de partida: " + itinerary.getDepartureDate());
-		System.out.println("Horário de chegada: " + itinerary.getArrivalDate() + "\n");
+	public static ArrayList<Itinerary> getItinerariesByDate(LocalDate date) {
+		ArrayList<Itinerary> itineraries = Database.getItinaraiesData();
+		ArrayList<Itinerary> filteredItineraries = new ArrayList<>();
+
+		for (int i = 0; i < itineraries.size(); i++) {
+			if (itineraries.get(i).getDate().equals(date)) {
+				filteredItineraries.add(itineraries.get(i));
+			}
+		}
+
+		return filteredItineraries;
 	}
 }

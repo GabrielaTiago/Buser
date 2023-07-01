@@ -9,15 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
 import javax.swing.*;
 
-import controllers.AuthController;
-import controllers.ItineraryController;
 import controllers.TicketController;
 import models.Company;
-import models.Itinerary;
 
 public class EditTicketScreen implements ActionListener{
 	//array given to JlstSeatType
@@ -26,19 +21,21 @@ public class EditTicketScreen implements ActionListener{
 	private static JTextField priceField  = new JTextField(10);
 	private static JTextField seatNumberField = new JTextField(10);;
 	private static JComboBox seatTypeList = new JComboBox<String>(seatTypes);
-	private static JButton createButton = new JButton();
-	private static JButton updateButton  = new JButton();
+	private JButton createButton = new JButton();
+	private JButton updateButton  = new JButton();
 	private static JButton exitButton = new JButton();
 	private static Company company;
 	
 	
 	//variables who will store input from JComponents
+	private static int operation;
 	private int seatTypeIndex;
 	private Float price;
 	private int seatNumber;
 	private int itineraryId;
 	
-	EditTicketScreen(int id, Company company) {
+	EditTicketScreen(int operation, int id, Company company) {
+		EditTicketScreen.operation = operation;
 		itineraryId = id;
 		EditTicketScreen.company = company;
 		
@@ -63,8 +60,14 @@ public class EditTicketScreen implements ActionListener{
 	    JPanel buttonPanel = new JPanel();
 
 		exitButton.setBorderPainted(false);
-	    buttonPanel.add(button(createButton, "Criar"));
-	    buttonPanel.add(button(updateButton, "Atualizar"));
+		if (operation == 0) {
+			buttonPanel.add(button(createButton, "Criar"));
+			createButton.addActionListener(this);
+		}
+		if (operation == 1) {
+			buttonPanel.add(button(updateButton, "Atualizar"));
+			updateButton.addActionListener(this);
+		}
 	    buttonPanel.add(goBack(exitButton, "Voltar"));
 	    buttonPanel.setLayout(new GridLayout(3,1,5,10));
 	    	
@@ -76,8 +79,6 @@ public class EditTicketScreen implements ActionListener{
 	    window.setContentPane(container);
 	    window.setVisible(true);
 	    
-	    createButton.addActionListener(this);
-	    updateButton.addActionListener(this);
 	    exitButton.addActionListener(this);
 	}
 
@@ -92,21 +93,32 @@ public class EditTicketScreen implements ActionListener{
 			if (ae.getSource() == createButton) {
 				try {
 					getWindowValues();
-					TicketController.createTicket(price, seatTypeIndex, seatNumber, itineraryId);
-					mensagemSucessoCriar();
+					if (TicketController.checkTicketData(price, seatNumber) == true) {
+						TicketController.createTicket(price, seatTypeIndex, seatNumber, itineraryId);
+						mensagemSucessoCriar();
+					}
+					else {
+						mensagemErroCadastro(1);
+					}
 				} catch (NumberFormatException exception) {
-					mensagemErroCadastro();
+					mensagemErroCadastro(0);
 				}
 			}
 			else if (ae.getSource() == updateButton) {
 				try {
 					getWindowValues();
-					int ticketIndex = TicketController.getUpdatingTicketIndex();
-					TicketController.updateTicket(price, seatTypeIndex, seatNumber, ticketIndex, itineraryId);
-					mensagemSucessoAtualizar(ticketIndex);
-				} 
+					if (TicketController.checkTicketData(price, seatNumber) == true) {
+						int ticketIndex = TicketController.getUpdatingTicketIndex();
+						TicketController.updateTicket(price, seatTypeIndex, seatNumber, ticketIndex, itineraryId);
+						mensagemSucessoAtualizar(ticketIndex);
+				
+					}
+					else {
+						mensagemErroCadastro(1);
+					}
+				}
 				catch (NumberFormatException exception) {
-					mensagemErroCadastro();
+					mensagemErroCadastro(0);
 				}
 			}
 			if (ae.getSource() == exitButton) {
@@ -165,15 +177,24 @@ public class EditTicketScreen implements ActionListener{
 		seatNumber = Integer.parseInt(seatNumberField.getText());
 	}
 
-	private void mensagemErroCadastro() {
+	private void mensagemErroCadastro(int error) {
+		if (error == 0) {
 		JOptionPane.showMessageDialog(null,"ERRO AO SALVAR OS DADOS!\n "
 				+ "Pode ter ocorrido um dos dois erros a seguir:  \n"
-				+ "1. Preco ou Poltrona não foram preenchidos \n"
-				+ "2. Preco nao contem apenas numeros", null, 
+				+ "1. Preço ou Poltrona não foram preenchidos \n"
+				+ "2. Preço não contem apenas numeros", null, 
 				JOptionPane.ERROR_MESSAGE);
+		}
+		if (error == 1) {
+			JOptionPane.showMessageDialog(null,"ERRO AO SALVAR OS DADOS!\n "
+					+ "Pode ter ocorrido um dos dois erros a seguir:  \n"
+					+ "1. Preço ou Poltrona são iguais a zero \n"
+					+ "2. Preço ou Poltrona são negativos", null, 
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	private void mensagemSucessoAtualizar(int i) {
-		JOptionPane.showMessageDialog(null,"Passagem de index " + i + " Atualizada Com Sucesso!\n ",
+		JOptionPane.showMessageDialog(null,"Passagem de index " + (i) + " Atualizada Com Sucesso!\n ",
 				null, JOptionPane.INFORMATION_MESSAGE);
 	}
 	private void mensagemSucessoCriar() {

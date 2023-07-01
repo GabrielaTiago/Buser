@@ -58,22 +58,6 @@ public class TicketController {
 		}
 		return seatType;
 	}
-	public static ArrayList<Ticket> getTickets(){
-		ArrayList<Ticket> t = Database.getTicketsData();
-		return t;
-	}
-	
-	public static String[] getIndexes() {
-		String[] v = new String[getTicketsSize()];
-		for (int i = 0; i < getTicketsSize(); i++) {
-			v[i] =  String.valueOf(i);
-		}
-		return v;
-	}
-	
-	public static int getTicketsSize() {
-		return getTickets().size();
-	}
 
 	public static int getUpdatingTicketIndex() {
 		return updatingTicketIndex;

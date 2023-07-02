@@ -8,12 +8,12 @@ import controllers.AuthController;
 import models.Client;
 
 /**
- * Essa classe é responsável pela tela usada para cadastrar os clientes no
- * sistema. Inclui campos para inserir nome, email, telefone, endereço, CPF e
- * opção de gratuidade. Também possui botões para cadastrar e um link para a
- * tela de cadastro de empresa.
+ * Screen used to register the client in the application
  * 
  * @author Gabriela Tiago
+ * @since 2023
+ * @version 1.4
+ * 
  */
 public class ClientAuthScreen implements ActionListener {
 
@@ -31,11 +31,7 @@ public class ClientAuthScreen implements ActionListener {
 	private static JButton linkTo = new JButton();
 
 	/**
-	 * Adiciona compenentes ao JFrame window para o cadatsro de clientes.
-	 * 
-	 * @see #button(JButton, String)
-	 * @see #linkButton(JButton, String)
-	 * @see #textField(JTextField, String)
+	 * Adds components to the screen
 	 */
 	public ClientAuthScreen() {
 		title.setFont(new Font("Serif", Font.BOLD, 36));
@@ -115,18 +111,18 @@ public class ClientAuthScreen implements ActionListener {
 	}
 
 	/**
-	 * Configura um botão com o texto fornecido e configurações de estilo
-	 * personalizadas, que altera a cor de fundo do botão quando o cursor do mouse
-	 * passa por cima e a restaura quando o mouse sai.
+	 * Sets up custom styles and events for JTextField component.Adding a
+	 * placeholder inside the component and changing the default color of the text
+	 * at different times
 	 * 
-	 * @param button o botão a ser configurado
-	 * @param text   o texto a ser exibido no botão
-	 * @return o botão configurado
+	 * @param textField   Text field to be configured
+	 * @param placeholder Text to display as placeholder
+	 * 
+	 * @return The configured component
 	 */
 	private JTextField textField(JTextField textField, String placeholder) {
 		textField.setOpaque(false);
 		textField.setPreferredSize(new Dimension(textField.getPreferredSize().width, 30));
-
 		textField.setForeground(new Color(117, 117, 138));
 		textField.setText(placeholder);
 
@@ -151,6 +147,15 @@ public class ClientAuthScreen implements ActionListener {
 		return textField;
 	}
 
+	/**
+	 * Sets up custom styles and events for JPasswordField component. Replacing the
+	 * initial censor for placeholder text, then adding inside the component.
+	 * 
+	 * @param passwordField Password field to be configured
+	 * @param placeholder   Text to display as placeholder
+	 * 
+	 * @return The configured component
+	 */
 	private JPasswordField passwordField(JPasswordField passwordField, String placeholder) {
 		passwordField.setOpaque(false);
 		passwordField.setPreferredSize(new Dimension(passwordField.getPreferredSize().width, 30));
@@ -182,12 +187,12 @@ public class ClientAuthScreen implements ActionListener {
 	}
 
 	/**
-	 * Configura uma caixa de seleção do tipo JComboBox com opções de gratuidade.
+	 * Sets up a selection box of type JComboBox with gratuity options
 	 *
-	 * @param comboBox A caixa de seleção a ser configurada.
-	 * @param label    O rótulo a ser exibido como a primeira opção da caixa de
-	 *                 seleção.
-	 * @return A caixa de seleção configurada.
+	 * @param comboBox Selection box to be configured
+	 * @param label    Label displayed as the first option in the selection box
+	 * 
+	 * @return The configured component
 	 */
 	private JComboBox<String> selectGratuityOption(JComboBox<String> comboBox, String label) {
 		if (comboBox.getItemCount() == 0) {
@@ -205,13 +210,14 @@ public class ClientAuthScreen implements ActionListener {
 	}
 
 	/**
-	 * Configura um botão com o texto fornecido e configurações de estilo
-	 * personalizadas, que altera a cor de fundo do botão quando o cursor do mouse
-	 * passa por cima e a restaura quando o mouse sai.
+	 * Custom style settings and events for JButton component. Changing the
+	 * background and text color, set height and font size. Adding events when the
+	 * mouse cursor passes over and restoring when the mouse exits.
 	 * 
-	 * @param button o botão a ser configurado
-	 * @param text   o texto a ser exibido no botão
-	 * @return o botão configurado
+	 * @param button Button to be configured
+	 * @param text   Text to be displayed in the button
+	 * 
+	 * @return The configured component
 	 */
 	private JButton button(JButton button, String text) {
 		button.setText(text);
@@ -238,13 +244,14 @@ public class ClientAuthScreen implements ActionListener {
 	}
 
 	/**
-	 * Configura um botão com o texto fornecido e configura com um estilo
-	 * personalizado, sublinhando o botão quando o cursor do mouse passa por cima e
-	 * voltando ao normal quando o mouse sai.
+	 * Custom style settings and events for JButton component. Add underlining the
+	 * button when the mouse cursor passes over it, and returning to normal when the
+	 * mouse leaves.
 	 * 
-	 * @param button o botão a ser configurado
-	 * @param text   o texto a ser exibido no botão
-	 * @return o botão configurado
+	 * @param button Button to be configured
+	 * @param text   Text to be displayed in the button
+	 * 
+	 * @return The configured component
 	 */
 	private JButton linkButton(JButton linkButton, String text) {
 		linkButton.setText(text);
@@ -269,15 +276,15 @@ public class ClientAuthScreen implements ActionListener {
 	}
 
 	/**
-	 * Trata os eventos de ação do botão de cadastro e do link para o cadastro de
-	 * empresa. Caso, os dados inseridos sejam validados, o cadastro é realizado,
-	 * caso contrário, uma mensagem de erro será exibida na tela
+	 * Handles the screen action events
 	 * 
-	 * @param event o evento de ação
+	 * @param event Action Event
 	 */
 	public void actionPerformed(ActionEvent event) {
 		Object src = event.getSource();
 
+		// Click on the client registration button, takes the data from the text and
+		// selection components and sends it to the validation.
 		if (src == registerButton) {
 			String name = nameField.getText();
 			String email = emailField.getText();
@@ -290,6 +297,7 @@ public class ClientAuthScreen implements ActionListener {
 			Client clientData = new Client(name, email, password, phone, address, cpf, gratuityType);
 			String errorMessage = AuthController.validatesClientData(clientData);
 
+			// If the data is valid, the login screen opens
 			if (errorMessage.isEmpty()) {
 				JOptionPane.showMessageDialog(window, "Cadastro realizado com sucesso!");
 				AuthController.registerClient(clientData);
@@ -300,11 +308,13 @@ public class ClientAuthScreen implements ActionListener {
 			}
 		}
 
+		// Click the client login button, opens the client login screen
 		if (src == loginButton) {
 			ClientAuthScreen.window.dispose();
 			new LoginClientScreen();
 		}
 
+		// Click on the company registration button, the company registration screen opens
 		if (src == linkTo) {
 			ClientAuthScreen.window.dispose();
 			new CompanyAuthScreen();

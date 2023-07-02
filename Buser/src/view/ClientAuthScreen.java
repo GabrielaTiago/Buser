@@ -248,8 +248,8 @@ public class ClientAuthScreen implements ActionListener {
 	 * button when the mouse cursor passes over it, and returning to normal when the
 	 * mouse leaves.
 	 * 
-	 * @param button Button to be configured
-	 * @param text   Text to be displayed in the button
+	 * @param linkButton Button to be configured
+	 * @param text       Text to be displayed in the button
 	 * 
 	 * @return The configured component
 	 */
@@ -283,8 +283,8 @@ public class ClientAuthScreen implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		Object src = event.getSource();
 
-		// Click on the client registration button, takes the data from the text and
-		// selection components and sends it to the validation.
+		// Click the customer registration button, take the data from the text and
+		// selection components, and submit it for validation.
 		if (src == registerButton) {
 			String name = nameField.getText();
 			String email = emailField.getText();

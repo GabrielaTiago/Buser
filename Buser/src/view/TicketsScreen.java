@@ -23,7 +23,7 @@ public class TicketsScreen implements ActionListener {
 	private static JButton goBackButton = new JButton();
 	private static JButton ticketEditionButton = new JButton();
 	private static ArrayList<Ticket> itineraryTickets = new ArrayList<Ticket>();
-	private static AllItinerariesContainer allTicketsContainer;
+	private static WrapperContainer allTicketsContainer;
 	private static Company company;
 	private static int itineraryId;
 	/**
@@ -68,7 +68,7 @@ public class TicketsScreen implements ActionListener {
 		gbc.gridwidth = 1;
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		allTicketsContainer = new AllItinerariesContainer();
+		allTicketsContainer = new WrapperContainer();
 		populateTickets(itineraryTickets);
 		listContainer.add(allTicketsContainer, gbc);
 
@@ -112,12 +112,12 @@ public class TicketsScreen implements ActionListener {
 			label.setForeground(new Color(117, 117, 138));
 			emptyContainer.add(label);
 
-			allTicketsContainer.addItinerary(emptyContainer);
+			allTicketsContainer.addComponents(emptyContainer);
 		} else {
 			for (int i = 0; i < tickets.size(); i++) {
 				Ticket ticket = tickets.get(i);
 				JPanel ticketContainer = ticket(i, ticket.getPrice(), ticket.getSeatNumber(), ticket.getSeatTypeString());
-				allTicketsContainer.addItinerary(ticketContainer);
+				allTicketsContainer.addComponents(ticketContainer);
 			}
 		}
 	}

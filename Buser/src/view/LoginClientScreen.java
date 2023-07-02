@@ -242,8 +242,8 @@ public class LoginClientScreen implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		Object src = event.getSource();
 
-		// Click the client login button, take the data from the text fields components,
-		// and submit it for validation.
+		// Click the client login button, takes the data from the text fields components,
+		// and submit it for validation
 		if (src == loginButton) {
 			String email = emailField.getText();
 			String password = passwordField.getText();

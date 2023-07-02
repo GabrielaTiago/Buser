@@ -92,7 +92,7 @@ class JUnitTests {
 		Itinerary newItinerary = ItineraryController.getCompanyItineraries(company.getName()).get(0);
 		// the itinerary that will be used for comparison
 		Itinerary referenceItinerary = new Itinerary("Anápolis", "Brasília", date, "10:00", "14:00", null);
-		ArrayList<Itinerary> itineraries = ItineraryController.getAllItinerarys();
+		ArrayList<Itinerary> itineraries = ItineraryController.getCompanyItineraries(company.getName());
 
 		assertTrue(newItinerary.getArrivalDate() == referenceItinerary.getArrivalDate());
 		assertTrue(newItinerary.getDepartureDate() == referenceItinerary.getDepartureDate());

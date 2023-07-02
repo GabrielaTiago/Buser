@@ -10,18 +10,14 @@ public abstract class User {
 	private String name;
 	private String phoneNumber;
 	private String email;
+	private String password;
 	private String address;
-/**
- * Construtor da classe user
- * @param name
- * @param phone
- * @param email
- * @param address
- */
-	public User(String name, String phone, String email, String address) {
+
+	public User(String name, String email, String password, String phone, String address) {
 		this.setName(name);
-		this.setPhoneNumber(phone);
 		this.setEmail(email);
+		this.setPassword(password);
+		this.setPhoneNumber(phone);
 		this.setAdress(address);
 	}
 
@@ -33,20 +29,28 @@ public abstract class User {
 		this.name = name;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	public String getAdress() {

@@ -7,7 +7,7 @@ public class Client extends User {
 	private String gratuity;
 	private GratuityType gratuityType;
 	private GratuityDocument gratuityDocument;
-	private ArrayList<Ticket> tickets;
+	private ArrayList<Ticket> clientTickets;
 
 	public enum GratuityType {
 		noGratuity, elderly, phisicallyChallenged
@@ -17,12 +17,12 @@ public class Client extends User {
 		birthDate, freePass
 	}
 
-	public Client(String name, String phone, String email, String address, String cpf, GratuityType gratuityType,
-			ArrayList<Ticket> tickets) {
-		super(name, phone, email, address);
+	public Client(String name, String email, String password, String phone, String address, String cpf,
+			GratuityType gratuityType, ArrayList<Ticket> clientTickets) {
+		super(name, email, password, phone, address);
 
 		this.setCpf(cpf);
-		this.setTickets(tickets);
+		this.setClientTickets(clientTickets);
 
 		// checking gratuity category the client applies to
 		// and applying it to all existing tickets if so
@@ -38,12 +38,16 @@ public class Client extends User {
 
 	}
 
-	public Client(String name, String phone, String email, String address, String cpf, String gratuityType) {
-		super(name, phone, email, address);
+	public Client(String name, String email, String password, String phone, String address, String cpf,
+			String gratuityType) {
+		super(name, email, password, phone, address);
 
 		setCpf(cpf);
 		setGratuity(gratuityType);
+		validateGratuity(gratuityType);
+	}
 
+	public void validateGratuity(String gratuityType) {
 		if (gratuityType == "Idade") {
 			setGratuityType(GratuityType.elderly);
 			setGratuityDocument(GratuityDocument.birthDate);
@@ -52,6 +56,14 @@ public class Client extends User {
 			setGratuityDocument(GratuityDocument.freePass);
 		} else {
 			setGratuityType(GratuityType.elderly);
+		}
+	}
+
+	private void applyGratuity() {
+		// is called only inside the constructor if the client
+		// has the gratuity right
+		for (int i = 0; i < this.getClientTickets().size(); i++) {
+			this.getClientTickets().get(i).setPrice(0f);
 		}
 	}
 
@@ -87,11 +99,11 @@ public class Client extends User {
 		this.gratuityDocument = gratuityDocument;
 	}
 
-	public ArrayList<Ticket> getTickets() {
-		return tickets;
+	public ArrayList<Ticket> getClientTickets() {
+		return clientTickets;
 	}
 
-	public void setTickets(ArrayList<Ticket> tickets) {
-		this.tickets = tickets;
+	public void setClientTickets(ArrayList<Ticket> clientTickets) {
+		this.clientTickets = clientTickets;
 	}
 }

@@ -23,7 +23,7 @@ public class HomeScreen implements ActionListener {
 	private static JButton searchButton = new JButton();
 	private static JButton dashboardButton = new JButton();
 	private static Boolean companyIsLoggedIn;
-	private static AllItinerariesContainer allItinerariesContainer;
+	private static WrapperContainer allItinerariesContainer;
 	private static Company company;
 	private static Client client;
 
@@ -56,7 +56,7 @@ public class HomeScreen implements ActionListener {
 		searchContainer.add(button(searchButton, "Buscar"));
 
 		listContainer.add(searchContainer, gbc);
-		allItinerariesContainer = new AllItinerariesContainer();
+		allItinerariesContainer = new WrapperContainer();
 		populateItineraries(itineraries);
 		gbc.gridy = 1;
 		listContainer.add(allItinerariesContainer, gbc);
@@ -166,13 +166,13 @@ public class HomeScreen implements ActionListener {
 			label.setForeground(new Color(117, 117, 138));
 			emptyContainer.add(label);
 
-			allItinerariesContainer.addItinerary(emptyContainer);
+			allItinerariesContainer.addComponents(emptyContainer);
 		} else {
 			for (int i = 0; i < itineraries.size(); i++) {
 				Itinerary it = itineraries.get(i);
 				JPanel itineraryContainer = itinerary(it.getId(), it.getCompany().getName(), it.getOrigin(),
 						it.getDestination(), it.getDate(), it.getDepartureDate(), it.getArrivalDate());
-				allItinerariesContainer.addItinerary(itineraryContainer);
+				allItinerariesContainer.addComponents(itineraryContainer);
 			}
 		}
 	}

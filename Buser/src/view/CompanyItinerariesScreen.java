@@ -21,6 +21,7 @@ public class CompanyItinerariesScreen implements ActionListener {
 	private static JFrame window = new JFrame("Buser");
 	private static JLabel title = new JLabel("Meus Itinerários Cadastrados");
 	private static JButton goBackButton = new JButton();
+	private static WrapperContainer allItinerariesContainer;
 	private static ArrayList<Itinerary> companyItineraries;
 	private static Company company;
 	/**
@@ -37,7 +38,6 @@ public class CompanyItinerariesScreen implements ActionListener {
 	 * @see #ticketsButton(int)
 	 */
 	public CompanyItinerariesScreen(Company company) {
-		int gbcLocal = 0;
 		CompanyItinerariesScreen.company = company;
 		companyItineraries = ItineraryController.getCompanyItineraries(company.getName());
 
@@ -58,35 +58,18 @@ public class CompanyItinerariesScreen implements ActionListener {
 		gbc.anchor = GridBagConstraints.CENTER;
 		listContainer.add(title, gbc);
 
+		gbc.gridx = 1;
 		gbc.gridy = 1;
 		gbc.gridwidth = 1;
-		gbc.anchor = GridBagConstraints.WEST;
-
-		gbc.gridx = 1;
 		gbc.weightx = 1.0;
+		gbc.anchor = GridBagConstraints.WEST;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 
-		if (companyItineraries.isEmpty()) {
-			gbcLocal = 1;
-			JPanel emptyContainer = new JPanel();
-			emptyContainer.setBackground(null);
-			emptyContainer.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
-			JLabel label = new JLabel("Ainda não possui itinerários cadastrados no momento :/");
-			label.setForeground(new Color(117, 117, 138));
-			emptyContainer.add(label);
-			listContainer.add(emptyContainer, gbc);
-		} else {
-			for (int i = 0; i < companyItineraries.size(); i++) {
-				Itinerary it = companyItineraries.get(i);
-				JPanel itineraryContainer = itinerary(it.getId(), it.getOrigin(), it.getDestination(), it.getDate(),
-						it.getDepartureDate(), it.getArrivalDate());
-				gbcLocal = i + 1;
-				gbc.gridy = gbcLocal;
-				listContainer.add(itineraryContainer, gbc);
-			}
-		}
+		allItinerariesContainer = new WrapperContainer();
+		populateItineraries(companyItineraries);
+		listContainer.add(allItinerariesContainer, gbc);
 
-		gbc.gridy = gbcLocal + 1;
+		gbc.gridy = 2;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.anchor = GridBagConstraints.CENTER;
 		listContainer.add(goBack(goBackButton, "Voltar"), gbc);
@@ -95,7 +78,6 @@ public class CompanyItinerariesScreen implements ActionListener {
 
 		window.setContentPane(container);
 		window.setSize(800, 600);
-		window.getContentPane().setBackground(new Color(250, 250, 250));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
@@ -103,6 +85,30 @@ public class CompanyItinerariesScreen implements ActionListener {
 
 		goBackButton.addActionListener(this);
 	}
+
+	private void populateItineraries(ArrayList<Itinerary> itineraries) {
+		allItinerariesContainer.removeAll();
+		allItinerariesContainer.revalidate();
+		allItinerariesContainer.repaint();
+		if (itineraries.isEmpty()) {
+			JPanel emptyContainer = new JPanel();
+			emptyContainer.setBackground(null);
+			emptyContainer.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+			JLabel label = new JLabel("Ainda não possui itinerários cadastrados no momento :/");
+			label.setForeground(new Color(117, 117, 138));
+			emptyContainer.add(label);
+
+			allItinerariesContainer.addComponents(emptyContainer);
+		} else {
+			for (int i = 0; i < itineraries.size(); i++) {
+				Itinerary it = itineraries.get(i);
+				JPanel itineraryContainer = itinerary(it.getId(), it.getOrigin(), it.getDestination(), it.getDate(),
+						it.getDepartureDate(), it.getArrivalDate());
+				allItinerariesContainer.addComponents(itineraryContainer);
+			}
+		}
+	}
+
 	/**
 	 * Método que cria um container para a origem e destino, um container para 
 	 * as datas e horas e outro container para os botões de editar, deletar e lista

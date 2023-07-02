@@ -84,7 +84,7 @@ public class CompanyItinerariesScreen implements ActionListener {
 	/**
 	 * Method that adds the data from the itinerary list to the screen
 	 * 
-	 * @param itineraries An array of routes
+	 * @param itineraries An array of itineraries
 	 */
 	private void populateItineraries(ArrayList<Itinerary> itineraries) {
 		allItinerariesContainer.removeAll();
@@ -253,7 +253,7 @@ public class CompanyItinerariesScreen implements ActionListener {
 		ticketsButton.setBackground(new Color(241, 16, 117));
 		ticketsButton.setBorder(BorderFactory.createEmptyBorder());
 		ticketsButton.setPreferredSize(new Dimension(ticketsButton.getPreferredSize().width, 30));
-		ticketsButton.setFont(ticketsButton.getFont().deriveFont(14f));
+		ticketsButton.setFont(ticketsButton.getFont().deriveFont(12f));
 		ticketsButton.setForeground(Color.WHITE);
 
 		ticketsButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -281,8 +281,8 @@ public class CompanyItinerariesScreen implements ActionListener {
 	 * button when the mouse cursor passes over it, and returning to normal when the
 	 * mouse leaves.
 	 * 
-	 * @param linkButton Button to be configured
-	 * @param text       Text to be displayed in the button
+	 * @param goBackButton Button to be configured
+	 * @param text         Text to be displayed in the button
 	 * 
 	 * @return The configured component
 	 */

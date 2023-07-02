@@ -252,9 +252,9 @@ public class CompanyAuthScreen implements ActionListener {
 	}
 
 	/**
-	 *  Main method. Used for code execution
+	 * Main method. Used for code execution
 	 * 
-	 * @param args 
+	 * @param args
 	 */
 	public static void main(String[] args) {
 		new CompanyAuthScreen();
@@ -292,18 +292,19 @@ public class CompanyAuthScreen implements ActionListener {
 			} else {
 				JOptionPane.showMessageDialog(window, "Erro(s) de validação:\n\n" + errorMessage);
 			}
-
-			// Click the company login button, opens the company login screen
-			if (src == loginButton) {
-				CompanyAuthScreen.window.dispose();
-				new LoginCompanyScreen();
-			}
-
-			// Click on the client registration button, the client registration screen opens
-			if (src == linkTo) {
-				CompanyAuthScreen.window.dispose();
-				new ClientAuthScreen();
-			}
 		}
+
+		// Click the company login button, opens the company login screen
+		if (src == loginButton) {
+			CompanyAuthScreen.window.dispose();
+			new LoginCompanyScreen();
+		}
+
+		// Click on the client registration button, the client registration screen opens
+		if (src == linkTo) {
+			CompanyAuthScreen.window.dispose();
+			new ClientAuthScreen();
+		}
+
 	}
 }

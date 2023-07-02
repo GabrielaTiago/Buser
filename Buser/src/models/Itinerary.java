@@ -4,11 +4,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * Classe que representa um itinerário de uma empresa. Possui atributos de
- * cidade de origem, cidade de destino, data de partida, hora de partida, hora
- * de chegada e as passagens associadas ao itinerário
+ * Itinerary class,
  * 
  * @author Gabriela Tiago
+ * @since 2023
+ * @version 1.2
+ * 
  */
 public class Itinerary {
 	private static int nextId = 1;
@@ -23,14 +24,14 @@ public class Itinerary {
 	private ArrayList<Ticket> tickets;
 
 	/**
-	 * Construtor da classe Itinerary.
+	 * Class constructor for instantiating a new Itinerary
 	 *
-	 * @param origin        a origem do itinerário
-	 * @param destination   o destino do itinerário
-	 * @param date          a data do itinerário
-	 * @param departureDate a data de partida do itinerário
-	 * @param arrivalDate   a data de chegada do itinerário
-	 * @param company       a empresa do itinerário
+	 * @param origin        The itinerary origin
+	 * @param destination   The itinerary destination
+	 * @param date          The itinerary date
+	 * @param departureDate The departure time of the itinerary
+	 * @param arrivalDate   The arrival time of the itinerary
+	 * @param company       The company owner of the itinerary
 	 */
 	public Itinerary(String origin, String destination, LocalDate date, String departureDate, String arrivalDate,
 			Company company) {

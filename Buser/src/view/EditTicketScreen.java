@@ -13,67 +13,66 @@ import javax.swing.*;
 
 import controllers.TicketController;
 import models.Company;
+
 /**
- * Essa classe é a responsável pela tela que nos permite criar uma nova
- * passagem ou de editar uma passagem existente, sendo possível voltar
- * para a tela anterior que lista todas as passagens de um determinado
- * itinerário
+ * This class is responsible for the screen that allows us to create a new
+ * ticket or edit an existing ticket. It also provides the option to go back to
+ * the previous screen that lists all the tickets of a specific itinerary.
+ * 
  * @author Gabriel Fernando
  *
  */
-public class EditTicketScreen implements ActionListener{
-	//array given to JlstSeatType
-	private static String seatTypes[] = {"Executivo", "Semi-Leito", "Leito"};
+public class EditTicketScreen implements ActionListener {
+	// array given to JlstSeatType
+	private static String seatTypes[] = { "Executivo", "Semi-Leito", "Leito" };
 	private static JFrame window = new JFrame("Criar/Atualizar Passagens");
-	private static JTextField priceField  = new JTextField(10);
+	private static JTextField priceField = new JTextField(10);
 	private static JTextField seatNumberField = new JTextField(10);;
 	private static JComboBox seatTypeList = new JComboBox<String>(seatTypes);
 	private JButton createButton = new JButton();
-	private JButton updateButton  = new JButton();
+	private JButton updateButton = new JButton();
 	private static JButton exitButton = new JButton();
 	private static Company company;
-	
-	
-	//variables who will store input from JComponents
-	private static int operation;
+
+	// variables who will store input from JComponents
 	private int seatTypeIndex;
 	private Float price;
 	private int seatNumber;
 	private int itineraryId;
+
 	/**
-	 * O construtor da classe EditTicketScreen adiciona os componentes de 
-	 * preço, tipo de poltrona e número de poltrona à um JFrame, onde podem
-	 * ser inseridos valores de entrada. O parâmetro "operation" permite 
-	 * identificar se é para o botão de criar (int = 0) ou editar (int = 1)
-	 * que devem ser adicionados à tela 
-	 * @param operation operação selecionada para a passagem
-	 * @param id		id do itinerário que possui a passagem
-	 * @param company	compania cadastrada
+	 * The constructor of the EditTicketScreen class adds the components for price,
+	 * seat type, and seat number to a JFrame, where input values can be entered.
+	 * The "operation" parameter allows identifying whether the create button (int =
+	 * 0) or the edit button (int = 1) should be added to the screen.
+	 * 
+	 * @param operation the selected operation for the ticket
+	 * @param id        the id of the itinerary that contains the ticket
+	 * @param company   the registered company
 	 */
 	EditTicketScreen(int operation, int id, Company company) {
-		EditTicketScreen.operation = operation;
 		itineraryId = id;
 		EditTicketScreen.company = company;
-		
-	    JPanel container = new JPanel(new BorderLayout());
-	    container.setBorder(BorderFactory.createEmptyBorder(45, 45, 45, 45));
-	    
-	    //atributes panel 
-	    JLabel priceLabel = new JLabel("Preço: R$");
-	    JLabel seatTypeLabel = new JLabel("Tipo de Poltrona: ");
-	    seatTypeLabel.setToolTipText("Há um adicional de R$10, R$15 e R$20 para os respectivos tipos de poltronas");
-	    JLabel seatNumberLabel = new JLabel("Nº Poltrona: ");
-	    JPanel atributesPanel = new JPanel(new GridLayout(4, 2, 0, 5));
-	    atributesPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-	    atributesPanel.add(priceLabel);
-	    atributesPanel.add(priceField);
-	    atributesPanel.add(seatNumberLabel);
-	    atributesPanel.add(seatNumberField);
-	    atributesPanel.add(seatTypeLabel);
-	    atributesPanel.add(seatTypeList);
-	    
-	    //JPanel for buttons
-	    JPanel buttonPanel = new JPanel();
+
+		JPanel container = new JPanel(new BorderLayout());
+		container.setBorder(BorderFactory.createEmptyBorder(45, 45, 45, 45));
+
+		// atributes panel
+		JLabel priceLabel = new JLabel("Preço: R$");
+		JLabel seatTypeLabel = new JLabel("Tipo de Poltrona: ");
+		seatTypeLabel.setToolTipText("Há um adicional de R$10, R$15 e R$20 para os respectivos tipos de poltronas");
+		JLabel seatNumberLabel = new JLabel("Nº Poltrona: ");
+		JPanel atributesPanel = new JPanel(new GridLayout(4, 2, 0, 5));
+		atributesPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
+		atributesPanel.add(priceLabel);
+		atributesPanel.add(priceField);
+		atributesPanel.add(seatNumberLabel);
+		atributesPanel.add(seatNumberField);
+		atributesPanel.add(seatTypeLabel);
+		atributesPanel.add(seatTypeList);
+
+		// JPanel for buttons
+		JPanel buttonPanel = new JPanel();
 
 		exitButton.setBorderPainted(false);
 		if (operation == 0) {
@@ -84,81 +83,83 @@ public class EditTicketScreen implements ActionListener{
 			buttonPanel.add(button(updateButton, "Atualizar"));
 			updateButton.addActionListener(this);
 		}
-	    buttonPanel.add(goBack(exitButton, "Voltar"));
-	    buttonPanel.setLayout(new GridLayout(3,1,5,10));
-	    	
-	    container.add(atributesPanel, BorderLayout.CENTER);
-	    container.add(buttonPanel, BorderLayout.SOUTH);
-	    
-	    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    window.setSize(650, 450);
-	    window.setContentPane(container);
-	    window.setVisible(true);
-	    
-	    exitButton.addActionListener(this);
+		buttonPanel.add(goBack(exitButton, "Voltar"));
+		buttonPanel.setLayout(new GridLayout(3, 1, 5, 10));
+
+		container.add(atributesPanel, BorderLayout.CENTER);
+		container.add(buttonPanel, BorderLayout.SOUTH);
+
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setSize(650, 450);
+		window.setContentPane(container);
+		window.setVisible(true);
+
+		exitButton.addActionListener(this);
 	}
-/**Este método é responsável por identificar se o botão das funções "voltar", "Criar"
- * ou "Atualizar" foram acionados, e antes das operações de "Criar" e "Atualizar"
- * serem executadas, chama o controlador de passagens para validar os dados
- * @param ae evento capturado pelo actionListener
- */
-	public void actionPerformed(ActionEvent ae) {
-		//listens to an event and then determines from which 
-		//JComponent it came from and what's it supposed to do
-		
-		//the try function will catch an eventual excpetion,
-		//in this case, the exception encountered was leaving the 
-		//price text field empty because it will lead to a NumberFormatException
-		//when trying to change into a float variable.
-			if (ae.getSource() == createButton) {
-				try {
-					getWindowValues();
-					if (TicketController.checkTicketData(price, seatNumber) == true) {
-						TicketController.createTicket(price, seatTypeIndex, seatNumber, itineraryId);
-						mensagemSucessoCriar();
-					}
-					else {
-						mensagemErroCadastro(1);
-					}
-				} catch (NumberFormatException exception) {
-					mensagemErroCadastro(0);
-				}
-			}
-			else if (ae.getSource() == updateButton) {
-				try {
-					getWindowValues();
-					if (TicketController.checkTicketData(price, seatNumber) == true) {
-						int ticketIndex = TicketController.getUpdatingTicketIndex();
-						TicketController.updateTicket(price, seatTypeIndex, seatNumber, ticketIndex, itineraryId);
-						mensagemSucessoAtualizar(ticketIndex);
-				
-					}
-					else {
-						mensagemErroCadastro(1);
-					}
-				}
-				catch (NumberFormatException exception) {
-					mensagemErroCadastro(0);
-				}
-			}
-			if (ae.getSource() == exitButton) {
-				EditTicketScreen.window.dispose();
-				new TicketsScreen(company, itineraryId);
-			}
-	}
+
 	/**
-	 * Configura um botão de voltar com o texto fornecido e o configura com um 
-	 * estilo personalizado, sublinhando o botão quando o cursor do mouse passa por cima 
-	 * e voltando ao normal quando o mouse sai.
-	 * @param goBackButton o botão de voltar para ser configurado
-	 * @param text   o texto a ser exibido no botão
-	 * @return o botão configurado
+	 * This method is responsible for identifying whether the "back", "Create", or
+	 * "Update" buttons have been clicked. Before the "Create" and "Update"
+	 * operations are performed, it calls the ticket controller to validate the
+	 * data.
+	 * 
+	 * @param ae the event captured by the ActionListener
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		// listens to an event and then determines from which
+		// JComponent it came from and what's it supposed to do
+
+		// the try function will catch an eventual excpetion,
+		// in this case, the exception encountered was leaving the
+		// price text field empty because it will lead to a NumberFormatException
+		// when trying to change into a float variable.
+		if (ae.getSource() == createButton) {
+			try {
+				getWindowValues();
+				if (TicketController.checkTicketData(price, seatNumber) == true) {
+					TicketController.createTicket(price, seatTypeIndex, seatNumber, itineraryId);
+					mensagemSucessoCriar();
+				} else {
+					mensagemErroCadastro(1);
+				}
+			} catch (NumberFormatException exception) {
+				mensagemErroCadastro(0);
+			}
+		} else if (ae.getSource() == updateButton) {
+			try {
+				getWindowValues();
+				if (TicketController.checkTicketData(price, seatNumber) == true) {
+					int ticketIndex = TicketController.getUpdatingTicketIndex();
+					TicketController.updateTicket(price, seatTypeIndex, seatNumber, ticketIndex, itineraryId);
+					mensagemSucessoAtualizar(ticketIndex);
+
+				} else {
+					mensagemErroCadastro(1);
+				}
+			} catch (NumberFormatException exception) {
+				mensagemErroCadastro(0);
+			}
+		}
+		if (ae.getSource() == exitButton) {
+			EditTicketScreen.window.dispose();
+			new TicketsScreen(company, itineraryId);
+		}
+	}
+
+	/**
+	 * Configures a goBackButton button with the provided text and custom styling,
+	 * underlining the button when the mouse cursor hovers over it and returning to
+	 * normal when the mouse moves away.
+	 * 
+	 * @param goBackButton the back button to be configured
+	 * @param text         the text to be displayed on the button
+	 * @return the configured button
 	 */
 	private JButton goBack(JButton goBackButton, String text) {
 		goBackButton.setText(text);
 		goBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-	    goBackButton.setBorderPainted(false);
-	    goBackButton.setContentAreaFilled(false);
+		goBackButton.setBorderPainted(false);
+		goBackButton.setContentAreaFilled(false);
 		goBackButton.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -173,13 +174,15 @@ public class EditTicketScreen implements ActionListener{
 		});
 		return goBackButton;
 	}
+
 	/**
-	 * Configura um botão com o texto fornecido e configurações de estilo personalizadas, que
-	 * altera a cor de fundo do botão quando o cursor do mouse passa por cima 
-	 * e a restaura quando o mouse sai.
-	 * @param button o botão a ser configurado
-	 * @param text   o texto a ser exibido no botão
-	 * @return o botão configurado
+	 * Configures a button with the provided text and custom styling settings, which
+	 * changes the background color of the button when the mouse cursor hovers over
+	 * it, and restores the original color when the mouse moves away.
+	 * 
+	 * @param button the button to be configured
+	 * @param text   the text to be displayed on the button
+	 * @return the configured button
 	 */
 	private JButton button(JButton button, String text) {
 		button.setText(text);
@@ -204,54 +207,56 @@ public class EditTicketScreen implements ActionListener{
 
 		return button;
 	}
+
 	/**
-	 * Método responsável por pegar os valores de preço, tipo de poltrona e 
-	 * numero de poltrona que são fornecidos de entrada na tela de edição
+	 * Method responsible for retrieving the values of price, seat type, and seat
+	 * number that are provided as input on the edit screen
 	 */
 	private void getWindowValues() {
-		//get the input values from jcomponents
+		// get the input values from jcomponents
 		price = Float.parseFloat(priceField.getText());
 		seatTypeIndex = seatTypeList.getSelectedIndex();
 		seatNumber = Integer.parseInt(seatNumberField.getText());
 	}
+
 	/**
-	 * Este método é responsável por mostrar uma tela de mensagem de erro,
-	 * avisando que os valores fornecidos não são válidos. Podem ter os seguintes
-	 * tipos de erro: campo vazio, número negativo, valor nulo e campo com
-	 * valor diferente de números
-	 * @param error o número de identificação do erro
+	 * This method is responsible for displaying an error message screen, indicating
+	 * that the provided values are not valid. The possible error types can include:
+	 * empty field, negative number, null value, and field with a non-numeric value.
+	 * 
+	 * @param error the error identification number
 	 */
 	private void mensagemErroCadastro(int error) {
 		if (error == 0) {
-		JOptionPane.showMessageDialog(null,"ERRO AO SALVAR OS DADOS!\n "
-				+ "Pode ter ocorrido um dos dois erros a seguir:  \n"
-				+ "1. Preço ou Poltrona não foram preenchidos \n"
-				+ "2. Preço não contem apenas numeros", null, 
-				JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"ERRO AO SALVAR OS DADOS!\n " + "Pode ter ocorrido um dos dois erros a seguir:  \n"
+							+ "1. Preço ou Poltrona não foram preenchidos \n" + "2. Preço não contem apenas numeros",
+					null, JOptionPane.ERROR_MESSAGE);
 		}
 		if (error == 1) {
-			JOptionPane.showMessageDialog(null,"ERRO AO SALVAR OS DADOS!\n "
-					+ "Pode ter ocorrido um dos dois erros a seguir:  \n"
-					+ "1. Preço ou Poltrona são iguais a zero \n"
-					+ "2. Preço ou Poltrona são negativos", null, 
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"ERRO AO SALVAR OS DADOS!\n " + "Pode ter ocorrido um dos dois erros a seguir:  \n"
+							+ "1. Preço ou Poltrona são iguais a zero \n" + "2. Preço ou Poltrona são negativos",
+					null, JOptionPane.ERROR_MESSAGE);
 		}
 	}
+
 	/**
-	 * Este método avisa que o processo de atualizar uma passagem de index i 
-	 * , da lista do banco de dados, foi concluido
-	 * @param i
+	 * This method notifies that the process of updating a ticket at index i in the
+	 * database's ticket list has been completed.
+	 * 
+	 * @param i the index of the updated ticket
 	 */
 	private void mensagemSucessoAtualizar(int i) {
-		JOptionPane.showMessageDialog(null,"Passagem de index " + (i) + " Atualizada Com Sucesso!\n ",
-				null, JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Passagem de index " + (i) + " Atualizada Com Sucesso!\n ", null,
+				JOptionPane.INFORMATION_MESSAGE);
 	}
+
 	/**
-	 * Este método mostra uma mensagem que comunica que o processo de criar 
-	 * uma passagem foi concluido
+	 * This method displays a message that communicates the completion of the ticket
+	 * creation process
 	 */
 	private void mensagemSucessoCriar() {
-		JOptionPane.showMessageDialog(null,"Passagem criada com sucesso!\n ",
-				null, JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Passagem criada com sucesso!\n ", null, JOptionPane.INFORMATION_MESSAGE);
 	}
 }

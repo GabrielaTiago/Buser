@@ -3,18 +3,18 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 
-public class AllItinerariesContainer extends JPanel {
+public class WrapperContainer extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public AllItinerariesContainer() {
+	public WrapperContainer() {
 		setLayout(new GridBagLayout());
 		setBackground(null);
 	}
 
-	public void addItinerary(JPanel itinerary) {
+	public void addComponents(JPanel itinerary) {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = getComponentCount();
@@ -26,6 +26,3 @@ public class AllItinerariesContainer extends JPanel {
 		add(itinerary, gbc);
 	}
 }
-
-
-

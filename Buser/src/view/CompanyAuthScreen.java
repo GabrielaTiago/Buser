@@ -8,6 +8,11 @@ import controllers.AuthController;
 import database.Database;
 import models.Company;
 
+/**
+ * Essa classe é responsável por criar a interface de cadastro de uma empresa
+ * 
+ * @author Gabriela Tiago
+ */
 public class CompanyAuthScreen implements ActionListener {
 
 	private static JFrame window = new JFrame("Buser");
@@ -23,6 +28,14 @@ public class CompanyAuthScreen implements ActionListener {
 	private static JButton loginButton = new JButton();
 	private static JButton linkTo = new JButton();
 
+	/**
+	 * Construtor que configura os componentes em JPanels que são adicionados ao
+	 * JFrame window, alinhando e configurando o estilo dos componentes da interface
+	 * 
+	 * @see #button(JButton, String)
+	 * @see #linkButton(JButton, String)
+	 * @see #textField(JTextField, String)
+	 */
 	public CompanyAuthScreen() {
 		title.setFont(new Font("Serif", Font.BOLD, 36));
 		title.setHorizontalAlignment(SwingConstants.CENTER);
@@ -100,6 +113,14 @@ public class CompanyAuthScreen implements ActionListener {
 		linkTo.addActionListener(this);
 	}
 
+	/**
+	 * Configura um campo de texto com um texto de espaço reservado, onde quando o
+	 * cursor do teclado está dentro do campo, remove o texto que reserva o espaço
+	 * 
+	 * @param textField   O componente de texto a ser configurado.
+	 * @param placeholder O texto sendo exibido no componente de texto.
+	 * @return O componete de texto configurado.
+	 */
 	private JTextField textField(JTextField textField, String placeholder) {
 		textField.setOpaque(false);
 		textField.setPreferredSize(new Dimension(textField.getPreferredSize().width, 30));
@@ -127,6 +148,15 @@ public class CompanyAuthScreen implements ActionListener {
 		return textField;
 	}
 
+	/**
+	 * Configura um botão com o texto fornecido e configurações de estilo
+	 * personalizadas, que altera a cor de fundo do botão quando o cursor do mouse
+	 * passa por cima e a restaura quando o mouse sai.
+	 * 
+	 * @param button o botão a ser configurado
+	 * @param text   o texto a ser exibido no botão
+	 * @return o botão configurado
+	 */
 	private JButton button(JButton button, String text) {
 		button.setText(text);
 		button.setFocusPainted(false);
@@ -181,6 +211,15 @@ public class CompanyAuthScreen implements ActionListener {
 		return passwordField;
 	}
 
+	/**
+	 * Configura um botão com o texto fornecido e configura com um estilo
+	 * personalizado, sublinhando o botão quando o cursor do mouse passa por cima e
+	 * voltando ao normal quando o mouse sai.
+	 * 
+	 * @param button o botão a ser configurado
+	 * @param text   o texto a ser exibido no botão
+	 * @return o botão configurado
+	 */
 	private JButton linkButton(JButton linkButton, String text) {
 		linkButton.setText(text);
 		linkButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -189,12 +228,10 @@ public class CompanyAuthScreen implements ActionListener {
 
 		linkButton.addMouseListener(new MouseAdapter() {
 
-			@Override
 			public void mouseEntered(MouseEvent e) {
 				linkButton.setText("<html><u>" + text + "</u></html>");
 			}
 
-			@Override
 			public void mouseExited(MouseEvent e) {
 				linkButton.setText(text);
 			}
@@ -208,6 +245,14 @@ public class CompanyAuthScreen implements ActionListener {
 		Database.teste();
 	}
 
+	/**
+	 * Executa uma ação quando um evento é acionado. Se o evento for do botão de
+	 * cadstro, uma instancia de compania é criada com os valores de entrada na
+	 * interface e caso os valores sejam válidos, procede para tela da compania,
+	 * caso contrário, uma mensagem de erro será exibida
+	 * 
+	 * @param event O evento acionado.
+	 */
 	public void actionPerformed(ActionEvent event) {
 		Object src = event.getSource();
 
@@ -231,16 +276,16 @@ public class CompanyAuthScreen implements ActionListener {
 			} else {
 				JOptionPane.showMessageDialog(window, "Erro(s) de validação:\n\n" + errorMessage);
 			}
-		}
 
-		if (src == loginButton) {
-			CompanyAuthScreen.window.dispose();
-			new LoginCompanyScreen();
-		}
+			if (src == loginButton) {
+				CompanyAuthScreen.window.dispose();
+				new LoginCompanyScreen();
+			}
 
-		if (src == linkTo) {
-			CompanyAuthScreen.window.dispose();
-			new ClientAuthScreen();
+			if (src == linkTo) {
+				CompanyAuthScreen.window.dispose();
+				new ClientAuthScreen();
+			}
 		}
 	}
 }

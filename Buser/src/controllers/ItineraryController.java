@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import database.Database;
 import models.Company;
 import models.Itinerary;
+import models.Ticket;
 
 public class ItineraryController {
 
@@ -152,14 +153,17 @@ public class ItineraryController {
 
 		return filteredItineraries;
 	}
-	public static Itinerary getItinerariesByID(ArrayList<Itinerary> companyItineraries, int id) {
-		Itinerary itinerary = null;
+
+	public static ArrayList<Ticket> getItineraryTicketsByID(int id) {
+		ArrayList<Itinerary> companyItineraries = getAllItinerarys();
+		ArrayList<Ticket> tickets = new ArrayList<Ticket>();
+
 		for (int i = 0; i < companyItineraries.size(); i++) {
 			if (companyItineraries.get(i).getId() == id) {
-				itinerary =  companyItineraries.get(i);
+				return companyItineraries.get(i).getTickets();
 			}
 		}
-		return itinerary;
+		return tickets;
 	}
 
 	public static ArrayList<Itinerary> getItinerariesByDate(LocalDate date) {

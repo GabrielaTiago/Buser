@@ -11,12 +11,12 @@ import models.Company;
 import models.Itinerary;
 
 /**
- * A classe CompanyItinerariesScreen é a responsável pela tela que lista todos
- * os itinerários associadas à empresa cadastrada, sendo possível ver os
- * atributos de cada itinerário, os editar ou excluir e listar passagens
- * associadas a um itinerário em específico
+ * Screen that shows the list of itineraries associated with the logged in
+ * company
  * 
- * @author Gabriela Tiago
+ * @author Gabriela Tiago, Gabriel Fernando
+ * @since 2023
+ * @version 1.0
  */
 public class CompanyItinerariesScreen implements ActionListener {
 
@@ -28,18 +28,9 @@ public class CompanyItinerariesScreen implements ActionListener {
 	private static Company company;
 
 	/**
-	 * Construtor da classe que instancia uma tela contendo um container de
-	 * containers com as informações sobre os respectivos itinerários de uma
-	 * empresa, também formata os botões de editar e deletar um itinerário e o de
-	 * listar suas passagem
+	 * Adds components to the screen
 	 * 
-	 * @param company a empresa cadastrada
-	 * @see #actionPerformed(ActionEvent)
-	 * @see #deleteItinerary(int)
-	 * @see #editItinerary(int)
-	 * @see #goBack(JButton, String)
-	 * @see #itinerary(int, String, String, LocalDate, String, String)
-	 * @see #ticketsButton(int)
+	 * @param company Logged in company
 	 */
 	public CompanyItinerariesScreen(Company company) {
 		CompanyItinerariesScreen.company = company;
@@ -81,7 +72,7 @@ public class CompanyItinerariesScreen implements ActionListener {
 		container.add(listContainer);
 
 		window.setContentPane(container);
-		window.setSize(800, 600);
+		window.setSize(800, 700);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
@@ -90,6 +81,11 @@ public class CompanyItinerariesScreen implements ActionListener {
 		goBackButton.addActionListener(this);
 	}
 
+	/**
+	 * Method that adds the data from the itinerary list to the screen
+	 * 
+	 * @param itineraries An array of itineraries
+	 */
 	private void populateItineraries(ArrayList<Itinerary> itineraries) {
 		allItinerariesContainer.removeAll();
 		allItinerariesContainer.revalidate();
@@ -114,17 +110,19 @@ public class CompanyItinerariesScreen implements ActionListener {
 	}
 
 	/**
-	 * Método que cria um container para a origem e destino, um container para as
-	 * datas e horas e outro container para os botões de editar, deletar e lista
-	 * passagens de um itinerário
+	 * Method that creates a itinerary container. It shows origin and destination
+	 * city, date, departure and arrival time information. It has buttons for
+	 * editing or deleting this component.
 	 * 
-	 * @param id            o id do itinerário
-	 * @param origin        a ciadade de origem do itinerário
-	 * @param destination   a cidade de destino do itinerário
-	 * @param date          a data de partida do itinerário
-	 * @param departureTime a hora de partida do itinerário
-	 * @param arrivalTime   a hora de chegada do itinerário
-	 * @return JPanel com as informações de um itinerário e botões de edição
+	 * @param id            Itinerary id
+	 * @param origin        Itinerary city of origin
+	 * @param destination   Itinerary city of destination
+	 * @param date          Itinerary date
+	 * @param departureTime Itinerary departure time
+	 * @param arrivalTime   Itinerary arrival time
+	 * 
+	 * @return JPanel component with the information for a route, along with the
+	 *         edit and delete buttons
 	 */
 	public JPanel itinerary(int id, String origin, String destination, LocalDate date, String departureTime,
 			String arrivalTime) {
@@ -142,9 +140,8 @@ public class CompanyItinerariesScreen implements ActionListener {
 		dateContainer.add(new JLabel("Horário de Partida: " + departureTime));
 		dateContainer.add(new JLabel("Horário de Chegada: " + arrivalTime));
 
-		JPanel actionContainer = new JPanel(new GridLayout(3, 1, 10, 10));
+		JPanel actionContainer = new JPanel(new GridLayout(3, 1, 8, 8));
 		actionContainer.setBackground(null);
-		actionContainer.setPreferredSize(new Dimension(60, actionContainer.getPreferredSize().height));
 		actionContainer.add(editItinerary(id));
 		actionContainer.add(deleteItinerary(id));
 		actionContainer.add(ticketsButton(id));
@@ -157,14 +154,12 @@ public class CompanyItinerariesScreen implements ActionListener {
 	}
 
 	/**
-	 * Cria e retorna um JButton configurado para a edição de um itinerário. Também
-	 * adiciona um action Listener ao botão, que quando acionado, indica para a tela
-	 * de edição o index do itinerário e a compania a quem pertence, e fecha a
-	 * janela de itinerarios, instanciando a tela de edição de itinerarios
-	 * EditItineraryScreen
+	 * Creates and returns a JButton configured for editing an itinerary. Clicking
+	 * on it takes you to the edit screen
 	 * 
-	 * @param id o índice do itinerário a ser editado
-	 * @return o JButton configurado para edição
+	 * @param id Index of the itinerary to be edited
+	 * 
+	 * @return Button configured for editing
 	 */
 	public JButton editItinerary(int id) {
 		JButton button = new JButton("Editar");
@@ -197,6 +192,14 @@ public class CompanyItinerariesScreen implements ActionListener {
 		return button;
 	}
 
+	/**
+	 * Creates and returns a JButton configured for deletion of an itinerary.
+	 * Clicking deletes the referring itinerary
+	 * 
+	 * @param id Index of the itinerary to be deleted
+	 * 
+	 * @return Button configured for editing
+	 */
 	public JButton deleteItinerary(int id) {
 		JButton button = new JButton("Excluir");
 		button.setFocusPainted(false);
@@ -237,22 +240,20 @@ public class CompanyItinerariesScreen implements ActionListener {
 	}
 
 	/**
-	 * Método que cria e configura a função e o formato de um botão que leva para a
-	 * tela de listagem de passagens de um itinerário
+	 * Method that creates a button that takes to the itinerary tickets list screen
 	 * 
-	 * @param id identificação do itinerário
-	 * @return JButton que leva à lista de passagens de um itinerário
+	 * @param id Index of the itinerary
+	 * 
+	 * @return Button to go to the ticket list screen
 	 */
 	private JButton ticketsButton(int id) {
 		JButton ticketsButton = new JButton("Passagens");
-
-		ticketsButton.setText("Passagens");
 		ticketsButton.setFocusPainted(false);
 		ticketsButton.setOpaque(true);
 		ticketsButton.setBackground(new Color(241, 16, 117));
 		ticketsButton.setBorder(BorderFactory.createEmptyBorder());
 		ticketsButton.setPreferredSize(new Dimension(ticketsButton.getPreferredSize().width, 30));
-		ticketsButton.setFont(ticketsButton.getFont().deriveFont(14f));
+		ticketsButton.setFont(ticketsButton.getFont().deriveFont(12f));
 		ticketsButton.setForeground(Color.WHITE);
 
 		ticketsButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -268,21 +269,22 @@ public class CompanyItinerariesScreen implements ActionListener {
 		ticketsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new TicketsScreen(company, id);
 				CompanyItinerariesScreen.window.dispose();
+				new TicketsScreen(company, id);
 			}
 		});
 		return ticketsButton;
 	}
 
 	/**
-	 * Configura um botão de voltar com o texto fornecido e o configura com um
-	 * estilo personalizado, sublinhando o botão quando o cursor do mouse passa por
-	 * cima e voltando ao normal quando o mouse sai.
+	 * Custom style settings and events for JButton component. Add underlining the
+	 * button when the mouse cursor passes over it, and returning to normal when the
+	 * mouse leaves.
 	 * 
-	 * @param goBackButton o botão de voltar para ser configurado
-	 * @param text         o texto a ser exibido no botão
-	 * @return o botão configurado
+	 * @param goBackButton Button to be configured
+	 * @param text         Text to be displayed in the button
+	 * 
+	 * @return The configured component
 	 */
 	private JButton goBack(JButton goBackButton, String text) {
 		goBackButton.setText(text);
@@ -307,14 +309,14 @@ public class CompanyItinerariesScreen implements ActionListener {
 	}
 
 	/**
-	 * Método que identifica se o botão de voltar foi acionado, voltando para a tela
-	 * da compania cadastrada
+	 * Handles the screen action events
 	 * 
-	 * @param event evento capturado pelo ActionListener
+	 * @param event Action Event
 	 */
 	public void actionPerformed(ActionEvent event) {
 		Object src = event.getSource();
 
+		// Returns to the company screen
 		if (src == goBackButton) {
 			CompanyItinerariesScreen.window.dispose();
 			new CompanyScreen(company);

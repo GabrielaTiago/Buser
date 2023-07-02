@@ -12,6 +12,13 @@ import java.util.*;
 import controllers.ItineraryController;
 import models.Company;
 
+/**
+ * Screen to create a new itinerary
+ * 
+ * @author Gabriela Tiago
+ * @since 2023
+ * @version 1.0
+ */
 public class ItineraryScreen implements ActionListener {
 	private static JFrame window = new JFrame("Buser");
 	private static JLabel title = new JLabel("Novo Itinerário");
@@ -30,6 +37,11 @@ public class ItineraryScreen implements ActionListener {
 	private static JButton goBackButton = new JButton();
 	private static Company company;
 
+	/**
+	 * Adds components to the screen
+	 * 
+	 * @param company Logged in company
+	 */
 	public ItineraryScreen(Company company) {
 		ItineraryScreen.company = company;
 		title.setFont(new Font("Serif", Font.BOLD, 36));
@@ -83,6 +95,11 @@ public class ItineraryScreen implements ActionListener {
 		String[] columns = { "D", "S", "T", "Q", "Q", "S", "S" };
 		model = new DefaultTableModel(null, columns);
 		JTable table = new JTable(model) {
+			/**
+			 * A version number for serialization
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public TableCellRenderer getCellRenderer(int row, int column) {
 				DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
@@ -152,6 +169,16 @@ public class ItineraryScreen implements ActionListener {
 		goBackButton.addActionListener(this);
 	}
 
+	/**
+	 * Sets up custom styles and events for JTextField component.Adding a
+	 * placeholder inside the component and changing the default color of the text
+	 * at different times
+	 * 
+	 * @param textField   Text field to be configured
+	 * @param placeholder Text to display as placeholder
+	 * 
+	 * @return The configured component
+	 */
 	private JTextField textField(JTextField textField, String placeholder) {
 		textField.setOpaque(false);
 		textField.setPreferredSize(new Dimension(textField.getPreferredSize().width, 30));
@@ -166,6 +193,7 @@ public class ItineraryScreen implements ActionListener {
 					textField.setForeground(Color.BLACK);
 				}
 			}
+
 			@Override
 			public void focusLost(FocusEvent event) {
 				if (textField.getText().isEmpty()) {
@@ -178,6 +206,16 @@ public class ItineraryScreen implements ActionListener {
 		return textField;
 	}
 
+	/**
+	 * Custom style settings and events for JButton component. Changing the
+	 * background and text color, set height and font size. Adding events when the
+	 * mouse cursor passes over and restoring when the mouse exits.
+	 * 
+	 * @param button Button to be configured
+	 * @param text   Text to be displayed in the button
+	 * 
+	 * @return The configured component
+	 */
 	private JButton button(JButton button, String text) {
 		button.setText(text);
 		button.setFocusPainted(false);
@@ -202,6 +240,16 @@ public class ItineraryScreen implements ActionListener {
 		return button;
 	}
 
+	/**
+	 * Custom style settings and events for JButton component. Add underlining the
+	 * button when the mouse cursor passes over it, and returning to normal when the
+	 * mouse leaves.
+	 * 
+	 * @param goBackButton Button to be configured
+	 * @param text         Text to be displayed in the button
+	 * 
+	 * @return The configured component
+	 */
 	private JButton goBack(JButton goBackButton, String text) {
 		goBackButton.setText(text);
 		goBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -224,6 +272,9 @@ public class ItineraryScreen implements ActionListener {
 		return goBackButton;
 	}
 
+	/**
+	 * Method to update the months in the calendar component
+	 */
 	private void updateMonth() {
 		calendar.set(Calendar.DAY_OF_MONTH, 1);
 
@@ -245,19 +296,28 @@ public class ItineraryScreen implements ActionListener {
 		}
 	}
 
+	/**
+	 * Handles the screen action events
+	 * 
+	 * @param event Action Event
+	 */
 	public void actionPerformed(ActionEvent event) {
 		Object src = event.getSource();
 
+		// Clicking displays the previous month
 		if (src == prevMonth) {
 			calendar.add(Calendar.MONTH, -1);
 			updateMonth();
 		}
 
+		// Clicking displays the next month
 		if (src == nextMonth) {
 			calendar.add(Calendar.MONTH, +1);
 			updateMonth();
 		}
 
+		// Clicking in the create itinerary button, takes the data from the text
+		// fields and sends them to the validation.
 		if (src == registerButton) {
 			String origin = originField.getText();
 			String destination = destinationField.getText();
@@ -267,6 +327,7 @@ public class ItineraryScreen implements ActionListener {
 			String errorMessage = ItineraryController.validatesItinararyData(origin, destination, selectedDate,
 					departureTime, arrivalTime);
 
+			// If the data is valid, creates a new itinerary
 			if (errorMessage.isEmpty()) {
 				ItineraryController.createItinerary(origin, destination, selectedDate, departureTime, arrivalTime,
 						company);
@@ -278,6 +339,7 @@ public class ItineraryScreen implements ActionListener {
 			}
 		}
 
+		// Clicking the back button takes you to the itineraries listing page again
 		if (src == goBackButton) {
 			ItineraryScreen.window.dispose();
 			new CompanyScreen(company);

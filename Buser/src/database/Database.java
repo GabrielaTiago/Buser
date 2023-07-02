@@ -6,33 +6,45 @@ import java.util.ArrayList;
 import models.*;
 import models.Client.GratuityType;
 
+/**
+ * Database simulation, with mock data
+ * 
+ * @author Gabriela Tiago
+ * @since 2023
+ * @version 1.2
+ * 
+ */
 public class Database {
 	private static final ArrayList<Itinerary> itineraries = new ArrayList<>();
 	private static final ArrayList<Ticket> tickets = new ArrayList<>();
 	private static final ArrayList<Client> clients = new ArrayList<>();
-	private static final ArrayList<Company> companys = new ArrayList<>();
+	private static final ArrayList<Company> companies = new ArrayList<>();
 
+	// Gets the itineraries data
 	public static ArrayList<Itinerary> getItinaraiesData() {
 		return itineraries;
 	}
 
+	// Gets the tickets data
 	public static ArrayList<Ticket> getTicketsData() {
 		return tickets;
 	}
 
+	// Gets the clients data
 	public static ArrayList<Client> getClientData() {
 		return clients;
 	}
 
+	// Gets the companies data
 	public static ArrayList<Company> getCompanyData() {
-		return companys;
+		return companies;
 	}
 
 	public static void teste() {
 		LocalDate d1 = LocalDate.now();
 		Company company = new Company("Araguarina", "araguarina@hotmail.com", "Teste123$", "6233445566",
 				"Avenida dos Bobos, n 0 - Lugar Nenhum - LN", "46922732000130", "Araguarina LTDA", itineraries);
-		companys.add(company);
+		companies.add(company);
 		Client client = new Client("Gabriela", "gabriela@gmail.com", "Teste123$", "62988776655",
 				"Avenida Brasil, n 765 - Algum Lugar AG", "50191137006", GratuityType.noGratuity, tickets);
 		clients.add(client);

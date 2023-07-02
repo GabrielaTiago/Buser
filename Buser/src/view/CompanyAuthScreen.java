@@ -9,9 +9,12 @@ import database.Database;
 import models.Company;
 
 /**
- * Essa classe é responsável por criar a interface de cadastro de uma empresa
+ * Screen used to register the client in the application
  * 
  * @author Gabriela Tiago
+ * @since 2023
+ * @version 1.4
+ * 
  */
 public class CompanyAuthScreen implements ActionListener {
 
@@ -29,12 +32,7 @@ public class CompanyAuthScreen implements ActionListener {
 	private static JButton linkTo = new JButton();
 
 	/**
-	 * Construtor que configura os componentes em JPanels que são adicionados ao
-	 * JFrame window, alinhando e configurando o estilo dos componentes da interface
-	 * 
-	 * @see #button(JButton, String)
-	 * @see #linkButton(JButton, String)
-	 * @see #textField(JTextField, String)
+	 * Adds components to the screen
 	 */
 	public CompanyAuthScreen() {
 		title.setFont(new Font("Serif", Font.BOLD, 36));
@@ -114,12 +112,14 @@ public class CompanyAuthScreen implements ActionListener {
 	}
 
 	/**
-	 * Configura um campo de texto com um texto de espaço reservado, onde quando o
-	 * cursor do teclado está dentro do campo, remove o texto que reserva o espaço
+	 * Sets up custom styles and events for JTextField component.Adding a
+	 * placeholder inside the component and changing the default color of the text
+	 * at different times
 	 * 
-	 * @param textField   O componente de texto a ser configurado.
-	 * @param placeholder O texto sendo exibido no componente de texto.
-	 * @return O componete de texto configurado.
+	 * @param textField   Text field to be configured
+	 * @param placeholder Text to display as placeholder
+	 * 
+	 * @return The configured component
 	 */
 	private JTextField textField(JTextField textField, String placeholder) {
 		textField.setOpaque(false);
@@ -149,38 +149,14 @@ public class CompanyAuthScreen implements ActionListener {
 	}
 
 	/**
-	 * Configura um botão com o texto fornecido e configurações de estilo
-	 * personalizadas, que altera a cor de fundo do botão quando o cursor do mouse
-	 * passa por cima e a restaura quando o mouse sai.
+	 * Sets up custom styles and events for JPasswordField component. Replacing the
+	 * initial censor for placeholder text, then adding inside the component.
 	 * 
-	 * @param button o botão a ser configurado
-	 * @param text   o texto a ser exibido no botão
-	 * @return o botão configurado
+	 * @param passwordField Password field to be configured
+	 * @param placeholder   Text to display as placeholder
+	 * 
+	 * @return The configured component
 	 */
-	private JButton button(JButton button, String text) {
-		button.setText(text);
-		button.setFocusPainted(false);
-		button.setOpaque(true);
-		button.setBackground(new Color(241, 16, 117));
-		button.setBorder(BorderFactory.createEmptyBorder());
-		button.setPreferredSize(new Dimension(button.getPreferredSize().width, 30));
-		button.setFont(button.getFont().deriveFont(14f));
-		button.setForeground(Color.WHITE);
-
-		button.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseEntered(java.awt.event.MouseEvent evt) {
-				button.setBackground(new Color(242, 105, 149));
-				button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			}
-
-			public void mouseExited(java.awt.event.MouseEvent evt) {
-				button.setBackground(new Color(241, 16, 117));
-			}
-		});
-
-		return button;
-	}
-
 	private JPasswordField passwordField(JPasswordField passwordField, String placeholder) {
 		passwordField.setOpaque(false);
 		passwordField.setPreferredSize(new Dimension(passwordField.getPreferredSize().width, 30));
@@ -212,13 +188,48 @@ public class CompanyAuthScreen implements ActionListener {
 	}
 
 	/**
-	 * Configura um botão com o texto fornecido e configura com um estilo
-	 * personalizado, sublinhando o botão quando o cursor do mouse passa por cima e
-	 * voltando ao normal quando o mouse sai.
+	 * Custom style settings and events for JButton component. Changing the
+	 * background and text color, set height and font size. Adding events when the
+	 * mouse cursor passes over and restoring when the mouse exits.
 	 * 
-	 * @param button o botão a ser configurado
-	 * @param text   o texto a ser exibido no botão
-	 * @return o botão configurado
+	 * @param button Button to be configured
+	 * @param text   Text to be displayed in the button
+	 * 
+	 * @return The configured component
+	 */
+	private JButton button(JButton button, String text) {
+		button.setText(text);
+		button.setFocusPainted(false);
+		button.setOpaque(true);
+		button.setBackground(new Color(241, 16, 117));
+		button.setBorder(BorderFactory.createEmptyBorder());
+		button.setPreferredSize(new Dimension(button.getPreferredSize().width, 30));
+		button.setFont(button.getFont().deriveFont(14f));
+		button.setForeground(Color.WHITE);
+
+		button.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				button.setBackground(new Color(242, 105, 149));
+				button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+
+			public void mouseExited(java.awt.event.MouseEvent evt) {
+				button.setBackground(new Color(241, 16, 117));
+			}
+		});
+
+		return button;
+	}
+
+	/**
+	 * Custom style settings and events for JButton component. Add underlining the
+	 * button when the mouse cursor passes over it, and returning to normal when the
+	 * mouse leaves.
+	 * 
+	 * @param linkButton Button to be configured
+	 * @param text       Text to be displayed in the button
+	 * 
+	 * @return The configured component
 	 */
 	private JButton linkButton(JButton linkButton, String text) {
 		linkButton.setText(text);
@@ -240,22 +251,26 @@ public class CompanyAuthScreen implements ActionListener {
 		return linkButton;
 	}
 
+	/**
+	 *  Main method. Used for code execution
+	 * 
+	 * @param args 
+	 */
 	public static void main(String[] args) {
 		new CompanyAuthScreen();
 		Database.teste();
 	}
 
 	/**
-	 * Executa uma ação quando um evento é acionado. Se o evento for do botão de
-	 * cadstro, uma instancia de compania é criada com os valores de entrada na
-	 * interface e caso os valores sejam válidos, procede para tela da compania,
-	 * caso contrário, uma mensagem de erro será exibida
+	 * Handles the screen action events
 	 * 
-	 * @param event O evento acionado.
+	 * @param event Action Event
 	 */
 	public void actionPerformed(ActionEvent event) {
 		Object src = event.getSource();
 
+		// Click on the company registration button, takes the data from the text
+		// fields, and sends them to the validation.
 		if (src == registerButton) {
 			String name = nameField.getText();
 			String email = emailField.getText();
@@ -268,6 +283,7 @@ public class CompanyAuthScreen implements ActionListener {
 			Company companyData = new Company(name, email, password, phone, address, cnpj, corporateName);
 			String errorMessage = AuthController.validatesCompanyData(companyData);
 
+			// If the data is valid, the login screen opens
 			if (errorMessage.isEmpty()) {
 				JOptionPane.showMessageDialog(window, "Cadastro realizado com sucesso!");
 				AuthController.registerCompany(companyData);
@@ -277,11 +293,13 @@ public class CompanyAuthScreen implements ActionListener {
 				JOptionPane.showMessageDialog(window, "Erro(s) de validação:\n\n" + errorMessage);
 			}
 
+			// Click the company login button, opens the company login screen
 			if (src == loginButton) {
 				CompanyAuthScreen.window.dispose();
 				new LoginCompanyScreen();
 			}
 
+			// Click on the client registration button, the client registration screen opens
 			if (src == linkTo) {
 				CompanyAuthScreen.window.dispose();
 				new ClientAuthScreen();

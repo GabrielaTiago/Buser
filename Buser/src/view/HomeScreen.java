@@ -14,6 +14,13 @@ import models.Client;
 import models.Company;
 import models.Itinerary;
 
+/**
+ * Screen for listing itineraries in general
+ * 
+ * @author Gabriela Tiago
+ * @since 2023
+ * @version 1.0
+ */
 public class HomeScreen implements ActionListener {
 
 	private static JFrame window = new JFrame("Buser");
@@ -27,6 +34,9 @@ public class HomeScreen implements ActionListener {
 	private static Company company;
 	private static Client client;
 
+	/**
+	 * Adds components to the screen
+	 */
 	public HomeScreen() {
 		ArrayList<Itinerary> itineraries = ItineraryController.getAllItinerarys();
 		companyIsLoggedIn = AuthController.checkCompanyLogin();
@@ -81,83 +91,16 @@ public class HomeScreen implements ActionListener {
 		dashboardButton.addActionListener(this);
 	}
 
-	private JTextField textField(JTextField textField, String placeholder) {
-		textField.setOpaque(false);
-		textField.setPreferredSize(new Dimension(textField.getPreferredSize().width, 40));
-		textField.setForeground(new Color(117, 117, 138));
-		textField.setText(placeholder);
-
-		textField.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent event) {
-				if (textField.getText().equals(placeholder)) {
-					textField.setText("");
-					textField.setForeground(Color.BLACK);
-				}
-			}
-
-			@Override
-			public void focusLost(FocusEvent event) {
-				if (textField.getText().isEmpty()) {
-					textField.setForeground(new Color(117, 117, 138));
-					textField.setText(placeholder);
-				}
-			}
-		});
-
-		return textField;
-	}
-
-	private JButton button(JButton button, String text) {
-		button.setText(text);
-		button.setFocusPainted(false);
-		button.setOpaque(true);
-		button.setBackground(new Color(241, 16, 117));
-		button.setBorder(BorderFactory.createEmptyBorder());
-		button.setPreferredSize(new Dimension(50, 30));
-		button.setFont(button.getFont().deriveFont(14f));
-		button.setForeground(Color.WHITE);
-
-		button.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseEntered(java.awt.event.MouseEvent evt) {
-				button.setBackground(new Color(242, 105, 149));
-				button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			}
-
-			public void mouseExited(java.awt.event.MouseEvent evt) {
-				button.setBackground(new Color(241, 16, 117));
-			}
-		});
-
-		return button;
-	}
-
-	private JButton goBack(JButton goBackButton, String text) {
-		goBackButton.setText(text);
-		goBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		goBackButton.setBackground(null);
-		goBackButton.setBorder(null);
-
-		goBackButton.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				goBackButton.setText("<html><u>" + text + "</u></html>");
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				goBackButton.setText(text);
-			}
-		});
-
-		return goBackButton;
-	}
-
+	/**
+	 * Method that adds the data from the itinerary list to the screen
+	 * 
+	 * @param itineraries An array of itineraries
+	 */
 	private void populateItineraries(ArrayList<Itinerary> itineraries) {
 		allItinerariesContainer.removeAll();
 		allItinerariesContainer.revalidate();
 		allItinerariesContainer.repaint();
+
 		if (itineraries.isEmpty()) {
 			JPanel emptyContainer = new JPanel();
 			emptyContainer.setBackground(null);
@@ -177,6 +120,21 @@ public class HomeScreen implements ActionListener {
 		}
 	}
 
+	/**
+	 * Method that creates a itinerary container. It shows origin and destination
+	 * city, date, departure and arrival time information. It has a select button to
+	 * perform an action based on the user logged in.
+	 * 
+	 * @param id            Itinerary id
+	 * @param origin        Itinerary city of origin
+	 * @param destination   Itinerary city of destination
+	 * @param date          Itinerary date
+	 * @param departureTime Itinerary departure time
+	 * @param arrivalTime   Itinerary arrival time
+	 * 
+	 * @return JPanel component with the information for a route, along with the
+	 *         edit and delete buttons
+	 */
 	private JPanel itinerary(int id, String company, String origin, String destination, LocalDate date,
 			String departureTime, String arrivalTime) {
 		JPanel itineraryContainer = new JPanel(new GridLayout(1, 3, 10, 0));
@@ -206,36 +164,152 @@ public class HomeScreen implements ActionListener {
 		return itineraryContainer;
 	}
 
-	public JButton selectItinerary(int id) {
+	/**
+	 * Method for selecting the itinerary and seeing more details about it
+	 * 
+	 * @param id Itinerary identification
+	 * 
+	 * @return Button configured to redirect to the route detail page
+	 */
+	private JButton selectItinerary(int id) {
 		JButton btn = new JButton();
-		JButton sla = button(btn, "Selecionar");
+		JButton button = button(btn, "Selecionar");
 
-		sla.addActionListener(new ActionListener() {
+		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// [TO DO] -> go to ticket screen
-				JOptionPane.showMessageDialog(window, "Clicou! id:" + id);
+				JOptionPane.showMessageDialog(window, "OOOPS tela em construção..." + id);
 			}
 		});
 
-		return sla;
+		return button;
+	}
+
+	/**
+	 * Sets up custom styles and events for JTextField component.Adding a
+	 * placeholder inside the component and changing the default color of the text
+	 * at different times
+	 * 
+	 * @param textField   Text field to be configured
+	 * @param placeholder Text to display as placeholder
+	 * 
+	 * @return The configured component
+	 */
+	private JTextField textField(JTextField textField, String placeholder) {
+		textField.setOpaque(false);
+		textField.setPreferredSize(new Dimension(textField.getPreferredSize().width, 40));
+		textField.setForeground(new Color(117, 117, 138));
+		textField.setText(placeholder);
+
+		textField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent event) {
+				if (textField.getText().equals(placeholder)) {
+					textField.setText("");
+					textField.setForeground(Color.BLACK);
+				}
+			}
+
+			@Override
+			public void focusLost(FocusEvent event) {
+				if (textField.getText().isEmpty()) {
+					textField.setForeground(new Color(117, 117, 138));
+					textField.setText(placeholder);
+				}
+			}
+		});
+
+		return textField;
+	}
+
+	/**
+	 * Custom style settings and events for JButton component. Changing the
+	 * background and text color, set height and font size. Adding events when the
+	 * mouse cursor passes over and restoring when the mouse exits.
+	 * 
+	 * @param button Button to be configured
+	 * @param text   Text to be displayed in the button
+	 * 
+	 * @return The configured component
+	 */
+	private JButton button(JButton button, String text) {
+		button.setText(text);
+		button.setFocusPainted(false);
+		button.setOpaque(true);
+		button.setBackground(new Color(241, 16, 117));
+		button.setBorder(BorderFactory.createEmptyBorder());
+		button.setPreferredSize(new Dimension(50, 30));
+		button.setFont(button.getFont().deriveFont(14f));
+		button.setForeground(Color.WHITE);
+
+		button.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				button.setBackground(new Color(242, 105, 149));
+				button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+
+			public void mouseExited(java.awt.event.MouseEvent evt) {
+				button.setBackground(new Color(241, 16, 117));
+			}
+		});
+
+		return button;
+	}
+
+	/**
+	 * Custom style settings and events for JButton component. Add underlining the
+	 * button when the mouse cursor passes over it, and returning to normal when the
+	 * mouse leaves.
+	 * 
+	 * @param goBackButton Button to be configured
+	 * @param text         Text to be displayed in the button
+	 * 
+	 * @return The configured component
+	 */
+	private JButton goBack(JButton goBackButton, String text) {
+		goBackButton.setText(text);
+		goBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		goBackButton.setBackground(null);
+		goBackButton.setBorder(null);
+
+		goBackButton.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				goBackButton.setText("<html><u>" + text + "</u></html>");
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				goBackButton.setText(text);
+			}
+		});
+
+		return goBackButton;
 	}
 
 	public void actionPerformed(ActionEvent event) {
 		Object src = event.getSource();
 
+		// Clicking performs the search with filter
 		if (src == searchButton) {
 			String origin = originSearchField.getText();
 			String destination = destinationSearchField.getText();
 			String date = dateSearchField.getText();
 
+			// Filtering by city of origin, if the field is filled in
 			if (origin != null && !origin.isEmpty() && !origin.equals("Digite a cidade de origem")) {
 				ArrayList<Itinerary> itineraries = ItineraryController.getItinerariesByOrigin(origin);
 				populateItineraries(itineraries);
+
+				// Filtering by city of destination, if the field is filled in
 			} else if (destination != null && !destination.isEmpty()
 					&& !destination.equals("Digite a cidade de destino")) {
 				ArrayList<Itinerary> itineraries = ItineraryController.getItinerariesByDestination(destination);
 				populateItineraries(itineraries);
+
+				// Filtering by date, if the field is filled in
 			} else if (date != null && !date.isEmpty() && !date.equals("Digite a data")) {
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				LocalDate searchDate = LocalDate.parse(date, formatter);
@@ -244,7 +318,10 @@ public class HomeScreen implements ActionListener {
 			}
 		}
 
+		// Returns to the dashboard screen
 		if (src == dashboardButton) {
+
+			// If the logged in user is a company, goes to the company screen
 			if (companyIsLoggedIn) {
 				company = AuthController.getCompanyLoggedIn();
 				new CompanyScreen(company);

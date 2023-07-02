@@ -35,7 +35,6 @@ public class Itinerary {
 	 */
 	public Itinerary(String origin, String destination, LocalDate date, String departureDate, String arrivalDate,
 			Company company) {
-		this.tickets = new ArrayList<Ticket>();
 		this.setId();
 		this.setOrigin(origin);
 		this.setDestination(destination);
@@ -43,15 +42,8 @@ public class Itinerary {
 		this.setDepartureDate(departureDate);
 		this.setArrivalDate(arrivalDate);
 		this.setCompany(company);
-
-	}
-
-	public ArrayList<Ticket> getTickets() {
-		return tickets;
-	}
-
-	public void setTickets(ArrayList<Ticket> tickets) {
-		this.tickets = tickets;
+		tickets = new ArrayList<Ticket>();
+		this.setTickets(tickets);
 	}
 
 	public void setId() {
@@ -109,5 +101,13 @@ public class Itinerary {
 
 	public Company getCompany() {
 		return company;
+	}
+
+	public ArrayList<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(ArrayList<Ticket> tickets) {
+		this.tickets = tickets;
 	}
 }

@@ -2,6 +2,14 @@ package models;
 
 import java.util.ArrayList;
 
+/**
+ * Client class, inheriting characteristics of the parent class User
+ * 
+ * @author Gabriel Fernandes, Gabriela Tiago
+ * @since 2023
+ * @version 1.2
+ * 
+ */
 public class Client extends User {
 	private String cpf;
 	private String gratuity;
@@ -9,35 +17,53 @@ public class Client extends User {
 	private GratuityDocument gratuityDocument;
 	private ArrayList<Ticket> clientTickets;
 
+	/**
+	 * Enumeration for the typification of gratuity applied
+	 */
 	public enum GratuityType {
 		noGratuity, elderly, phisicallyChallenged
 	}
 
+	/**
+	 * Enumeration for the typification of the gratuity validation document
+	 */
 	public enum GratuityDocument {
 		birthDate, freePass
 	}
 
+	/**
+	 * Class constructor for instantiating a new Client
+	 * 
+	 * @param name          The client's name
+	 * @param email         The client's email
+	 * @param password      The client's password
+	 * @param phone         The client's phone
+	 * @param address       The client's address
+	 * @param cpf           The client's cpf document
+	 * @param gratuityType  The client's gratuity option
+	 * @param clientTickets The clients's tickets registered
+	 */
 	public Client(String name, String email, String password, String phone, String address, String cpf,
 			GratuityType gratuityType, ArrayList<Ticket> clientTickets) {
 		super(name, email, password, phone, address);
 
 		this.setCpf(cpf);
+		this.setGratuityType(gratuityType);
 		this.setClientTickets(clientTickets);
-
-		// checking gratuity category the client applies to
-		// and applying it to all existing tickets if so
-		if (gratuityType == GratuityType.elderly) {
-			this.setGratuityType(gratuityType);
-			this.setGratuityDocument(GratuityDocument.birthDate);
-		} else if (gratuityType == GratuityType.phisicallyChallenged) {
-			this.setGratuityType(gratuityType);
-			this.setGratuityDocument(GratuityDocument.freePass);
-		} else {
-			this.setGratuityType(gratuityType);
-		}
-
 	}
 
+	/**
+	 * Class constructor for instantiating a new Client to perform the necessary
+	 * validations
+	 * 
+	 * @param name         The client's name
+	 * @param email        The client's email
+	 * @param password     The client's password
+	 * @param phone        The client's phone
+	 * @param address      The client's address
+	 * @param cpf          The client's cpf document
+	 * @param gratuityType The client's gratuity option
+	 */
 	public Client(String name, String email, String password, String phone, String address, String cpf,
 			String gratuityType) {
 		super(name, email, password, phone, address);
@@ -47,7 +73,13 @@ public class Client extends User {
 		validateGratuity(gratuityType);
 	}
 
+	/**
+	 * Checks and applies the gratuity to the client
+	 * 
+	 * @param gratuityType Option sent for validation
+	 */
 	public void validateGratuity(String gratuityType) {
+		// checking gratuity category the client applies to
 		if (gratuityType == "Idade") {
 			setGratuityType(GratuityType.elderly);
 			setGratuityDocument(GratuityDocument.birthDate);
@@ -56,14 +88,6 @@ public class Client extends User {
 			setGratuityDocument(GratuityDocument.freePass);
 		} else {
 			setGratuityType(GratuityType.elderly);
-		}
-	}
-
-	private void applyGratuity() {
-		// is called only inside the constructor if the client
-		// has the gratuity right
-		for (int i = 0; i < this.getClientTickets().size(); i++) {
-			this.getClientTickets().get(i).setPrice(0f);
 		}
 	}
 

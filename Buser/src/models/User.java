@@ -4,6 +4,8 @@ package models;
  * Abstract class, represents an user
  * 
  * @author Gabriel Fernandes, Gabriela Tiago
+ * @since 2023
+ * @version 1.1
  */
 public abstract class User {
 	private String name;

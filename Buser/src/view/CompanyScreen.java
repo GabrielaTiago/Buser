@@ -7,10 +7,11 @@ import javax.swing.*;
 import models.Company;
 
 /**
- * Classe reponsável pela tela que permite a empresa cadastrada criar um
- * itinerário, fazer uma busca por itinerário e ver os itinerários cadastrados
+ * Company dashboard screen
  * 
  * @author Gabriela Tiago
+ * @since 2023
+ * @version 1.0
  */
 
 public class CompanyScreen implements ActionListener {
@@ -23,13 +24,9 @@ public class CompanyScreen implements ActionListener {
 	private static Company company;
 
 	/**
-	 * O construtor da classe é o responsável por estilizar e organizar em
-	 * containers os botões que levam a outras telas, os adicionando ao JFrame
-	 * window
+	 * Adds components to the screen
 	 * 
-	 * @param company compania cadastrada
-	 * @see #actionPerformed(ActionEvent)
-	 * @see #button(JButton, String)
+	 * @param company Logged in company
 	 */
 	public CompanyScreen(Company company) {
 		CompanyScreen.company = company;
@@ -70,13 +67,14 @@ public class CompanyScreen implements ActionListener {
 	}
 
 	/**
-	 * Configura um botão com o texto fornecido e configurações de estilo
-	 * personalizadas, que altera a cor de fundo do botão quando o cursor do mouse
-	 * passa por cima e a restaura quando o mouse sai.
+	 * Custom style settings and events for JButton component. Changing the
+	 * background and text color, set height and font size. Adding events when the
+	 * mouse cursor passes over and restoring when the mouse exits.
 	 * 
-	 * @param button o botão a ser configurado
-	 * @param text   o texto a ser exibido no botão
-	 * @return o botão configurado
+	 * @param button Button to be configured
+	 * @param text   Text to be displayed in the button
+	 * 
+	 * @return The configured component
 	 */
 	private JButton button(JButton button, String text) {
 		button.setText(text);
@@ -102,24 +100,26 @@ public class CompanyScreen implements ActionListener {
 	}
 
 	/**
-	 * Método que identifica se o botão de "Página Inicial", "Meus Itinerários" ou o
-	 * de "Criar Itinerário" foi acionado, redirecionando para as respectivas telas
+	 * Handles the screen action events
 	 * 
-	 * @param event evento capturado pelo ActionListener
+	 * @param event Action Event
 	 */
 	public void actionPerformed(ActionEvent event) {
 		Object src = event.getSource();
 
+		// Clicking goes to the main screen of all itinerary listings
 		if (src == homePageButton) {
 			CompanyScreen.window.dispose();
 			new HomeScreen();
 		}
 
+		// Clicking goes to the company's own itinerary listings screen
 		if (src == itinerariesButton) {
 			CompanyScreen.window.dispose();
 			new CompanyItinerariesScreen(company);
 		}
 
+		// Clicking goes to the screen to create a new itinerary
 		if (src == createItineraryButton) {
 			CompanyScreen.window.dispose();
 			new ItineraryScreen(company);

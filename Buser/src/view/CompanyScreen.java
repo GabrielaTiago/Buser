@@ -76,7 +76,7 @@ public class CompanyScreen implements ActionListener {
 	 * 
 	 * @return The configured component
 	 */
-	private JButton button(JButton button, String text) {
+	public JButton button(JButton button, String text) {
 		button.setText(text);
 		button.setFocusPainted(false);
 		button.setOpaque(true);

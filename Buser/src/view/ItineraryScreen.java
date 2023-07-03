@@ -179,7 +179,7 @@ public class ItineraryScreen implements ActionListener {
 	 * 
 	 * @return The configured component
 	 */
-	private JTextField textField(JTextField textField, String placeholder) {
+	public JTextField textField(JTextField textField, String placeholder) {
 		textField.setOpaque(false);
 		textField.setPreferredSize(new Dimension(textField.getPreferredSize().width, 30));
 		textField.setForeground(new Color(117, 117, 138));
@@ -216,7 +216,7 @@ public class ItineraryScreen implements ActionListener {
 	 * 
 	 * @return The configured component
 	 */
-	private JButton button(JButton button, String text) {
+	public JButton button(JButton button, String text) {
 		button.setText(text);
 		button.setFocusPainted(false);
 		button.setOpaque(true);
@@ -250,7 +250,7 @@ public class ItineraryScreen implements ActionListener {
 	 * 
 	 * @return The configured component
 	 */
-	private JButton goBack(JButton goBackButton, String text) {
+	public JButton goBack(JButton goBackButton, String text) {
 		goBackButton.setText(text);
 		goBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		goBackButton.setBackground(null);
@@ -275,7 +275,7 @@ public class ItineraryScreen implements ActionListener {
 	/**
 	 * Method to update the months in the calendar component
 	 */
-	private void updateMonth() {
+	public void updateMonth() {
 		calendar.set(Calendar.DAY_OF_MONTH, 1);
 
 		String month = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());

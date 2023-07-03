@@ -102,7 +102,7 @@ public class TicketsScreen implements ActionListener {
 	 * 
 	 * @param tickets the list of tickets to be displayed
 	 */
-	private void populateTickets(ArrayList<Ticket> tickets) {
+	public void populateTickets(ArrayList<Ticket> tickets) {
 		allTicketsContainer.removeAll();
 		allTicketsContainer.revalidate();
 		allTicketsContainer.repaint();
@@ -171,7 +171,7 @@ public class TicketsScreen implements ActionListener {
 	 * @param text   the text to be displayed on the button
 	 * @return the configured button
 	 */
-	private JButton button(JButton button, String text) {
+	public JButton button(JButton button, String text) {
 		button.setText(text);
 		button.setFocusPainted(false);
 		button.setOpaque(true);
@@ -293,7 +293,7 @@ public class TicketsScreen implements ActionListener {
 	 * @param text         the text to be displayed on the button
 	 * @return the configured button
 	 */
-	private JButton goBack(JButton goBackButton, String text) {
+	public JButton goBack(JButton goBackButton, String text) {
 		goBackButton.setText(text);
 		goBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		goBackButton.setBackground(null);

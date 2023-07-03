@@ -157,7 +157,7 @@ public class EditTicketScreen implements ActionListener {
 	 * @param text         the text to be displayed on the button
 	 * @return the configured button
 	 */
-	private JButton goBack(JButton goBackButton, String text) {
+	public JButton goBack(JButton goBackButton, String text) {
 		goBackButton.setText(text);
 		goBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		goBackButton.setBorderPainted(false);
@@ -186,7 +186,7 @@ public class EditTicketScreen implements ActionListener {
 	 * @param text   the text to be displayed on the button
 	 * @return the configured button
 	 */
-	private JButton button(JButton button, String text) {
+	public JButton button(JButton button, String text) {
 		button.setText(text);
 		button.setFocusPainted(false);
 		button.setOpaque(true);
@@ -214,7 +214,7 @@ public class EditTicketScreen implements ActionListener {
 	 * Method responsible for retrieving the values of price, seat type, and seat
 	 * number that are provided as input on the edit screen
 	 */
-	private void getWindowValues() {
+	public void getWindowValues() {
 		// get the input values from jcomponents
 		price = Float.parseFloat(priceField.getText());
 		seatTypeIndex = seatTypeList.getSelectedIndex();
@@ -228,7 +228,7 @@ public class EditTicketScreen implements ActionListener {
 	 * 
 	 * @param error the error identification number
 	 */
-	private void mensagemErroCadastro(int error) {
+	public void mensagemErroCadastro(int error) {
 		if (error == 0) {
 			JOptionPane.showMessageDialog(null,
 					"ERRO AO SALVAR OS DADOS!\n " + "Pode ter ocorrido um dos dois erros a seguir:  \n"
@@ -249,7 +249,7 @@ public class EditTicketScreen implements ActionListener {
 	 * 
 	 * @param i the index of the updated ticket
 	 */
-	private void mensagemSucessoAtualizar(int i) {
+	public void mensagemSucessoAtualizar(int i) {
 		JOptionPane.showMessageDialog(null, "Passagem de index " + (i) + " Atualizada Com Sucesso!\n ", null,
 				JOptionPane.INFORMATION_MESSAGE);
 	}
@@ -258,7 +258,7 @@ public class EditTicketScreen implements ActionListener {
 	 * This method displays a message that communicates the completion of the ticket
 	 * creation process
 	 */
-	private void mensagemSucessoCriar() {
+	public void mensagemSucessoCriar() {
 		JOptionPane.showMessageDialog(null, "Passagem criada com sucesso!\n ", null, JOptionPane.INFORMATION_MESSAGE);
 	}
 }

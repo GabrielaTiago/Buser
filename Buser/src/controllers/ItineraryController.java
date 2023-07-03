@@ -288,7 +288,7 @@ public class ItineraryController {
 	 * @return Returns false if it is out of the pattern and true if it is in
 	 * 
 	 */
-	private static boolean isValidCity(String city) {
+	public static boolean isValidCity(String city) {
 		return city.matches("[a-zA-ZÀ-ÿ0-9\\s,-]+");
 	}
 
@@ -303,7 +303,7 @@ public class ItineraryController {
 	 * @return Returns false if it is out of the pattern and true if it is in
 	 * 
 	 */
-	private static boolean isValidTimeFormat(String time) {
+	public static boolean isValidTimeFormat(String time) {
 		return time.matches("^([01]\\d|2[0-3]):([0-5]\\d)$");
 	}
 

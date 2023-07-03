@@ -34,7 +34,7 @@ public class AuthController {
 	 * @return Returns the error message
 	 * 
 	 */
-	private static String validatesUserData(String name, String email, String password, String phone, String address) {
+	public static String validatesUserData(String name, String email, String password, String phone, String address) {
 		String errorMessage = "";
 
 		if (!isValidName(name)) {
@@ -256,7 +256,7 @@ public class AuthController {
 	 * @return Returns false if it is out of the pattern and true if it is in
 	 * 
 	 */
-	private static boolean isValidName(String name) {
+	public static boolean isValidName(String name) {
 		return name.matches("[a-zA-ZÀ-ÿ\\s]+");
 	}
 
@@ -271,7 +271,7 @@ public class AuthController {
 	 * @return Returns false if it is out of the pattern and true if it is in
 	 * 
 	 */
-	private static boolean isValidEmail(String email) {
+	public static boolean isValidEmail(String email) {
 		Matcher matcher = pattern.matcher(email);
 		return matcher.matches();
 	}
@@ -287,7 +287,7 @@ public class AuthController {
 	 * @return Returns false if it is out of the pattern and true if it is in
 	 * 
 	 */
-	private static boolean isValidPassword(String password) {
+	public static boolean isValidPassword(String password) {
 		String passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).{8,20}$";
 		return password.matches(passwordRegex);
 	}
@@ -302,7 +302,7 @@ public class AuthController {
 	 * @return Returns false if it is out of the pattern and true if it is in
 	 * 
 	 */
-	private static boolean isValidPhone(String phone) {
+	public static boolean isValidPhone(String phone) {
 		return phone.matches("\\d{10,11}");
 	}
 
@@ -316,7 +316,7 @@ public class AuthController {
 	 * @return Returns false if it is out of the pattern and true if it is in
 	 * 
 	 */
-	private static boolean isValidAddress(String address) {
+	public static boolean isValidAddress(String address) {
 		return address.matches("[a-zA-ZÀ-ÿ0-9\\s,-]+");
 	}
 
@@ -330,7 +330,7 @@ public class AuthController {
 	 * @return Returns false if it is out of the pattern and true if it is in
 	 * 
 	 */
-	private static boolean isValidCPF(String cpf) {
+	public static boolean isValidCPF(String cpf) {
 		return cpf.matches("\\d{1,11}");
 	}
 
@@ -343,7 +343,7 @@ public class AuthController {
 	 * @return Returns false if it is out of the pattern and true if it is in
 	 * 
 	 */
-	private static boolean isValidGratuityOption(String gratuityOption) {
+	public static boolean isValidGratuityOption(String gratuityOption) {
 		if (gratuityOption == "Tipo de gratuidade") {
 			return false;
 		}
@@ -360,7 +360,7 @@ public class AuthController {
 	 * @return Returns false if it is out of the pattern and true if it is in
 	 * 
 	 */
-	private static boolean isValidCNPJ(String cnpj) {
+	public static boolean isValidCNPJ(String cnpj) {
 		return cnpj.matches("\\d{1,14}");
 	}
 
@@ -374,7 +374,7 @@ public class AuthController {
 	 * @return Returns false if it is out of the pattern and true if it is in
 	 * 
 	 */
-	private static boolean isValidCorporateName(String corporateName) {
+	public static boolean isValidCorporateName(String corporateName) {
 		return corporateName.matches("[a-zA-ZÀ-ÿ0-9\\s,-]+");
 	}
 }

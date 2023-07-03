@@ -86,7 +86,7 @@ public class CompanyItinerariesScreen implements ActionListener {
 	 * 
 	 * @param itineraries An array of itineraries
 	 */
-	private void populateItineraries(ArrayList<Itinerary> itineraries) {
+	public void populateItineraries(ArrayList<Itinerary> itineraries) {
 		allItinerariesContainer.removeAll();
 		allItinerariesContainer.revalidate();
 		allItinerariesContainer.repaint();
@@ -246,7 +246,7 @@ public class CompanyItinerariesScreen implements ActionListener {
 	 * 
 	 * @return Button to go to the ticket list screen
 	 */
-	private JButton ticketsButton(int id) {
+	public JButton ticketsButton(int id) {
 		JButton ticketsButton = new JButton("Passagens");
 		ticketsButton.setFocusPainted(false);
 		ticketsButton.setOpaque(true);
@@ -286,7 +286,7 @@ public class CompanyItinerariesScreen implements ActionListener {
 	 * 
 	 * @return The configured component
 	 */
-	private JButton goBack(JButton goBackButton, String text) {
+	public JButton goBack(JButton goBackButton, String text) {
 		goBackButton.setText(text);
 		goBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		goBackButton.setBackground(null);

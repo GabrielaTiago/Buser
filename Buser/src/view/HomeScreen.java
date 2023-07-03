@@ -96,7 +96,7 @@ public class HomeScreen implements ActionListener {
 	 * 
 	 * @param itineraries An array of itineraries
 	 */
-	private void populateItineraries(ArrayList<Itinerary> itineraries) {
+	public void populateItineraries(ArrayList<Itinerary> itineraries) {
 		allItinerariesContainer.removeAll();
 		allItinerariesContainer.revalidate();
 		allItinerariesContainer.repaint();
@@ -135,7 +135,7 @@ public class HomeScreen implements ActionListener {
 	 * @return JPanel component with the information for a route, along with the
 	 *         edit and delete buttons
 	 */
-	private JPanel itinerary(int id, String company, String origin, String destination, LocalDate date,
+	public JPanel itinerary(int id, String company, String origin, String destination, LocalDate date,
 			String departureTime, String arrivalTime) {
 		JPanel itineraryContainer = new JPanel(new GridLayout(1, 3, 10, 0));
 		itineraryContainer.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -171,7 +171,7 @@ public class HomeScreen implements ActionListener {
 	 * 
 	 * @return Button configured to redirect to the route detail page
 	 */
-	private JButton selectItinerary(int id) {
+	public JButton selectItinerary(int id) {
 		JButton btn = new JButton();
 		JButton button = button(btn, "Selecionar");
 
@@ -196,7 +196,7 @@ public class HomeScreen implements ActionListener {
 	 * 
 	 * @return The configured component
 	 */
-	private JTextField textField(JTextField textField, String placeholder) {
+	public JTextField textField(JTextField textField, String placeholder) {
 		textField.setOpaque(false);
 		textField.setPreferredSize(new Dimension(textField.getPreferredSize().width, 40));
 		textField.setForeground(new Color(117, 117, 138));
@@ -233,7 +233,7 @@ public class HomeScreen implements ActionListener {
 	 * 
 	 * @return The configured component
 	 */
-	private JButton button(JButton button, String text) {
+	public JButton button(JButton button, String text) {
 		button.setText(text);
 		button.setFocusPainted(false);
 		button.setOpaque(true);
@@ -267,7 +267,7 @@ public class HomeScreen implements ActionListener {
 	 * 
 	 * @return The configured component
 	 */
-	private JButton goBack(JButton goBackButton, String text) {
+	public JButton goBack(JButton goBackButton, String text) {
 		goBackButton.setText(text);
 		goBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		goBackButton.setBackground(null);

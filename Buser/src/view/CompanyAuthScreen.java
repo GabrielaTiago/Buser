@@ -121,7 +121,7 @@ public class CompanyAuthScreen implements ActionListener {
 	 * 
 	 * @return The configured component
 	 */
-	private JTextField textField(JTextField textField, String placeholder) {
+	public JTextField textField(JTextField textField, String placeholder) {
 		textField.setOpaque(false);
 		textField.setPreferredSize(new Dimension(textField.getPreferredSize().width, 30));
 		textField.setForeground(new Color(117, 117, 138));
@@ -157,7 +157,7 @@ public class CompanyAuthScreen implements ActionListener {
 	 * 
 	 * @return The configured component
 	 */
-	private JPasswordField passwordField(JPasswordField passwordField, String placeholder) {
+	public JPasswordField passwordField(JPasswordField passwordField, String placeholder) {
 		passwordField.setOpaque(false);
 		passwordField.setPreferredSize(new Dimension(passwordField.getPreferredSize().width, 30));
 		passwordField.setForeground(new Color(117, 117, 138));
@@ -197,7 +197,7 @@ public class CompanyAuthScreen implements ActionListener {
 	 * 
 	 * @return The configured component
 	 */
-	private JButton button(JButton button, String text) {
+	public JButton button(JButton button, String text) {
 		button.setText(text);
 		button.setFocusPainted(false);
 		button.setOpaque(true);
@@ -231,7 +231,7 @@ public class CompanyAuthScreen implements ActionListener {
 	 * 
 	 * @return The configured component
 	 */
-	private JButton linkButton(JButton linkButton, String text) {
+	public JButton linkButton(JButton linkButton, String text) {
 		linkButton.setText(text);
 		linkButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		linkButton.setBackground(null);

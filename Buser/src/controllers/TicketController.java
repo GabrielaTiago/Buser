@@ -124,7 +124,7 @@ public class TicketController {
 	 * 
 	 * @param index the index of the ticket to be stored
 	 */
-	public static void setUpdatingTicketIndex(int Index) {
-		updatingTicketIndex = Index;
+	public static void setUpdatingTicketIndex(int index) {
+		updatingTicketIndex = index;
 	}
 }

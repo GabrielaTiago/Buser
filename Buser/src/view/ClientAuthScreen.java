@@ -26,7 +26,7 @@ public class ClientAuthScreen implements ActionListener {
 	private static JTextField addressField = new JTextField();
 	private static JTextField cpfField = new JTextField();
 	private static JComboBox<String> gratuityOptions = new JComboBox<>();
-	private static JButton registerButton = new JButton();
+	private JButton registerButton = new JButton();
 	private static JButton loginButton = new JButton();
 	private static JButton linkTo = new JButton();
 

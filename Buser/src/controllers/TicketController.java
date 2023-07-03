@@ -1,6 +1,9 @@
 package controllers;
 
 import models.Ticket.SeatType;
+
+import java.util.ArrayList;
+
 import models.*;
 
 /**
@@ -21,19 +24,18 @@ public class TicketController {
 	 * @param seatTypeIndex the index of the seat type to be returned
 	 * @param seatNumber    the seat number
 	 * @param id            the id of the itinerary to which the ticket should be
-	 *                      added ser adicionada
+	 *                      added
+	 * @param company       the company that has the itinerary that stores the
+	 *                      ticket
 	 */
-	public static void createTicket(Float price, int seatTypeIndex, int seatNumber, int id) {
+	public static void createTicket(Float price, int seatTypeIndex, int seatNumber, int id, Company company) {
 		// Based on the values received from the TicketWindow class, creates
 		// a new ticket and adds it to the Database ArrayList<Tickets>
 		int index = id - 1;
-		Company company = AuthController.getCompanyLoggedIn();
-		String name = company.getName();
 		SeatType s = getSeatType(seatTypeIndex);
-
 		Ticket t = new Ticket(price, s, seatNumber);
 
-		ItineraryController.getCompanyItineraries(name).get(index).getTickets().add(t);
+		company.getItineraries().get(index).getTickets().add(t);
 	}
 
 	/**
@@ -44,18 +46,19 @@ public class TicketController {
 	 * @param seatNumber    the new seat number of the ticket
 	 * @param ticketIndex   the index of the ticket to be updated
 	 * @param id            the id of the itinerary that contains the ticket
+	 * @param company       the company that has the itinerary that stores the
+	 *                      ticket
 	 */
-	public static void updateTicket(Float price, int seatTypeIndex, int seatNumber, int ticketIndex, int id) {
+	public static void updateTicket(Float price, int seatTypeIndex, int seatNumber, int ticketIndex, int id,
+			Company company) {
 		// replace the correspondent ticket atributes in the database with the
 		// values received from the TicketWindow class JComponents
 		SeatType s = getSeatType(seatTypeIndex);
 		int index = id - 1;
-		Company company = AuthController.getCompanyLoggedIn();
-		String name = company.getName();
-		ItineraryController.getCompanyItineraries(name).get(index).getTickets().get(ticketIndex).setPrice(price);
-		ItineraryController.getCompanyItineraries(name).get(index).getTickets().get(ticketIndex).setSeatType(s);
-		ItineraryController.getCompanyItineraries(name).get(index).getTickets().get(ticketIndex)
-				.setSeatNumber(seatNumber);
+
+		company.getItineraries().get(index).getTickets().get(ticketIndex).setPrice(price);
+		company.getItineraries().get(index).getTickets().get(ticketIndex).setSeatType(s);
+		company.getItineraries().get(index).getTickets().get(ticketIndex).setSeatNumber(seatNumber);
 	}
 
 	/**
@@ -64,13 +67,13 @@ public class TicketController {
 	 * 
 	 * @param ticketIndex the index of the ticket to be deleted
 	 * @param id          the itinerary that contains the ticket
+	 * @param company     the company that has the itinerary that stores the
 	 */
-	public static void deleteTicket(int ticketIndex, int id) {
+	public static void deleteTicket(int ticketIndex, int id, Company company) {
 		// deletes the ticket i in arraylist of the database
 		int index = id - 1;
-		Company company = AuthController.getCompanyLoggedIn();
-		String name = company.getName();
-		ItineraryController.getCompanyItineraries(name).get(index).getTickets().remove(ticketIndex);
+
+		company.getItineraries().get(index).getTickets().remove(ticketIndex);
 	}
 
 	/**

@@ -181,17 +181,7 @@ public class AuthController {
 	 * 
 	 */
 	public static void registerCompany(Company company) {
-		String name = company.getName();
-		String email = company.getEmail();
-		String password = company.getPassword();
-		String phone = company.getPhoneNumber();
-		String address = company.getAdress();
-		String cnpj = company.getCNPJ();
-		String corporateName = company.getCorporateName();
-
-		Company c = new Company(name, email, password, phone, address, cnpj, corporateName,
-				Database.getItinaraiesData());
-		Database.getCompanyData().add(c);
+		Database.getCompanyData().add(company);
 	}
 
 	/**

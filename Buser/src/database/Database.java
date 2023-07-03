@@ -43,7 +43,7 @@ public class Database {
 	public static void teste() {
 		LocalDate d1 = LocalDate.now();
 		Company company = new Company("Araguarina", "araguarina@hotmail.com", "Teste123$", "6233445566",
-				"Avenida dos Bobos, n 0 - Lugar Nenhum - LN", "46922732000130", "Araguarina LTDA", itineraries);
+				"Avenida dos Bobos, n 0 - Lugar Nenhum - LN", "46922732000130", "Araguarina LTDA");
 		companies.add(company);
 		Client client = new Client("Gabriela", "gabriela@gmail.com", "Teste123$", "62988776655",
 				"Avenida Brasil, n 765 - Algum Lugar AG", "50191137006", GratuityType.noGratuity, tickets);
@@ -54,6 +54,10 @@ public class Database {
 		Itinerary i4 = new Itinerary("Goiania", "Brasília", d1, "10:00", "14:00", company);
 		Itinerary i5 = new Itinerary("Caldas Novas", "Goiânia", d1, "08:00", "09:00", company);
 		Itinerary i6 = new Itinerary("Goiânia", "Corumbá", d1, "09:00", "10:10", company);
+		company.getItineraries().add(i1);
+		company.getItineraries().add(i2);
+		company.getItineraries().add(i3);
+		company.getItineraries().add(i4);
 		itineraries.add(i1);
 		itineraries.add(i2);
 		itineraries.add(i3);

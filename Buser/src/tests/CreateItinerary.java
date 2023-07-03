@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import controllers.AuthController;
 import controllers.ItineraryController;
+import database.Database;
 import models.Company;
 import models.Itinerary;
 
@@ -28,10 +29,10 @@ public class CreateItinerary {
 		// adds a itinerary to the database
 		ItineraryController.createItinerary("Anápolis", "Brasília", date, "10:00", "14:00", company);
 		// gets the itinerary from the database, using the controller
-		Itinerary newItinerary = ItineraryController.getCompanyItineraries(company.getName()).get(0);
+		Itinerary newItinerary = Database.getCompanyData().get(0).getItineraries().get(0);
 		// the itinerary that will be used for comparison
 		Itinerary referenceItinerary = new Itinerary("Anápolis", "Brasília", date, "10:00", "14:00", null);
-		ArrayList<Itinerary> itineraries = ItineraryController.getCompanyItineraries(company.getName());
+		ArrayList<Itinerary> itineraries = Database.getCompanyData().get(0).getItineraries();
 
 		assertTrue(newItinerary.getArrivalDate() == referenceItinerary.getArrivalDate());
 		assertTrue(newItinerary.getDepartureDate() == referenceItinerary.getDepartureDate());

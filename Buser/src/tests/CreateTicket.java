@@ -29,7 +29,7 @@ public class CreateTicket {
 		Company company = new Company("teste", null, null, null, null, null, null);
 		AuthController.registerCompany(company);
 		ItineraryController.createItinerary(null, null, null, null, null, company);
-		TicketController.createTicket(price, 0, seatNumber, 1);
+		TicketController.createTicket(price, 0, seatNumber, 1, company);
 		ArrayList<Ticket> tickets = ItineraryController.getItineraryTicketsByID(1);
 		// gets the created ticket from the database
 		Ticket newTicket = tickets.get(0);

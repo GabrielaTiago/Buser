@@ -27,7 +27,7 @@ public class CompanyAuthScreen implements ActionListener {
 	private static JTextField addressField = new JTextField();
 	private static JTextField cnpjField = new JTextField();
 	private static JTextField corporateNameField = new JTextField();
-	private static JButton registerButton = new JButton();
+	private JButton registerButton = new JButton();
 	private static JButton loginButton = new JButton();
 	private static JButton linkTo = new JButton();
 

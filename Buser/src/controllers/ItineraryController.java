@@ -116,7 +116,7 @@ public class ItineraryController {
 			String arrivalTime, Company company) {
 
 		Itinerary itinerary = new Itinerary(origin, destination, date, departureTime, arrivalTime, company);
-
+		company.getItineraries().add(itinerary);
 		Database.getItinaraiesData().add(itinerary);
 	}
 
@@ -124,12 +124,13 @@ public class ItineraryController {
 	 * 
 	 * Deletes an Itinerary
 	 * 
-	 * @param id Which the itinerary is being deleted
-	 * 
+	 * @param id      Which the itinerary is being deleted
+	 * @param company The company that has a itinerary removed
 	 * 
 	 */
-	public static void deleteItinerary(int id) {
+	public static void deleteItinerary(int id, Company company) {
 		Database.getItinaraiesData().remove(id - 1);
+		company.getItineraries().remove(id - 1);
 	}
 
 	/**
@@ -142,12 +143,12 @@ public class ItineraryController {
 	 * @param date          The date sent
 	 * @param departureTime The departure time sent
 	 * @param arrivalTime   The arrival time sent
-	 * 
+	 * @param company       The company that receives the itinerary update
 	 */
 	public static void updateItinerary(int id, String origin, String destination, LocalDate date, String departureTime,
-			String arrivalTime) {
+			String arrivalTime, Company company) {
 		int i = id - 1;
-		Itinerary itinerary = Database.getItinaraiesData().get(i);
+		Itinerary itinerary = company.getItineraries().get(i);
 
 		itinerary.setOrigin(origin);
 		itinerary.setDestination(destination);
@@ -167,26 +168,6 @@ public class ItineraryController {
 		ArrayList<Itinerary> itineraries = Database.getItinaraiesData();
 
 		return itineraries;
-	}
-
-	/**
-	 * 
-	 * Searches all company's itineraries
-	 * 
-	 * @param companyName Filter by company name
-	 * 
-	 * @return Returns the list with all the itineraries in that company
-	 * 
-	 */
-	public static ArrayList<Itinerary> getCompanyItineraries(String companyName) {
-		ArrayList<Itinerary> companyItineraries = new ArrayList<>();
-
-		for (int i = 0; i < Database.getItinaraiesData().size(); i++) {
-			if (Database.getItinaraiesData().get(i).getCompany().getName().equals(companyName)) {
-				companyItineraries.add(Database.getItinaraiesData().get(i));
-			}
-		}
-		return companyItineraries;
 	}
 
 	/**

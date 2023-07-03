@@ -28,30 +28,13 @@ public class Company extends User {
 	 * @param itineraries   The company's itineraries registered
 	 */
 	public Company(String name, String email, String password, String phone, String address, String cnpj,
-			String corporateName, ArrayList<Itinerary> itineraries) {
-		super(name, email, password, phone, address);
-		this.setCNPJ(cnpj);
-		this.setCorporateName(corporateName);
-		this.itineraries = itineraries;
-	}
-
-	/**
-	 * Class constructor for instantiating a new Company to perform the necessary
-	 * validations
-	 * 
-	 * @param name          The company's name
-	 * @param email         The client's email
-	 * @param password      The client's password
-	 * @param phone         The client's phone
-	 * @param address       The client's address
-	 * @param cnpj          The client's cnpj document
-	 * @param corporateName The client's corporate name
-	 */
-	public Company(String name, String email, String password, String phone, String address, String cnpj,
 			String corporateName) {
+
 		super(name, email, password, phone, address);
 		this.setCNPJ(cnpj);
 		this.setCorporateName(corporateName);
+		itineraries = new ArrayList<Itinerary>();
+		this.setItineraries(itineraries);
 	}
 
 	public String getCNPJ() {
@@ -69,4 +52,13 @@ public class Company extends User {
 	public void setCorporateName(String corporateName) {
 		this.corporateName = corporateName;
 	}
+
+	public ArrayList<Itinerary> getItineraries() {
+		return itineraries;
+	}
+
+	public void setItineraries(ArrayList<Itinerary> itineraries) {
+		this.itineraries = itineraries;
+	}
+
 }

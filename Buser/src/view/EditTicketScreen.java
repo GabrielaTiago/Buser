@@ -119,7 +119,7 @@ public class EditTicketScreen implements ActionListener {
 			try {
 				getWindowValues();
 				if (TicketController.checkTicketData(price, seatNumber) == true) {
-					TicketController.createTicket(price, seatTypeIndex, seatNumber, itineraryId);
+					TicketController.createTicket(price, seatTypeIndex, seatNumber, itineraryId, company);
 					mensagemSucessoCriar();
 				} else {
 					mensagemErroCadastro(1);
@@ -132,7 +132,7 @@ public class EditTicketScreen implements ActionListener {
 				getWindowValues();
 				if (TicketController.checkTicketData(price, seatNumber) == true) {
 					int ticketIndex = TicketController.getUpdatingTicketIndex();
-					TicketController.updateTicket(price, seatTypeIndex, seatNumber, ticketIndex, itineraryId);
+					TicketController.updateTicket(price, seatTypeIndex, seatNumber, ticketIndex, itineraryId, company);
 					mensagemSucessoAtualizar(ticketIndex);
 
 				} else {

@@ -23,6 +23,7 @@ public class CompanyItinerariesScreen implements ActionListener {
 	private static JFrame window = new JFrame("Buser");
 	private static JLabel title = new JLabel("Meus Itinerários Cadastrados");
 	private static JButton goBackButton = new JButton();
+	private static JButton newItineraryButton = new JButton();
 	private static WrapperContainer allItinerariesContainer;
 	private static ArrayList<Itinerary> companyItineraries;
 	private static Company company;
@@ -34,8 +35,7 @@ public class CompanyItinerariesScreen implements ActionListener {
 	 */
 	public CompanyItinerariesScreen(Company company) {
 		CompanyItinerariesScreen.company = company;
-		companyItineraries = ItineraryController.getCompanyItineraries(company.getName());
-
+		companyItineraries = company.getItineraries();
 		title.setFont(new Font("Serif", Font.BOLD, 36));
 
 		JPanel container = new JPanel();
@@ -65,6 +65,9 @@ public class CompanyItinerariesScreen implements ActionListener {
 		listContainer.add(allItinerariesContainer, gbc);
 
 		gbc.gridy = 2;
+		listContainer.add(button(newItineraryButton, "Novo Itinerário"), gbc);
+
+		gbc.gridy = 3;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.anchor = GridBagConstraints.CENTER;
 		listContainer.add(goBack(goBackButton, "Voltar"), gbc);
@@ -77,7 +80,7 @@ public class CompanyItinerariesScreen implements ActionListener {
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 		window.requestFocusInWindow();
-
+		newItineraryButton.addActionListener(this);
 		goBackButton.addActionListener(this);
 	}
 
@@ -229,7 +232,7 @@ public class CompanyItinerariesScreen implements ActionListener {
 				int result = JOptionPane.showConfirmDialog(frame, "Tem certeza que quer excluir este itinerário?",
 						"Excluir itinerário", JOptionPane.YES_NO_OPTION);
 				if (result == JOptionPane.YES_OPTION) {
-					ItineraryController.deleteItinerary(id);
+					ItineraryController.deleteItinerary(id, company);
 					CompanyItinerariesScreen.window.dispose();
 					new CompanyItinerariesScreen(company);
 				}
@@ -309,6 +312,40 @@ public class CompanyItinerariesScreen implements ActionListener {
 	}
 
 	/**
+	 * Custom style settings and events for JButton component. Changing the
+	 * background and text color, set height and font size. Adding events when the
+	 * mouse cursor passes over and restoring when the mouse exits.
+	 * 
+	 * @param button Button to be configured
+	 * @param text   Text to be displayed in the button
+	 * 
+	 * @return The configured component
+	 */
+	public JButton button(JButton button, String text) {
+		button.setText(text);
+		button.setFocusPainted(false);
+		button.setOpaque(true);
+		button.setBackground(new Color(241, 16, 117));
+		button.setBorder(BorderFactory.createEmptyBorder());
+		button.setPreferredSize(new Dimension(button.getPreferredSize().width, 30));
+		button.setFont(button.getFont().deriveFont(14f));
+		button.setForeground(Color.WHITE);
+
+		button.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				button.setBackground(new Color(242, 105, 149));
+				button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+
+			public void mouseExited(java.awt.event.MouseEvent evt) {
+				button.setBackground(new Color(241, 16, 117));
+			}
+		});
+
+		return button;
+	}
+
+	/**
 	 * Handles the screen action events
 	 * 
 	 * @param event Action Event
@@ -320,6 +357,10 @@ public class CompanyItinerariesScreen implements ActionListener {
 		if (src == goBackButton) {
 			CompanyItinerariesScreen.window.dispose();
 			new CompanyScreen(company);
+		}
+		if (src == newItineraryButton) {
+			CompanyItinerariesScreen.window.dispose();
+			new ItineraryScreen(company);
 		}
 	}
 }

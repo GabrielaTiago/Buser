@@ -23,7 +23,7 @@ public class TicketsScreen implements ActionListener {
 	private static JLabel title = new JLabel("Passagens Cadastradas");
 	private static JButton goBackButton = new JButton();
 	private static JButton ticketEditionButton = new JButton();
-	private static ArrayList<Ticket> itineraryTickets = new ArrayList<Ticket>();
+	private static ArrayList<Ticket> itineraryTickets;
 	private static WrapperContainer allTicketsContainer;
 	private static Company company;
 	private static int itineraryId;
@@ -43,6 +43,7 @@ public class TicketsScreen implements ActionListener {
 	 */
 	public TicketsScreen(Company company, int id) {
 		TicketsScreen.company = company;
+		itineraryTickets = company.getItineraries().get(id-1).getTickets();
 		itineraryId = id;
 
 		title.setFont(new Font("Serif", Font.BOLD, 36));
@@ -85,7 +86,7 @@ public class TicketsScreen implements ActionListener {
 
 		ticketEditionButton.addActionListener(this);
 		window.setContentPane(listPane);
-		window.setSize(800, 600);
+		window.setSize(800, 700);
 		window.getContentPane().setBackground(new Color(250, 250, 250));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLocationRelativeTo(null);
@@ -274,7 +275,7 @@ public class TicketsScreen implements ActionListener {
 				int result = JOptionPane.showConfirmDialog(frame, "Tem certeza que quer excluir essa passagem?",
 						"Excluir Passagem", JOptionPane.YES_NO_OPTION);
 				if (result == JOptionPane.YES_OPTION) {
-					TicketController.deleteTicket(index, itineraryId);
+					TicketController.deleteTicket(index, itineraryId, company);
 					TicketsScreen.window.dispose();
 					new TicketsScreen(company, itineraryId);
 				}

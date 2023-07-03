@@ -1,10 +1,11 @@
 package models;
 
 /**
- * Classe que representa uma passagem que possui preço, tipo de poltrona e
- * número da poltlrona como atributos
+ * Class that represents a ticket, which has price, seat type, and seat number
+ * as attributes.
  * 
  * @author Gabriel Fernando
+ *
  */
 public class Ticket {
 	private float price;
@@ -12,18 +13,18 @@ public class Ticket {
 	private int seatNumber;
 
 	/**
-	 * Enum que representa os tipos de assento que podem ser escolhidos
+	 * Enum that represents the possible types of seat to choose
 	 */
 	public enum SeatType {
 		executivo, semiLeito, leito
 	}
 
 	/**
-	 * Construtor da classe Ticket.
+	 * Ticket constructor.
 	 * 
-	 * @param price      o preço do ingresso
-	 * @param seatType   o tipo de assento
-	 * @param seatNumber o número do assento
+	 * @param price      the price of the ticket
+	 * @param seatType   the type of the seat
+	 * @param seatNumber the number of the seat
 	 */
 	public Ticket(float price, SeatType seatType, int seatNumber) {
 		this.set_Price(price, seatType);
@@ -36,7 +37,7 @@ public class Ticket {
 	}
 
 	/**
-	 * Método responsável por alterar o valor inicial da passagem conforme o tipo de
+	 * Metodo responsavel por alterar o valor inicial da passagem conforme o tipo de
 	 * assento escolhido
 	 * 
 	 * @param value

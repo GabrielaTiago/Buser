@@ -11,9 +11,9 @@ import models.Company;
 import models.Ticket;
 
 /**
- * A classe TicketsScreen é a responsável pela tela que lista todas as passagens
- * associadas a um ticket, sendo possível ver os atributos de cada passagem e
- * também as editar
+ * The TicketsScreen class is responsible for the screen that lists all the
+ * tickets associated with an itinerary. It allows viewing the attributes of
+ * each ticket and also displays buttons to edit them.
  * 
  * @author Gabriel Fernando
  */
@@ -29,12 +29,12 @@ public class TicketsScreen implements ActionListener {
 	private static int itineraryId;
 
 	/**
-	 * Construtor da classe TicketsScreen que adiciona um container contendo as
-	 * informações sobre as respectivas passagens e com os respectivos botões para
-	 * editar e deleter uma passagem
+	 * Constructor of the TicketsScreen class that adds a container with the
+	 * information about the respective ticket and the corresponding buttons to edit
+	 * and delete a ticket.
 	 * 
-	 * @param company a empresa logada
-	 * @param id      o ID do itinerário dos tickets
+	 * @param company the company logged in
+	 * @param id      the id of the itinerary
 	 * @see #actionPerformed(ActionEvent)
 	 * @see #button(JButton, String)
 	 * @see #goBack(JButton, String)
@@ -96,12 +96,11 @@ public class TicketsScreen implements ActionListener {
 	}
 
 	/**
-	 * Popula o contêiner de allTicketsContainer com base na lista de tickets
-	 * fornecida. Caso a lista de passsagens esteja vazia, o container será uma
-	 * página que avisa que ainda não tickets cadastrados e que possui um botão para
-	 * criação de tickets
+	 * Populates the allTicketsContainer with the provided list of tickets. If the
+	 * list of tickets is empty, the container will display a page indicating that
+	 * there are no registered tickets and displays a button to create tickets.
 	 * 
-	 * @param tickets a lista de passagens a serem exibidas
+	 * @param tickets the list of tickets to be displayed
 	 */
 	private void populateTickets(ArrayList<Ticket> tickets) {
 		allTicketsContainer.removeAll();
@@ -127,14 +126,14 @@ public class TicketsScreen implements ActionListener {
 	}
 
 	/**
-	 * Cria e retorna um JPanel que possui botões para editar e excluir uma passagem
-	 * e que também apreesenta as informações de um ticket e
+	 * Creates and returns a JPanel that contains buttons to edit and delete a
+	 * ticket, and also displays the ticket information.
 	 * 
-	 * @param index      o índice do ticket
-	 * @param price      o preço do ticket
-	 * @param seatNumber o número da poltrona
-	 * @param seatType   o tipo de poltrona
-	 * @return o JPanel que representa o ticket
+	 * @param index      the index of the ticket
+	 * @param price      the price of the ticket
+	 * @param seatNumber the seat number
+	 * @param seatType   the seat type
+	 * @return the JPanel representing the ticket
 	 */
 	public JPanel ticket(int index, float price, int seatNumber, String seatType) {
 		JPanel ticketConteiner = new JPanel(new GridLayout(1, 2, 0, 0));
@@ -164,13 +163,13 @@ public class TicketsScreen implements ActionListener {
 	}
 
 	/**
-	 * Configura um botão com o texto fornecido e configurações de estilo
-	 * personalizadas, que altera a cor de fundo do botão quando o cursor do mouse
-	 * passa por cima e a restaura quando o mouse sai.
+	 * Configures a button with the provided text and custom styling settings, which
+	 * changes the background color of the button when the mouse cursor hovers over
+	 * it, and restores the original color when the mouse moves away.
 	 * 
-	 * @param button o botão a ser configurado
-	 * @param text   o texto a ser exibido no botão
-	 * @return o botão configurado
+	 * @param button the button to be configured
+	 * @param text   the text to be displayed on the button
+	 * @return the configured button
 	 */
 	private JButton button(JButton button, String text) {
 		button.setText(text);
@@ -196,14 +195,14 @@ public class TicketsScreen implements ActionListener {
 	}
 
 	/**
-	 * Cria e retorna um JButton configurado e estilizado para edição de uma
-	 * passagem. O método também adiciona um action Listener ao botão para que caso
-	 * o mesmo seja acionado, o método actionPerformed indica para o controlador o
-	 * index da passagem que deve ser atualizada e fecha a janela de passagens,
-	 * chamando uma nova janela para edição de passagens
+	 * Creates and returns a configured and styled JButton for editing a ticket. The
+	 * method also adds an ActionListener to the button, so that when the button is
+	 * clicked, the actionPerformed method informs the controller about the index of
+	 * the ticket to be updated, closes the ticket window, and opens a new window
+	 * for ticket editing.
 	 * 
-	 * @param index o índice do ticket a ser editado
-	 * @return o JButton configurado para edição
+	 * @param index the index of the ticket to be edited
+	 * @return the configured JButton for editing
 	 */
 	public JButton editTicket(int index) {
 		JButton button = new JButton("Editar");
@@ -238,13 +237,13 @@ public class TicketsScreen implements ActionListener {
 	}
 
 	/**
-	 * Cria e retorna um JButton configurado e estilizado para deleção de um ticket.
-	 * O método também adiciona um action Listener ao botão para que caso o botão
-	 * seja acionado, o método actionPerformed fecha a janela de passagens e a chama
-	 * novamente para que a lista de passagens seja atualizada
+	 * Creates and returns a configured and styled JButton for deleting a ticket.
+	 * The method also adds an ActionListener to the button, so that when the button
+	 * is clicked, the actionPerformed method closes the ticket window and opens it
+	 * again to update the ticket list.
 	 * 
-	 * @param index o índice do ticket a ser editado
-	 * @return o JButton configurado para edição
+	 * @param index the index of the ticket to be deleted
+	 * @return the configured JButton for deletion
 	 */
 	public JButton deleteTicket(int index) {
 		JButton button = new JButton("Excluir");
@@ -286,13 +285,13 @@ public class TicketsScreen implements ActionListener {
 	}
 
 	/**
-	 * Configura um botão de voltar com o texto fornecido e o configura com um
-	 * estilo personalizado, sublinhando o botão quando o cursor do mouse passa por
-	 * cima e voltando ao normal quando o mouse sai.
+	 * Configures a back button with the provided text and custom styling,
+	 * underlining the button when the mouse cursor hovers over it and returning to
+	 * normal when the mouse moves away.
 	 * 
-	 * @param goBackButton o botão de voltar para ser configurado
-	 * @param text         o texto a ser exibido no botão
-	 * @return o botão configurado
+	 * @param goBackButton the back button to be configured
+	 * @param text         the text to be displayed on the button
+	 * @return the configured button
 	 */
 	private JButton goBack(JButton goBackButton, String text) {
 		goBackButton.setText(text);
@@ -317,12 +316,12 @@ public class TicketsScreen implements ActionListener {
 	}
 
 	/**
-	 * Este método identifica se o botão de "voltar" ou o de "Editar" na interface
-	 * foram acionados, caso tenha sido o primeiro, o programa volta para a tela de
-	 * itinerários de uma empresa, caso seja o último, abre uma tela das passagens
-	 * associadas ao respectivo itinerário
+	 * This method identifies whether the "back" button or the "Edit" button in the
+	 * interface have been clicked. If the "back" button is clicked, the program
+	 * returns to the company itineraries screen. If the "Edit" button is clicked,
+	 * it opens a screen for the associated tickets of the respective itinerary.
 	 * 
-	 * @param event evento capturado por um actionListener
+	 * @param event the event captured by an ActionListener
 	 */
 	public void actionPerformed(ActionEvent event) {
 		Object src = event.getSource();
